@@ -1,0 +1,32 @@
+{
+  "name": "metis-os",
+  "version": "0.1.0",
+  "description": "Scaffold USER.md and the AGENTS.md service clause for the USER.md convention.",
+  "keywords": [
+    "agents",
+    "skills",
+    "user-md",
+    "agents-md",
+    "convention",
+    "metis"
+  ],
+  "homepage": "https://github.com/mappedinfo/metis",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mappedinfo/metis.git",
+    "directory": "packages/metis-os"
+  },
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "metis-os": "bin/metis-os.js"
+  },
+  "files": [
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}

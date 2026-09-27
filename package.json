@@ -1,0 +1,21 @@
+{
+  "name": "metis",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An open agent-skill ecosystem built on the USER.md convention. Skills serve the user.",
+  "license": "MIT",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
