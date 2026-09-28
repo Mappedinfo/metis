@@ -15,6 +15,16 @@ Skills are original, hand-written contributions — never ports from private
 or vendor collections. See [../CONTRIBUTING.md](../CONTRIBUTING.md) for the
 authoring template and the metis-atlas organizing loop.
 
+**Narrow exception — vendored upstream skills.** A skill whose value lives in a
+public open-source backend (e.g. an MCP server) may be vendored instead of
+rewritten, but only when **all** hold: the upstream license is permissive and
+OSI-approved (MIT / Apache-2.0 / BSD); the upstream LICENSE file ships inside
+the skill directory; the frontmatter carries `source` and `source_license`;
+a `## Provenance` section states every modification (Apache-2.0 §4); and the
+skill still meets admission criteria 1–5. Vendored skills are the exception,
+not the model — new capabilities are written from scratch.
+Current vendored skills: `scansci-pdf` (Apache-2.0, Rimagination/scansci-pdf).
+
 ## Admission criteria
 
 A skill belongs here only if all of the following hold:
