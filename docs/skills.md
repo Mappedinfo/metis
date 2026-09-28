@@ -10,6 +10,12 @@ Install them into your agents (Claude Code, Codex, Cursor, …) with:
 npx skills add mappedinfo/metis
 ```
 
+Visual skills also need the shared profiles installed into the project they
+work in. Skill installation does not copy the repository's sibling
+`profiles/` directory. See the
+[profile installation instructions](https://github.com/mappedinfo/metis/blob/main/profiles/README.md)
+for the `metis-os profiles install` command and source-checkout entry.
+
 ## Admission criteria
 
 A skill belongs in metis only if **all** of the following hold:
@@ -25,8 +31,10 @@ A skill belongs in metis only if **all** of the following hold:
    twice, it is two skills.
 5. **Writable description.** The frontmatter `description` says when to use the
    skill and when *not* to, in the third person, without marketing language.
-6. **Artifact-anchored.** The skill names the concrete artifact it produces —
-   a downloaded PDF, a figure, a deck, a runnable package.
+6. **Artifact-anchored.** The required `artifacts` frontmatter names concrete,
+   verifiable deliverables — a downloaded PDF, a figure, a deck, a runnable
+   package or a planning note with acceptance criteria. The description or
+   Output contract explains the output and how to check it.
 
 Every skill also belongs to exactly one of seven capability categories —
 `acquire` · `analyze` · `compose` · `visualize` · `present` · `build` ·
@@ -34,15 +42,31 @@ Every skill also belongs to exactly one of seven capability categories —
 is a *combination* of skills. Shared style (palette, typography) lives once
 in
 [`profiles/`](https://github.com/mappedinfo/metis/tree/main/profiles) and is
-referenced with `uses:`, so figures, decks and documents stay consistent by
-construction.
+referenced with `uses:`. Each output keeps the profile for its audience and
+format; a journal figure and a presentation deck can share palette and font
+roles while retaining different type sizes and export defaults. Profile IDs
+resolve in the current project root's `profiles/` directory.
 
 Skills also carry two controlled tag axes in frontmatter — `domain`
 (1–2 values, e.g. `writing`, `figure`, `data-analysis`) and `action`
-(1–3 values, e.g. `create`, `review`, `transform`) — so that
-[skill-atlas](/atlas) can graph the collection and surface overlap before it
-becomes duplication. The authoritative criteria live in
+(1–3 values, e.g. `create`, `review`, `transform`). The controlled vocabulary
+lives in
+[skill-contract.json](https://github.com/mappedinfo/metis/blob/main/skill-contract.json).
+The authoritative admission criteria live in
 [skills/README.md](https://github.com/mappedinfo/metis/blob/main/skills/README.md).
+
+## Validation
+
+Contributors run `npm run skills:check` from the repository root. The
+repository adapter builds on the published `metis-atlas@0.1.0` scanner and
+writes `.atlas/skills.json`, `.atlas/graph.json` and `.atlas/audit.json`.
+It checks controlled vocabulary, nonempty `artifacts` declarations, and
+`uses:` references to skills and profiles. It does not judge output quality
+or establish that a task was completed.
+
+`npm run skills:check -- --domain paper` exports a domain view after auditing
+the full collection. Native `npx metis-atlas scan` in version 0.1.0 does not
+provide these metis contract and profile dependency checks.
 
 ## Catalog
 

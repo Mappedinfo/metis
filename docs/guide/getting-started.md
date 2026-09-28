@@ -22,6 +22,12 @@ npx metis-os init
 npx skills add mappedinfo/metis
 ```
 
+Visual-output skills also need project-level profiles. The installation command
+is in the 0.3.0 source version, not yet published to npm. Follow the
+[CLI guide](/cli#shared-styles) to build the bundle in the metis checkout and
+install it from your target project using the absolute CLI path. Check the
+[release state](https://github.com/mappedinfo/metis/blob/main/HANDOFF.md).
+
 `metis-os init` is idempotent: it never overwrites an existing `USER.md`
 (without `--force`) and never duplicates the managed service clause in
 `AGENTS.md`. See the [CLI reference](/cli) for details.

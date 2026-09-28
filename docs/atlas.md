@@ -28,3 +28,28 @@ The pairing is deliberate:
 
 See the [metis-atlas npm page](https://www.npmjs.com/package/metis-atlas) for
 installation, usage and output formats.
+
+## Check the metis contract
+
+The published Atlas 0.1.0 CLI discovers skill files and infers references from
+their bodies. It does not resolve `uses`, scan profile YAML or enforce metis
+admission rules. This repository adds those checks around its graph library:
+
+```bash
+npm ci
+npm run skills:check
+# Select the paper scenario for the generated graph:
+npm run skills:check -- --domain paper
+```
+
+The adapter writes `.atlas/skills.json`, `.atlas/graph.json` and
+`.atlas/audit.json`. Explicit `uses` declarations create dependency edges to
+skills and profiles; graph nodes retain category, domain and action tags.
+The audit checks the controlled vocabulary, required `artifacts` declarations,
+valid YAML and dependency targets. Invalid declarations exit nonzero. A domain
+filter selects the graph view; it does not hide errors in other skills.
+
+Passing the audit establishes that declarations are present and references
+resolve. Reviewers must still judge whether the promised output is useful and
+whether a task actually produced it. `npm run check` also runs the regression
+tests and builds the documentation; the Pages workflow requires these checks.

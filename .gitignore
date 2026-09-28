@@ -9,3 +9,6 @@ draft/
 # Personal layer (metis convention): USER.md is private, never committed
 USER.md
 .atlas/
+
+# Generated from root profiles/ by npm run profiles:bundle and npm pack.
+packages/metis-os/profiles/

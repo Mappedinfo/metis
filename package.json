@@ -10,10 +10,18 @@
   ],
   "scripts": {
     "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs"
+    "docs:build": "vitepress build docs",
+    "profiles:bundle": "node scripts/bundle-profiles.mjs",
+    "profiles:check": "node scripts/bundle-profiles.mjs --check",
+    "skills:check": "node scripts/check-skills.mjs",
+    "pretest": "npm run profiles:bundle",
+    "test": "node --test test/*.test.mjs packages/metis-os/test/*.test.js",
+    "check": "npm test && npm run profiles:check && npm run skills:check && npm run docs:build"
   },
   "devDependencies": {
-    "vitepress": "^1.6.3"
+    "metis-atlas": "0.1.0",
+    "vitepress": "^1.6.3",
+    "yaml": "2.9.1"
   },
   "engines": {
     "node": ">=18"

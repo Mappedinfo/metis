@@ -11,6 +11,10 @@ description: >
 category: acquire
 domain: [literature]
 action: [retrieve, orchestrate]
+uses: []
+artifacts:
+  - "Paper search, retrieval or access diagnostic report with sources and item outcomes"
+  - "Downloaded PDFs or exported BibTeX, RIS or EndNote records when requested"
 source: https://github.com/Rimagination/scansci-pdf
 source_license: Apache-2.0
 ---
@@ -47,11 +51,22 @@ read it when the task needs detailed tool routing or configuration guidance.
 - Gray-source and anti-bot routes require the user's explicit choice and must be
   used only where the user has the right to do so and applicable rules permit it.
 
+## Metis output contract
+
+Return the artifact requested by the user: a sourced search result list,
+verified identifier list, citation export, downloaded PDFs, or an access
+diagnostic report. State what was retrieved or verified, include the actual
+source and local file paths when applicable, and distinguish failed or
+unavailable items from successful downloads. An access report is an output;
+it does not count as a downloaded PDF.
+
 ## Provenance
 
 Vendored from [Rimagination/scansci-pdf](https://github.com/Rimagination/scansci-pdf)
 (Apache-2.0, see LICENSE in this directory). Modifications: frontmatter extended
-with metis taxonomy fields (`category: acquire`, `domain`, `action`, `source`,
-`source_license`); the full workflow reference moved from the upstream
-`skill/SKILL.md` to `references/full-workflow.md`; added a "do not use"
-boundary to the description. No workflow content changed.
+with metis taxonomy and contract fields (`category: acquire`, `domain`,
+`action`, `uses`, `artifacts`, `source`, `source_license`); the full workflow
+reference moved from the upstream `skill/SKILL.md` to
+`references/full-workflow.md`; added a "do not use"
+boundary to the description; added the Metis output contract above. The
+vendored workflow instructions and full workflow reference are unchanged.

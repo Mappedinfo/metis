@@ -6,7 +6,8 @@ Public, generic agent skills. Each skill is a directory with a `SKILL.md`
 
 ## The seven categories
 
-Every skill carries a `category` frontmatter field with exactly one of:
+Every skill carries a `category` frontmatter field with exactly one of the
+values in [../skill-contract.json](../skill-contract.json):
 `acquire` (retrieving literature, data, knowledge) · `analyze` (methods,
 evidence, experiments, audit) · `compose` (writing & expression) ·
 `visualize` (scientific figures) · `present` (slides, talks, distribution) ·
@@ -46,14 +47,16 @@ A skill belongs here only if all of the following hold:
    it is two skills.
 5. **Writable description.** The frontmatter `description` says when to use the
    skill and when *not* to, in the third person, without marketing language.
-6. **Artifact-anchored.** The description or the Output contract names the
-   concrete artifact the skill produces — a downloaded PDF, a figure, a deck,
-   a runnable package. A skill without a verifiable output does not earn a
-   branch in the taxonomy.
+6. **Artifact-anchored.** A required nonempty `artifacts` frontmatter array
+   names concrete, verifiable deliverables: a downloaded PDF, a figure, a
+   deck, a runnable package, or a planning note with acceptance criteria.
+   The description or Output contract explains the relevant output and how
+   to check it.
 
 ## Tags
 
-Skills carry two controlled tag axes in frontmatter:
+Skills carry two controlled tag axes in frontmatter. Their source of truth
+is [../skill-contract.json](../skill-contract.json):
 
 - `domain` — 1–2 of: literature, paper, research-design, experiment,
   data-analysis, writing, review-qa, figure, slides, office-doc, web-dev,
@@ -61,15 +64,37 @@ Skills carry two controlled tag axes in frontmatter:
 - `action` — 1–3 of: create, transform, revise, review, analyze, retrieve,
   orchestrate, record, advise, test (ordered)
 
-Tags let [metis-atlas](https://www.npmjs.com/package/metis-atlas) graph the
-collection and surface overlap before it becomes duplication.
+Tags let the repository's collection check export domain views and help
+reviewers identify overlapping capabilities.
 
 ## Dependencies
 
 A skill that needs a shared style profile or another skill declares it in
-frontmatter, e.g. `uses: [profiles/journal, metis-router]`. metis-atlas turns
-these into graph edges, so the impact of changing a profile is visible before
-it breaks a consumer.
+frontmatter, e.g. `uses: [profiles/journal, metis-router]`. The repository's
+`npm run skills:check` adapter validates these targets and records them as
+dependency edges in `.atlas/graph.json`.
+
+`profiles/journal` identifies `<current-project-root>/profiles/journal.yaml`;
+it is not a path relative to `SKILL.md`. Installing a skill does not install
+the repository's sibling `profiles/` directory. Install the profiles into
+the target project using `metis-os profiles install`; see
+[../profiles/README.md](../profiles/README.md) for the source and published
+CLI instructions. Each artifact retains its own export and sizing defaults
+when profiles share a palette or font family.
+
+## Validation
+
+Run `npm run skills:check` from the repository root after editing a skill,
+profile or controlled vocabulary. It writes `.atlas/skills.json`,
+`.atlas/graph.json` and `.atlas/audit.json`. To export a domain view, use
+`npm run skills:check -- --domain paper`; the audit still covers the full
+collection.
+
+This adapter builds on the published `metis-atlas@0.1.0` scanner. Native
+`npx metis-atlas scan` does not check the metis `artifacts` declarations or
+resolve profile dependencies. The repository check validates declarations,
+references and controlled vocabulary; assessing a skill's actual output
+still requires task-specific review.
 
 ## Contributing
 

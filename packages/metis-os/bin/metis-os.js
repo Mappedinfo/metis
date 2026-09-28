@@ -7,12 +7,14 @@ import {
   lstatSync,
   readFileSync,
   readlinkSync,
+  realpathSync,
   rmSync,
   symlinkSync,
   writeFileSync,
 } from "node:fs";
 import { homedir } from "node:os";
-import { resolve } from "node:path";
+import { dirname, isAbsolute, parse, resolve, sep } from "node:path";
+import { cmdProfiles } from "../lib/profiles.js";
 
 const VERSION = JSON.parse(
   readFileSync(new URL("../package.json", import.meta.url), "utf8")
@@ -76,6 +78,8 @@ const HELP = `metis-os — scaffold the USER.md convention in a project.
 Usage:
   metis-os [init] [--force]        Scaffold USER.md + AGENTS.md service clause (default)
   metis-os init --link <path>      Symlink USER.md to your canonical personal file
+  metis-os profiles install [--force]  Install shared styles in ./profiles
+  metis-os profiles path <name>   Print an installed profile's absolute path
   metis-os --help, -h              Show this help
   metis-os --version, -v           Show version
 
@@ -83,7 +87,9 @@ What "init" does (idempotent, safe to re-run):
   1. Writes a USER.md starter template if none exists (never overwrites
      without --force). With --link <path>, creates USER.md as a symlink to
      your canonical file instead — one person, one file, live everywhere.
-     The link target must already exist; "~" is expanded.
+     The link target must be an existing regular file; "~" is expanded.
+     With --force alone, an existing USER.md symlink is replaced locally;
+     its canonical target is never overwritten.
   2. Ensures AGENTS.md contains the metis user-service clause inside a
      managed block delimited by
      ${BLOCK_START} and ${BLOCK_END}.
@@ -113,6 +119,61 @@ function fail(msg) {
   process.exit(1);
 }
 
+function validateLinkTarget(target, userPath) {
+  // Walk every link and path component before replacing USER.md. Checking
+  // only the final realpath misses a target that points back through USER.md.
+  const userEntry = resolve(realpathSync(dirname(userPath)), "USER.md");
+  const userStat = pathEntry(userPath);
+  const rejectSelfLink = () => fail(
+    "--link target must not point to or pass through this project's USER.md; choose an independent canonical file."
+  );
+  let current = parse(target).root;
+  let pending = target.slice(current.length).split(sep);
+  let linkCount = 0;
+  while (pending.length) {
+    const part = pending.shift();
+    if (!part || part === ".") continue;
+    if (part === "..") {
+      current = dirname(current);
+      continue;
+    }
+    const candidate = resolve(current, part);
+    if (candidate === userEntry) rejectSelfLink();
+    let entry;
+    try {
+      entry = lstatSync(candidate);
+    } catch (err) {
+      if (err.code !== "ENOENT" && err.code !== "ENOTDIR") throw err;
+      fail(
+        `--link target not found: ${target}\n` +
+          "Create your canonical USER.md there first, or run plain `metis-os init` for a starter template."
+      );
+    }
+    // Also reject filesystem aliases (including case variants and hard links)
+    // to USER.md: the canonical source must be independent of this entry.
+    if (userStat && entry.dev === userStat.dev && entry.ino === userStat.ino) {
+      rejectSelfLink();
+    }
+    if (entry.isSymbolicLink()) {
+      if (++linkCount > 40) {
+        fail(`--link target has a symlink cycle or too many links: ${target}`);
+      }
+      const next = readlinkSync(candidate);
+      if (isAbsolute(next)) current = parse(next).root;
+      const remainder = isAbsolute(next) ? next.slice(current.length) : next;
+      pending = remainder.split(sep).concat(pending);
+    } else {
+      current = candidate;
+      if (pending.length && !entry.isDirectory()) {
+        fail(`--link target must resolve through directories to a regular file: ${target}`);
+      }
+    }
+  }
+  if (!lstatSync(current).isFile()) {
+    fail(`--link target must be a regular file: ${target}`);
+  }
+}
+
 function cmdInit({ force, link }) {
   const cwd = process.cwd();
   const userPath = resolve(cwd, "USER.md");
@@ -122,12 +183,7 @@ function cmdInit({ force, link }) {
   // (a) USER.md — starter template, or symlink to a canonical file.
   if (link) {
     const target = resolve(cwd, expandHome(link));
-    if (!existsSync(target)) {
-      fail(
-        `--link target not found: ${target}\n` +
-          "Create your canonical USER.md there first, or run plain `metis-os init` for a starter template."
-      );
-    }
+    validateLinkTarget(target, userPath);
     const entry = pathEntry(userPath);
     if (entry?.isSymbolicLink() && resolve(cwd, readlinkSync(userPath)) === target) {
       actions.push("USER.md      already linked to your canonical file — left untouched");
@@ -147,8 +203,17 @@ function cmdInit({ force, link }) {
     }
   } else if (pathEntry(userPath)) {
     if (force) {
-      writeFileSync(userPath, USER_MD_TEMPLATE);
-      actions.push("USER.md      replaced with the starter template (--force)");
+      const entry = pathEntry(userPath);
+      if (entry.isSymbolicLink()) {
+        rmSync(userPath);
+        writeFileSync(userPath, USER_MD_TEMPLATE, { flag: "wx" });
+        actions.push(
+          "USER.md      symlink replaced with a local starter template; canonical file preserved (--force)"
+        );
+      } else {
+        writeFileSync(userPath, USER_MD_TEMPLATE);
+        actions.push("USER.md      replaced with the starter template (--force)");
+      }
     } else {
       actions.push("USER.md      already exists — left untouched (use --force to replace)");
     }
@@ -199,6 +264,12 @@ function main(argv) {
   }
   if (args.includes("--version") || args.includes("-v")) {
     process.stdout.write(VERSION + "\n");
+    return 0;
+  }
+
+  if (args[0] === "profiles") {
+    try { cmdProfiles(args.slice(1)); }
+    catch (error) { fail(error.message); }
     return 0;
   }
 

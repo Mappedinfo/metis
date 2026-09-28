@@ -13,7 +13,8 @@ Every skill belongs to exactly one category. Categories are **capability
 domains**, not artifact types or scenarios: a paper is not a category but a
 *scenario* served by a combination of `compose` + `visualize` + `present`
 skills tagged `domain: paper`. The category set is closed: propose a new one
-only when a skill demonstrably fits none of these.
+only when a skill demonstrably fits none of these. The controlled category,
+domain and action values are defined in [skill-contract.json](skill-contract.json).
 
 | Category | Scope |
 |---|---|
@@ -27,8 +28,9 @@ only when a skill demonstrably fits none of these.
 
 Shared style — palette, typography, export defaults — never lives inside a
 skill. It lives once in [profiles/](profiles/) and skills reference it with
-`uses: [profiles/<name>]`, so figures, decks and papers stay consistent by
-construction.
+`uses: [profiles/<name>]`. Each artifact keeps the profile appropriate to
+its audience and export requirements; shared palette and font roles keep
+related artifacts consistent.
 
 ## Authoring a skill
 
@@ -38,10 +40,11 @@ construction.
 3. Keep it generic: no personal identity, private paths, private tools.
    Closed-source tools may be mentioned but the core workflow must not
    depend on one.
-4. Name the artifact. The description or the Output contract must state the
-   concrete deliverable the skill produces — a downloaded PDF, a figure, a
-   deck, a runnable package. A skill without a verifiable output does not
-   earn a branch in the taxonomy (admission criterion 6).
+4. Name the artifact. The required `artifacts` frontmatter lists concrete,
+   verifiable deliverables, such as a downloaded PDF, a figure, a deck, a
+   runnable package or a planning note with acceptance criteria. Explain
+   the relevant output and how to check it in the description or Output
+   contract (admission criterion 6).
 
 ```markdown
 ---
@@ -56,8 +59,9 @@ category: compose         # one of: acquire analyze compose visualize
 domain: [writing]         # 1-2 of the domain axis (see skills/README.md)
 action: [create, revise]  # 1-3 of: create revise transform review advise
                           # orchestrate test retrieve analyze record
-uses: []                  # profiles/<name> or other skills this skill
-                          # depends on; atlas graphs these edges
+uses: []                  # profiles/<name> or another skill's name
+artifacts:
+  - "Revised document with a record of substantive changes"
 ---
 
 # Skill Name
@@ -82,20 +86,34 @@ What the agent must produce, and how the user can verify it.
 
 ## The organizing loop (human writes, AI keeps the system honest)
 
-The taxonomy is maintained with the companion tool
-[metis-atlas](https://www.npmjs.com/package/metis-atlas):
+From the repository root, run the collection check:
 
 ```bash
-# from the repo root — scans every SKILL.md into a graph + report
-npx metis-atlas scan skills/ --out .atlas
+npm run skills:check
+
+# Audit the collection and export the paper-domain view
+npm run skills:check -- --domain paper
 ```
 
-After adding or editing skills, run the scan and check:
+The repository adapter uses the published `metis-atlas@0.1.0` scanner and
+adds the metis contract checks. It writes `.atlas/skills.json`,
+`.atlas/graph.json` and `.atlas/audit.json`. The check validates controlled
+vocabulary against `skill-contract.json`, nonempty `artifacts` declarations,
+and `uses:` targets, including profile nodes and dependency edges. A domain
+filter limits the exported view; the audit still checks the whole collection.
 
-- **Category balance** — `category` frontmatter distribution across
-  `.atlas/skills.json`. No category should sprawl; split at ~25 skills.
-- **Redundancy pairs** — `.atlas/graph.json` → `redundancy_pairs`.
-  Two skills describing the same capability is a merge candidate.
-- **Description collisions** — triggers that fire on the same phrases.
+The native `npx metis-atlas scan` command in version 0.1.0 does not perform
+these metis-specific declaration or profile dependency checks. Use the
+repository entry above for contribution validation.
+
+After a successful check, review category balance, overlapping descriptions,
+and the actual skill outputs. Validation proves that declarations and
+references follow the contract; it does not judge artifact quality or prove
+that a workflow has succeeded.
+
+Profile dependencies use logical IDs such as `profiles/journal`. Consumers
+read the corresponding YAML file from the current project root's `profiles/`
+directory, not relative to their installed skill directory. See
+[profiles/README.md](profiles/README.md) for installation and the style contract.
 
 `.atlas/` is gitignored; the report is a working instrument, not a deliverable.
