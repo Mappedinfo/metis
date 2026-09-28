@@ -72,7 +72,8 @@ summarizing PDF content, or non-academic documents — those need other routes.
 - The item queue is drained, or every remaining item has a written access
   diagnostic (paywalled, missing identifier, route failure).
 - A named budget (items, retries, rounds) is exhausted: report completed
-  items and the smallest unblock condition; never loop a failing route.
+  items, unfinished items and the smallest unblock condition; never loop a
+  failing route or mark unresolved required downloads complete.
 - Stop once the declared artifacts exist; judging their scientific quality
   is the caller's review, not this skill's loop.
 
@@ -85,6 +86,15 @@ source and local file paths when applicable, and distinguish failed or
 unavailable items from successful downloads. An access report is an output;
 it does not count as a downloaded PDF.
 
+Include a compact ledger for the accepted task requirements and R1–R3:
+record `done`, `blocked` or `n/a` plus verification evidence or a reason for
+each item. Use one row per item:
+`ID | B/A | requirement | verification | status | evidence or reason`.
+`n/a` is for a requirement outside the requested retrieval mode,
+not a waiver of a required user outcome. Declare completion only when every
+applicable blocking requirement is done with evidence; keep inaccessible
+required items blocked even when their diagnostics are complete.
+
 ## Provenance
 
 Vendored from [Rimagination/scansci-pdf](https://github.com/Rimagination/scansci-pdf)
@@ -95,5 +105,7 @@ reference moved from the upstream `skill/SKILL.md` to
 `references/full-workflow.md`; added a "do not use"
 boundary to the description; added the Metis output contract above;
 added the When to use / Requirements / When to stop sections required by
-skill-contract.json v2 (2026-09-28). The vendored workflow instructions and
+skill-contract.json v2, explicit unfinished-item reporting on budget
+exhaustion, and a status-and-evidence ledger in the Metis output contract
+(2026-09-28). The vendored workflow instructions and
 full workflow reference are unchanged.

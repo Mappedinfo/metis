@@ -63,7 +63,7 @@ the development server.
 
 ## 2026-09-28 — skill-contract v2: bounded SOPs (draft/3.md)
 
-Source changes on top of 13e7758 (local commit, daily push queue):
+Source changes in 91f196b, on top of 13e7758:
 
 - `skill-contract.json` v2: `required_sections` (When to use / When to stop /
   Requirements / Output contract, case-insensitive heading substring) and
@@ -86,3 +86,29 @@ Source changes on top of 13e7758 (local commit, daily push queue):
 
 Verification: `npm run check` green — 36/36 tests, profiles bundle match,
 skills:check PASS 2 skills / 0 errors / 0 warnings, vitepress build ok.
+
+### Review corrections
+
+The follow-up review reproduced a copied template rejected by its own lint,
+code-block headings accepted as required sections, and Requirements subsections
+skipped by the warning check. It also identified the missing execution-status
+ledger required by the accepted design. The 36-test result above did not cover
+these cases.
+
+The repair uses Markdown structure for section and list-item boundaries,
+retains per-line forbidden-language checks, and adds regression fixtures for
+these failures. The authoring template and both skills require requirement
+statuses with evidence, explicit unfinished items at budget exhaustion, and
+scope-based reasons for inapplicable requirements. The router bundles a reusable
+execution ledger; its frozen audit findings remain a separate repair input.
+
+Verified after the repair: `npm ci && npm run check` passed all 41 tests,
+including five new regression tests; profile bundles matched, the collection
+audit reported 2 skills / 2 profiles / 0 errors / 0 warnings, and the production
+docs build passed. The original vendored workflow file remains unchanged.
+Planning-only and budget-exhaustion ledger examples were reviewed for scope
+and evidence semantics; these examples are not claims of live retrieval runs.
+
+Git synchronization for this repair is explicitly authorized as an immediate
+push. Verify the repaired commit on the remote and the Pages workflow for that
+exact commit; npm publication still requires separate release authorization.

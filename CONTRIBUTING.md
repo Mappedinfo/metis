@@ -47,8 +47,15 @@ related artifacts consistent.
    contract (admission criterion 6).
 5. Bound every loop. Each retry, review or repair cycle names its cap, and
    `## When to stop` says what happens when the budget is exhausted: report
-   the completed items and the smallest unblock condition. Unbounded phrasing
+   completed items, unfinished items and the smallest unblock condition.
+   Unbounded phrasing
    ("until satisfied", "改到满意") is rejected by `skills:check`.
+6. Make completion auditable. At close-out, record each accepted task and
+   skill requirement as `done`, `blocked` or `n/a`, with evidence or a reason.
+   Start from the reusable
+   [requirements ledger](skills/metis-router/templates/requirements-ledger.md).
+   A planning-only request checks the plan; it does not mark downstream
+   execution complete.
 
 ```markdown
 ---
@@ -82,6 +89,11 @@ Boundary against neighboring skills.
 
 The actual craft: steps, decision gates, checklists, failure modes.
 This section is why the skill exists — keep the detail.
+Maintain a requirements ledger for the accepted task and the requirements
+below. At close-out, give every item a status (done / blocked / n/a) and
+evidence or a reason. Mark done only after its verification passes. Use n/a
+only for a requirement that does not apply, with a scope-based reason; never
+use it to waive a required user outcome.
 
 ## Requirements
 
@@ -90,14 +102,17 @@ This section is why the skill exists — keep the detail.
 
 ## When to stop
 
-- The declared artifact exists and every [B] requirement above is evidenced.
+- The declared artifact exists and every applicable [B] requirement is done
+  with evidence. For planning-only work, this verifies the plan, not its
+  downstream execution.
 - A named budget (rounds, retries, queue size) is exhausted: report the
-  completed items and the smallest unblock condition.
-- Unbounded language ("until satisfied", "改到满意") fails skills:check.
+  completed items, unfinished items and the smallest unblock condition.
+  Keep unresolved required items blocked; stopping does not make them done.
 
 ## Output contract
 
 What the agent must produce, and how the user can verify it.
+Include the requirements ledger, the stop condition and any unfinished work.
 ```
 
 ## The organizing loop (human writes, AI keeps the system honest)

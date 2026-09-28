@@ -81,6 +81,16 @@ verifiable items, and unbounded-loop phrasing fails `skills:check`. See
 [CONTRIBUTING.md](https://github.com/mappedinfo/metis/blob/main/CONTRIBUTING.md)
 for the template.
 
+The router bundles a reusable
+[requirements ledger](https://github.com/mappedinfo/metis/blob/main/skills/metis-router/templates/requirements-ledger.md).
+At close-out, each accepted task and skill requirement has `done`, `blocked`
+or `n/a` plus evidence or a reason. `n/a` applies only outside the accepted
+scope; it cannot waive a required user outcome. Planning-only work checks
+the plan and identifies downstream execution as unperformed. Budget
+exhaustion reports completed items, unfinished items and the smallest
+unblock condition; it does not establish task completion. The declaration
+lint does not verify execution ledgers or their evidence.
+
 ## Contributing
 
 Open a PR with **one skill per PR**. Expect review on admission criteria 1–6

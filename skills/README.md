@@ -53,7 +53,16 @@ A skill belongs here only if all of the following hold:
    The description or Output contract explains the relevant output and how
    to check it. The required `## When to stop` section names the budget and
    termination criteria, so a run is never open-ended; `## Requirements`
-   lists [B] blocking and [A] advisory items with their verification.
+   lists [B] blocking and [A] advisory items with their verification. At
+   close-out, an execution ledger records each accepted task and skill
+   requirement as `done`, `blocked` or `n/a`, with evidence or a reason.
+   `n/a` cannot waive a required user outcome. Budget exhaustion reports
+   completed items, unfinished items and the smallest unblock condition.
+
+The reusable [requirements ledger](metis-router/templates/requirements-ledger.md)
+ships with `metis-router`. For planning-only tasks it verifies the plan;
+downstream execution remains unperformed. Only evidenced completion of all
+applicable blocking requirements permits a task-complete claim.
 
 ## Tags
 

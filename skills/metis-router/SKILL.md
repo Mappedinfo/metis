@@ -16,6 +16,7 @@ action: [orchestrate, advise]
 uses: []
 artifacts:
   - "Routing note naming phase owners, supports, profiles, outputs and capability gaps"
+  - "Requirements ledger recording completion status, evidence and unresolved work"
 ---
 
 # metis-router
@@ -100,6 +101,15 @@ deck, a package, or a planning note with decisions and acceptance criteria.
 Check the artifact against the requested outcome. A plan completes a
 planning request; it does not establish that planned execution has happened.
 
+Use the bundled [requirements ledger](templates/requirements-ledger.md) for
+the accepted task requirements and each active skill's Requirements items.
+Keep stable IDs so a result can be traced to the check it satisfies. Update
+the ledger during work; at close-out, each item has `done`, `blocked` or
+`n/a` plus evidence or a reason. `done` requires the stated verification to
+pass. `n/a` needs a scope-based reason and cannot waive a required user
+outcome. In a planning-only request, assess the plan's requirements and
+identify downstream execution as unperformed, not completed.
+
 ### 5. Parallel audit, scoped repair (map–freeze–reduce)
 
 For audit-and-repair tasks over a corpus, manuscript or codebase:
@@ -117,6 +127,8 @@ For audit-and-repair tasks over a corpus, manuscript or codebase:
    residual issues are reported, not chased.
 
 The frozen ledger, not conversation momentum, decides what gets repaired.
+Link its findings to the requirements ledger; the finding list does not
+replace evidence that the accepted task requirements were met.
 
 ## Requirements
 
@@ -132,18 +144,26 @@ The frozen ledger, not conversation momentum, decides what gets repaired.
 - [A] R5 Audit-and-repair work follows map–freeze–reduce — 验证: the frozen
   issue ledger is named in the output.
 - [B] R6 Stop rules and budget exhaustion are honored — 验证: the close-out
-  states which stop condition fired.
+  states which stop condition fired and lists completed items, unfinished
+  items and the smallest unblock condition when a budget is exhausted.
+- [B] R7 Every accepted task and applicable skill requirement is accounted
+  for — 验证: the requirements ledger records status and evidence or a
+  reason for each item; every applicable blocking item is done before the
+  task is declared complete.
 
 ## When to stop
 
 - The routing note is delivered for a planning-only task; for an execution
   task, the final artifact exists and matches its skill's output contract.
+  In either case, all applicable blocking requirements have passing
+  evidence in the requirements ledger.
 - A required capability has no skill in the collection: report the gap by
   category and domain tag (a contribution candidate, not an improvisation
   license) and stop.
 - A named budget (rounds, retries, queue size) is exhausted: report the
-  completed items and the smallest unblock condition; do not reopen
-  completed phases.
+  completed items, unfinished items and the smallest unblock condition;
+  leave unresolved required items blocked and do not claim full completion.
+  Do not reopen completed phases.
 - The user narrows scope, or evidence is genuinely ambiguous: ask a human
   with a bounded question rather than re-routing indefinitely.
 
@@ -158,6 +178,11 @@ A routing note the user can check in one reading:
 5. **Gaps**: capabilities no skill covers, tagged by category + domain.
 6. For audit-and-repair tasks the frozen issue ledger is itself a named
    deliverable, carried through to the close-out.
+7. **Requirements ledger** from the bundled template, with status and
+   evidence or a reason for every item, plus the stop condition. Budget
+   exhaustion also lists completed items, unfinished items and the smallest
+   unblock condition.
 
 For an execution request, carry out the plan and verify each phase's named
-artifact. For a planning request, the routing note is the final deliverable.
+artifact. For a planning request, the routing note and its requirements
+ledger are the final deliverables; downstream execution remains unperformed.

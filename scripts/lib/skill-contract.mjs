@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import MarkdownIt from 'markdown-it';
 import { parseDocument } from 'yaml';
 import { buildSkillRecords } from 'metis-atlas/lib/scan.js';
 import { buildGraph } from 'metis-atlas/lib/relate.js';
@@ -13,6 +14,7 @@ const USE = /^(?:profiles\/)?[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const mapping = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 const nonempty = (value) => typeof value === 'string' && value.trim().length > 0;
 const inside = (root, candidate) => candidate === root || candidate.startsWith(root + path.sep);
+const markdown = new MarkdownIt('commonmark');
 
 /** Audit declarations and build an Atlas graph; never infer artifact quality. */
 export function checkSkills({ root, domain } = {}) {
@@ -133,32 +135,38 @@ export function checkSkills({ root, domain } = {}) {
         add('INVALID_USES', file, 'uses must be a list of skill names or profiles/<name>.', 'uses');
       }
       const body = match[2] || '';
-      const headingTexts = [...body.matchAll(/^#{2,3}[ \t]+(.+?)[ \t]*$/gm)].map((heading) => heading[1].toLowerCase());
+      const tokens = markdown.parse(body, {});
+      // Document sections are headings outside lists, blockquotes and code examples.
+      const headings = tokens.flatMap((token, index) => token.type === 'heading_open' && token.level === 0
+        ? [{ index, depth: Number(token.tag.slice(1)), text: tokens[index + 1].content.toLowerCase() }]
+        : []);
+      const sectionHeadings = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
       for (const required of contract.required_sections || []) {
-        if (!headingTexts.some((heading) => heading.includes(required.toLowerCase()))) {
+        if (!sectionHeadings.some((heading) => heading.text.includes(required.toLowerCase()))) {
           add('SECTION_MISSING', file, `Missing a required section whose heading contains "${required}".`);
         }
       }
       const forbidden = (contract.boundedness?.forbidden_patterns || []).map((pattern) => new RegExp(pattern, 'i'));
-      // body starts after '---' + the YAML lines + '---', so file line = offset + body index + 1.
-      const bodyLineOffset = match[1].split('\n').length + 2;
+      // Count the actual prefix, including blank YAML lines, before using parser source maps.
+      const bodyLineOffset = content.slice(0, content.length - body.length).split('\n').length - 1;
       body.split('\n').forEach((line, index) => {
         if (forbidden.some((pattern) => pattern.test(line))) {
           add('UNBOUNDED_LANGUAGE', file, `Line ${bodyLineOffset + index + 1}: bound every loop with a round cap, convergence test or budget: ${line.trim().slice(0, 80)}`);
         }
       });
-      const requirementsHeading = body.match(/^#{2,3}[ \t]+.*requirements.*$/im);
+      const requirementsHeading = sectionHeadings.find((heading) => heading.text.includes('requirements'));
       if (requirementsHeading) {
-        const sectionStart = requirementsHeading.index + requirementsHeading[0].length;
-        const rest = body.slice(sectionStart);
-        const sectionEnd = rest.search(/^#{1,3}[ \t]/m);
-        const section = sectionEnd === -1 ? rest : rest.slice(0, sectionEnd);
-        const sectionFirstLine = bodyLineOffset + body.slice(0, sectionStart).split('\n').length;
-        section.split('\n').forEach((line, index) => {
-          if (/^\s*(?:[-*]|\d+\.)\s+/.test(line) && !/^\s*(?:[-*]|\d+\.)\s+\[(?:B|A)\]/.test(line)) {
-            warn('LEDGER_ITEM_UNLABELED', file, `Line ${sectionFirstLine + index}: Requirements items must start with [B] (blocking) or [A] (advisory) and name a 验证/verification clause.`);
+        const sectionEnd = headings.find((heading) => heading.index > requirementsHeading.index && heading.depth <= requirementsHeading.depth)?.index ?? tokens.length;
+        for (let index = requirementsHeading.index + 1; index < sectionEnd; index++) {
+          const token = tokens[index];
+          if (token.type !== 'list_item_open') continue;
+          // The item's own inline content follows its opening paragraph/heading;
+          // nested items are checked separately and code blocks have no list tokens.
+          const firstContent = tokens[index + 2];
+          if (firstContent?.type !== 'inline' || !/^\[(?:B|A)\](?:\s|$)/.test(firstContent.content)) {
+            warn('LEDGER_ITEM_UNLABELED', file, `Line ${bodyLineOffset + token.map[0] + 1}: Requirements items must start with [B] (blocking) or [A] (advisory) and name a 验证/verification clause.`);
           }
-        });
+        }
       }
       if (validName) {
         found.push({ label: 'skills', root: absoluteRoot, skillFile: file, skillDir,

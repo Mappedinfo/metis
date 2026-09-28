@@ -19,6 +19,7 @@
     "check": "npm test && npm run profiles:check && npm run skills:check && npm run docs:build"
   },
   "devDependencies": {
+    "markdown-it": "14.3.2",
     "metis-atlas": "0.1.0",
     "vitepress": "^1.6.3",
     "yaml": "2.9.1"

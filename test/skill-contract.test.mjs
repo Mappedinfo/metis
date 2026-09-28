@@ -236,6 +236,91 @@ test('required sections are diagnosed per missing heading', (t) => {
   assert.ok(missing[0].message.includes('When to stop'));
 });
 
+test('the contribution template passes when copied into a skill', (t) => {
+  const root = fixture(t);
+  const guide = fs.readFileSync(new URL('../CONTRIBUTING.md', import.meta.url), 'utf8');
+  const template = guide.match(/^```markdown\r?\n([\s\S]*?)^```[ \t]*$/m)?.[1];
+  assert.ok(template, 'the documented copyable SKILL.md template must exist');
+  write(root, 'skills/my-skill/SKILL.md', template);
+  const result = checkSkills({ root });
+  assert.equal(result.audit.ok, true, JSON.stringify(result.audit.diagnostics));
+  assert.equal(result.audit.counts.warnings, 0);
+});
+
+test('code examples cannot supply required headings', (t) => {
+  const root = fixture(t);
+  const headings = contract.required_sections.map((section) => `## ${section}`).join('\n\n');
+  const examples = [
+    `\`\`\`markdown\n${headings}\n\`\`\``,
+    `   ~~~~markdown\n${headings}\n   ~~~~`,
+    `\`\`\`\`markdown\n\`\`\`\n${headings}\n\`\`\`\``,
+    headings.split('\n').map((line) => `    ${line}`).join('\n'),
+    headings.split('\n').map((line) => `\t${line}`).join('\n'),
+  ];
+  for (const example of examples) {
+    skill(root, 'writer', '', `\n${example}\n`);
+    const result = checkSkills({ root });
+    assert.equal(result.audit.ok, false, example);
+    assert.equal(result.audit.diagnostics.filter((item) => item.code === 'SECTION_MISSING').length,
+      contract.required_sections.length, example);
+  }
+});
+
+test('real H3 sections retain case-insensitive substring matching', (t) => {
+  const root = fixture(t);
+  skill(root, 'writer', '', compliantBody.replace(/^## (.+)$/gm, (_, title) => `### Skill ${title.toUpperCase()} details ###`));
+  const result = checkSkills({ root });
+  assert.equal(result.audit.ok, true, JSON.stringify(result.audit.diagnostics));
+  assert.equal(result.audit.counts.warnings, 0);
+});
+
+test('Requirements checks child sections and nested lists through the next peer or parent heading', (t) => {
+  const root = fixture(t);
+  for (const depth of [2, 3]) {
+    const heading = '#'.repeat(depth);
+    const child = '#'.repeat(depth + 1);
+    const requirements = `${heading} Requirements
+
+- [B] R1 A labeled item — verification: inspect the result.
+  - Nested item without a label.
+
+${child} Blocking checks
+
+1. Unlabeled child requirement.
+
+\`\`\`markdown
+${heading} A fake section boundary
+- A list example without a label.
+\`\`\`
+
++ Another unlabeled child requirement after the example.
+
+    - [A] A labeled nested item — verification: inspect it.
+
+${heading} Notes
+
+- A list outside Requirements.
+
+`;
+    const body = compliantBody.replace(/## Requirements\n[\s\S]*?(?=## When to stop)/, requirements);
+    const file = skill(root, 'writer', '', body);
+    const original = fs.readFileSync(file, 'utf8');
+    fs.writeFileSync(file, original.replaceAll('\n', '\r\n'));
+    const result = checkSkills({ root });
+    assert.equal(result.audit.ok, true);
+    const hits = result.audit.diagnostics.filter((item) => item.code === 'LEDGER_ITEM_UNLABELED');
+    const expectedLines = original.split('\n').flatMap((line, index) =>
+      /Nested item without|Unlabeled child requirement|Another unlabeled child requirement/.test(line) ? [index + 1] : []);
+    assert.deepEqual(hits.map((item) => Number(item.message.match(/^Line (\d+):/)[1])), expectedLines);
+    assert.equal(result.audit.counts.warnings, 3);
+    assert.ok(hits.every((item) => item.severity === 'warning'));
+  }
+  const output = path.join(root, 'output');
+  const result = spawnSync(process.execPath, [cli, '--root', root, '--out', output], { encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /3 warnings/);
+});
+
 test('unbounded language fails with a file line number', (t) => {
   const root = fixture(t);
   skill(root, 'polisher', '', compliantBody.replace('- Stop when the artifact is delivered, or report what remains when the round budget is exhausted.', '- Keep going: repeat until the prose reads well.'));
@@ -244,6 +329,19 @@ test('unbounded language fails with a file line number', (t) => {
   const hit = result.audit.diagnostics.find((item) => item.code === 'UNBOUNDED_LANGUAGE');
   assert.ok(hit, 'expected UNBOUNDED_LANGUAGE');
   assert.ok(/Line \d+/.test(hit.message), hit.message);
+});
+
+test('unbounded language still scans raw body examples with exact CRLF file lines', (t) => {
+  const root = fixture(t);
+  const file = skill(root, 'writer', '', compliantBody + '\n```text\nrepeat until ready\n```\n');
+  const original = fs.readFileSync(file, 'utf8').replace('---\nname:', '---\n\nname:');
+  fs.writeFileSync(file, original.replaceAll('\n', '\r\n'));
+  const result = checkSkills({ root });
+  const hits = result.audit.diagnostics.filter((item) => item.code === 'UNBOUNDED_LANGUAGE');
+  assert.equal(result.audit.ok, false);
+  assert.equal(hits.length, 1);
+  const expectedLine = original.split('\n').findIndex((line) => line === 'repeat until ready') + 1;
+  assert.ok(hits[0].message.startsWith(`Line ${expectedLine}:`), hits[0].message);
 });
 
 test('unlabeled Requirements items warn without failing the audit', (t) => {
