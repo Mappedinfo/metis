@@ -82,6 +82,11 @@ private:
 
 - Add `USER.md` to `.gitignore` in public repositories. The convention works
   with a purely local file.
+- One person, one file: keep a single canonical `USER.md` in a private location
+  (for example a personal notes vault) and symlink it into each project root —
+  `ln -s ~/notes/USER.md USER.md`. The ignore rule covers the symlink, edits to
+  the canonical file are live in every project at once, and nothing personal
+  ever enters a public git history.
 - Public artifacts — skills, templates, AGENTS.md for open-source projects — must
   be authored to function *without* any particular `USER.md`, treating it as an
   optional overlay.
