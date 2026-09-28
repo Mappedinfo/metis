@@ -8,7 +8,7 @@ description: >
   the user wants to download papers, search literature, export citations, or
   process a DOI/arXiv list. Do not use for conceptual discussion of papers
   without retrieval intent, or for non-academic PDFs.
-category: research
+category: acquire
 domain: [literature]
 action: [retrieve, orchestrate]
 source: https://github.com/Rimagination/scansci-pdf
@@ -51,7 +51,7 @@ read it when the task needs detailed tool routing or configuration guidance.
 
 Vendored from [Rimagination/scansci-pdf](https://github.com/Rimagination/scansci-pdf)
 (Apache-2.0, see LICENSE in this directory). Modifications: frontmatter extended
-with metis taxonomy fields (`category`, `domain`, `action`, `source`,
+with metis taxonomy fields (`category: acquire`, `domain`, `action`, `source`,
 `source_license`); the full workflow reference moved from the upstream
 `skill/SKILL.md` to `references/full-workflow.md`; added a "do not use"
 boundary to the description. No workflow content changed.

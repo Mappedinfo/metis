@@ -1,0 +1,28 @@
+name: journal
+version: 0.1.0
+description: >
+  Submission-grade scientific figures: print-safe, colorblind-safe palette,
+  compact sans-serif typography, vector-first export defaults.
+palette:
+  # Colorblind-safe qualitative set (Okabe–Ito). Roles are the interface.
+  primary: "#0072B2"      # main series / emphasis
+  secondary: "#E69F00"    # second series / contrast
+  accent: "#009E73"       # highlight, positive result
+  warn: "#D55E00"         # warning, negative result
+  neutral: "#56B4E9"      # supporting series
+  muted: "#999999"        # reference lines, inactive elements
+  ink: "#1A1A1A"          # text and axes
+  paper: "#FFFFFF"        # background
+typography:
+  body: "Helvetica, Arial, 'Noto Sans', sans-serif"
+  heading: "Helvetica, Arial, 'Noto Sans', sans-serif"
+  mono: "'JetBrains Mono', Menlo, Consolas, monospace"
+  base_size_pt: 8         # journals print figures small; design at final size
+  label_size_pt: 7
+  title_size_pt: 9
+figure:
+  dpi: 300
+  format: [pdf, png]      # vector for submission, raster for preview
+  column_width_mm: 89     # single-column reference width
+  max_width_mm: 183       # double-column reference width
+  line_width_pt: 0.75

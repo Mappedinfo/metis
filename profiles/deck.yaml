@@ -1,0 +1,30 @@
+name: deck
+version: 0.1.0
+description: >
+  Presentation slides: same color family as the journal profile, scaled up
+  for projection, 16:9 defaults, generous type sizes.
+palette:
+  # Same roles as profiles/journal — figures reuse across paper and deck.
+  primary: "#0072B2"
+  secondary: "#E69F00"
+  accent: "#009E73"
+  warn: "#D55E00"
+  neutral: "#56B4E9"
+  muted: "#999999"
+  ink: "#1A1A1A"
+  paper: "#FFFFFF"
+typography:
+  body: "Helvetica, Arial, 'Noto Sans', sans-serif"
+  heading: "Helvetica, Arial, 'Noto Sans', sans-serif"
+  mono: "'JetBrains Mono', Menlo, Consolas, monospace"
+  base_size_pt: 20        # projected text must survive the back row
+  label_size_pt: 16
+  title_size_pt: 32
+deck:
+  aspect: "16:9"
+  max_bullets_per_slide: 5
+  min_contrast_ratio: 4.5 # WCAG AA for projected text
+figure:
+  dpi: 150                # screens, not print
+  format: [png, svg]
+  line_width_pt: 1.5

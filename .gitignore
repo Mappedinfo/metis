@@ -4,6 +4,7 @@ docs/.vitepress/cache/
 docs/.vitepress/dist/
 .DS_Store
 *.log
+draft/
 
 # Personal layer (metis convention): USER.md is private, never committed
 USER.md

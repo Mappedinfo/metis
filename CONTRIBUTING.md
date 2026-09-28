@@ -7,19 +7,28 @@ every skill here is original work, written against the admission criteria in
 provenance and licensing doubt by construction. Everything is MIT licensed
 (see [LICENSE](LICENSE)).
 
-## The six categories
+## The seven categories
 
-Every skill belongs to exactly one category. The category set is closed:
-propose a new one only when a skill demonstrably fits none of these.
+Every skill belongs to exactly one category. Categories are **capability
+domains**, not artifact types or scenarios: a paper is not a category but a
+*scenario* served by a combination of `compose` + `visualize` + `present`
+skills tagged `domain: paper`. The category set is closed: propose a new one
+only when a skill demonstrably fits none of these.
 
 | Category | Scope |
 |---|---|
-| `write` | General writing, revision, expression, knowledge notes |
-| `research` | Questions, methods, evidence, experiment design and audit |
-| `paper` | Academic writing, citation, peer review and response |
-| `present` | Slides, talks, academic presentation |
-| `figure` | Scientific figures, mechanism diagrams, flowcharts |
-| `build` | Local artifact builds, experiment platforms, tooling |
+| `acquire` | Fetching and retrieving literature, data and knowledge from public sources |
+| `analyze` | Questions, methods, evidence, data analysis, experiment design and audit |
+| `compose` | Writing: drafting, revision, expression, knowledge notes |
+| `visualize` | Scientific figures, mechanism diagrams, flowcharts |
+| `present` | Slides, talks, pages, videos, distribution |
+| `build` | Local artifact builds, experiment platforms, tooling, releases |
+| `meta` | Orchestration, quality, review and feedback across skills |
+
+Shared style — palette, typography, export defaults — never lives inside a
+skill. It lives once in [profiles/](profiles/) and skills reference it with
+`uses: [profiles/<name>]`, so figures, decks and papers stay consistent by
+construction.
 
 ## Authoring a skill
 
@@ -29,6 +38,10 @@ propose a new one only when a skill demonstrably fits none of these.
 3. Keep it generic: no personal identity, private paths, private tools.
    Closed-source tools may be mentioned but the core workflow must not
    depend on one.
+4. Name the artifact. The description or the Output contract must state the
+   concrete deliverable the skill produces — a downloaded PDF, a figure, a
+   deck, a runnable package. A skill without a verifiable output does not
+   earn a branch in the taxonomy (admission criterion 6).
 
 ```markdown
 ---
@@ -38,9 +51,13 @@ description: >
   and the situation. Include two or three concrete trigger phrases a user
   would actually say.
 license: MIT
-category: write           # one of: write research paper present figure build
+category: compose         # one of: acquire analyze compose visualize
+                          # present build meta
+domain: [writing]         # 1-2 of the domain axis (see skills/README.md)
 action: [create, revise]  # 1-3 of: create revise transform review advise
                           # orchestrate test retrieve analyze record
+uses: []                  # profiles/<name> or other skills this skill
+                          # depends on; atlas graphs these edges
 ---
 
 # Skill Name
