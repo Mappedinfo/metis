@@ -17,7 +17,9 @@ and safe to re-run:
 1. **USER.md** — if missing, writes a friendly starter template with the four
    recommended sections (`Identity` / `Goals` / `Preferences` / `Boundaries`)
    as commented prompts. An existing `USER.md` is never overwritten unless you
-   pass `--force`.
+   pass `--force`. Alternatively, `--link <path>` creates `USER.md` as a
+   symlink to your canonical personal file (the target must exist; `~` is
+   expanded) — one person, one file, live in every linked project.
 2. **AGENTS.md** — ensures the file contains the metis user-service clause:
 
    > This project serves the person described in [USER.md](USER.md); their stated
@@ -37,6 +39,7 @@ and safe to re-run:
 | Command | Description |
 |---|---|
 | `metis-os init [--force]` | Scaffold `USER.md` + the `AGENTS.md` service clause (default) |
+| `metis-os init --link <path>` | Symlink `USER.md` to your canonical personal file |
 | `metis-os --help`, `-h` | Show usage |
 | `metis-os --version`, `-v` | Show version |
 

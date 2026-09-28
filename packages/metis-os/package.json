@@ -1,6 +1,6 @@
 {
   "name": "metis-os",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Scaffold USER.md and the AGENTS.md service clause for the USER.md convention.",
   "keywords": [
     "agents",
