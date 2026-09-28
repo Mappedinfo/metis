@@ -100,13 +100,52 @@ deck, a package, or a planning note with decisions and acceptance criteria.
 Check the artifact against the requested outcome. A plan completes a
 planning request; it does not establish that planned execution has happened.
 
-### 5. Stop rules
+### 5. Parallel audit, scoped repair (map–freeze–reduce)
 
-Stop when the requested routing note is delivered for a planning-only task.
-For an execution task, stop when: the final artifact exists and matches its
-skill's output contract; a required capability has no skill in the collection (report the
-gap by category and domain tag — that is a contribution candidate, not an
-improvisation license); or the user narrows scope.
+For audit-and-repair tasks over a corpus, manuscript or codebase:
+
+1. **Map**: enumerate the independent check dimensions; run one bounded,
+   read-only audit per dimension, in parallel when the agent runtime
+   supports it. Each audit has its own round budget and returns findings
+   only — no fixes.
+2. **Freeze**: merge the findings into one deduplicated issue ledger. Each
+   item carries a severity and a declared write scope. The frozen ledger is
+   the only source of truth for the repair round.
+3. **Reduce**: repair in parallel only tasks whose write scopes are
+   disjoint; queue overlapping ones. Each repair task verifies only its own
+   ledger items. Run exactly one bounded re-review round, then stop:
+   residual issues are reported, not chased.
+
+The frozen ledger, not conversation momentum, decides what gets repaired.
+
+## Requirements
+
+- [B] R1 Primary = the earliest unresolved stage with completion evidence,
+  not declaration order — 验证: the routing note names the primary and its
+  stage evidence.
+- [B] R2 At most two supports per agent and phase — 验证: the supports list
+  has at most two entries, each with its gap.
+- [B] R3 Profiles are kept per artifact and never merge audiences — 验证:
+  each artifact names its own profile or explicitly none.
+- [B] R4 Every phase is anchored to a declared artifact — 验证: the plan
+  lists the expected artifacts in production order.
+- [A] R5 Audit-and-repair work follows map–freeze–reduce — 验证: the frozen
+  issue ledger is named in the output.
+- [B] R6 Stop rules and budget exhaustion are honored — 验证: the close-out
+  states which stop condition fired.
+
+## When to stop
+
+- The routing note is delivered for a planning-only task; for an execution
+  task, the final artifact exists and matches its skill's output contract.
+- A required capability has no skill in the collection: report the gap by
+  category and domain tag (a contribution candidate, not an improvisation
+  license) and stop.
+- A named budget (rounds, retries, queue size) is exhausted: report the
+  completed items and the smallest unblock condition; do not reopen
+  completed phases.
+- The user narrows scope, or evidence is genuinely ambiguous: ask a human
+  with a bounded question rather than re-routing indefinitely.
 
 ## Output contract
 
@@ -117,6 +156,8 @@ A routing note the user can check in one reading:
 3. **Profiles** per artifact, with shared roles and any named variants stated.
 4. **Artifacts** expected per phase, in order.
 5. **Gaps**: capabilities no skill covers, tagged by category + domain.
+6. For audit-and-repair tasks the frozen issue ledger is itself a named
+   deliverable, carried through to the close-out.
 
 For an execution request, carry out the plan and verify each phase's named
 artifact. For a planning request, the routing note is the final deliverable.

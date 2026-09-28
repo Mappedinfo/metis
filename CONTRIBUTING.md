@@ -45,6 +45,10 @@ related artifacts consistent.
    runnable package or a planning note with acceptance criteria. Explain
    the relevant output and how to check it in the description or Output
    contract (admission criterion 6).
+5. Bound every loop. Each retry, review or repair cycle names its cap, and
+   `## When to stop` says what happens when the budget is exhausted: report
+   the completed items and the smallest unblock condition. Unbounded phrasing
+   ("until satisfied", "改到满意") is rejected by `skills:check`.
 
 ```markdown
 ---
@@ -78,6 +82,18 @@ Boundary against neighboring skills.
 
 The actual craft: steps, decision gates, checklists, failure modes.
 This section is why the skill exists — keep the detail.
+
+## Requirements
+
+- [B] R1 Blocking requirement that must hold for done — 验证: how the agent checks it.
+- [A] R2 Advisory requirement that improves quality — 验证: how the agent checks it.
+
+## When to stop
+
+- The declared artifact exists and every [B] requirement above is evidenced.
+- A named budget (rounds, retries, queue size) is exhausted: report the
+  completed items and the smallest unblock condition.
+- Unbounded language ("until satisfied", "改到满意") fails skills:check.
 
 ## Output contract
 

@@ -60,3 +60,29 @@ The existing VitePress 1.6 development-server dependency advisories are outside
 this repair; review a supported documentation-toolchain upgrade separately.
 Static Pages builds and the zero-dependency metis-os runtime are distinct from
 the development server.
+
+## 2026-09-28 — skill-contract v2: bounded SOPs (draft/3.md)
+
+Source changes on top of 13e7758 (local commit, daily push queue):
+
+- `skill-contract.json` v2: `required_sections` (When to use / When to stop /
+  Requirements / Output contract, case-insensitive heading substring) and
+  `boundedness.forbidden_patterns` (unbounded-loop phrasing, per-line scan of
+  SKILL.md bodies only).
+- `scripts/lib/skill-contract.mjs`: severity tiers; new diagnostics
+  SECTION_MISSING (error), UNBOUNDED_LANGUAGE (error, file line number),
+  LEDGER_ITEM_UNLABELED (warning, [B]/[A] labels); `audit.ok` gates on errors
+  only; counts gain `warnings`.
+- `scripts/check-skills.mjs`: summary prints warnings; diagnostics prefixed
+  with severity; help updated.
+- `test/skill-contract.test.mjs`: fixture helper now emits a compliant body;
+  3 new tests (36 total, all green).
+- Template + skills/README criterion 6 + docs/skills.md document the contract.
+- metis-router: Method ### 5 map–freeze–reduce parallel pattern; Stop rules
+  promoted to `## When to stop`; `## Requirements` ledger; Output contract
+  gains the frozen-ledger deliverable.
+- scansci-pdf: minimal When to use / Requirements / When to stop additions;
+  Provenance log updated per Apache-2.0 §4. Workflow text unchanged.
+
+Verification: `npm run check` green — 36/36 tests, profiles bundle match,
+skills:check PASS 2 skills / 0 errors / 0 warnings, vitepress build ok.

@@ -51,7 +51,9 @@ A skill belongs here only if all of the following hold:
    names concrete, verifiable deliverables: a downloaded PDF, a figure, a
    deck, a runnable package, or a planning note with acceptance criteria.
    The description or Output contract explains the relevant output and how
-   to check it.
+   to check it. The required `## When to stop` section names the budget and
+   termination criteria, so a run is never open-ended; `## Requirements`
+   lists [B] blocking and [A] advisory items with their verification.
 
 ## Tags
 
@@ -93,8 +95,11 @@ collection.
 This adapter builds on the published `metis-atlas@0.1.0` scanner. Native
 `npx metis-atlas scan` does not check the metis `artifacts` declarations or
 resolve profile dependencies. The repository check validates declarations,
-references and controlled vocabulary; assessing a skill's actual output
-still requires task-specific review.
+references and controlled vocabulary, and enforces the bounded-SOP contract:
+required body sections (When to use / When to stop / Requirements / Output
+contract), forbidden unbounded-loop phrasing, and [B]/[A]-labeled Requirements
+items (reported as warnings). Assessing a skill's actual output still
+requires task-specific review.
 
 ## Contributing
 

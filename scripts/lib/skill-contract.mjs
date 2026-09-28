@@ -18,10 +18,11 @@ const inside = (root, candidate) => candidate === root || candidate.startsWith(r
 export function checkSkills({ root, domain } = {}) {
   const absoluteRoot = path.resolve(root || process.cwd());
   const diagnostics = [];
-  const add = (code, file, message, field) => diagnostics.push({
-    severity: 'error', code, file: path.relative(absoluteRoot, file).split(path.sep).join('/') || '.',
+  const add = (code, file, message, field, severity = 'error') => diagnostics.push({
+    severity, code, file: path.relative(absoluteRoot, file).split(path.sep).join('/') || '.',
     ...(field ? { field } : {}), message,
   });
+  const warn = (code, file, message) => add(code, file, message, undefined, 'warning');
   const found = [];
   const profiles = [];
   let canonicalRoot;
@@ -131,6 +132,34 @@ export function checkSkills({ root, domain } = {}) {
       if (frontmatter.uses !== undefined && (!Array.isArray(frontmatter.uses) || !frontmatter.uses.every(nonempty))) {
         add('INVALID_USES', file, 'uses must be a list of skill names or profiles/<name>.', 'uses');
       }
+      const body = match[2] || '';
+      const headingTexts = [...body.matchAll(/^#{2,3}[ \t]+(.+?)[ \t]*$/gm)].map((heading) => heading[1].toLowerCase());
+      for (const required of contract.required_sections || []) {
+        if (!headingTexts.some((heading) => heading.includes(required.toLowerCase()))) {
+          add('SECTION_MISSING', file, `Missing a required section whose heading contains "${required}".`);
+        }
+      }
+      const forbidden = (contract.boundedness?.forbidden_patterns || []).map((pattern) => new RegExp(pattern, 'i'));
+      // body starts after '---' + the YAML lines + '---', so file line = offset + body index + 1.
+      const bodyLineOffset = match[1].split('\n').length + 2;
+      body.split('\n').forEach((line, index) => {
+        if (forbidden.some((pattern) => pattern.test(line))) {
+          add('UNBOUNDED_LANGUAGE', file, `Line ${bodyLineOffset + index + 1}: bound every loop with a round cap, convergence test or budget: ${line.trim().slice(0, 80)}`);
+        }
+      });
+      const requirementsHeading = body.match(/^#{2,3}[ \t]+.*requirements.*$/im);
+      if (requirementsHeading) {
+        const sectionStart = requirementsHeading.index + requirementsHeading[0].length;
+        const rest = body.slice(sectionStart);
+        const sectionEnd = rest.search(/^#{1,3}[ \t]/m);
+        const section = sectionEnd === -1 ? rest : rest.slice(0, sectionEnd);
+        const sectionFirstLine = bodyLineOffset + body.slice(0, sectionStart).split('\n').length;
+        section.split('\n').forEach((line, index) => {
+          if (/^\s*(?:[-*]|\d+\.)\s+/.test(line) && !/^\s*(?:[-*]|\d+\.)\s+\[(?:B|A)\]/.test(line)) {
+            warn('LEDGER_ITEM_UNLABELED', file, `Line ${sectionFirstLine + index}: Requirements items must start with [B] (blocking) or [A] (advisory) and name a 验证/verification clause.`);
+          }
+        });
+      }
       if (validName) {
         found.push({ label: 'skills', root: absoluteRoot, skillFile: file, skillDir,
           dirName, name: frontmatter.name, frontmatter, body: match[2] });
@@ -237,11 +266,12 @@ export function checkSkills({ root, domain } = {}) {
     series: [...new Set(graph.nodes.map((node) => node.series).filter(Boolean))],
     domain_filter: domain || null };
   analyzeGraph(graph);
+  const errors = diagnostics.filter((diagnostic) => diagnostic.severity !== 'warning');
   const audit = {
     contract_version: contract.version, atlas_version: '0.1.0', root: absoluteRoot,
-    ok: diagnostics.length === 0, scope: 'entire collection (before any domain filter)',
+    ok: errors.length === 0, scope: 'entire collection (before any domain filter)',
     artifact_check: 'Nonempty artifacts declarations only; output existence, verifiability and quality require task-specific review.',
-    counts: { skills: namedSkills.size, profiles: profiles.length, errors: diagnostics.length }, diagnostics,
+    counts: { skills: namedSkills.size, profiles: profiles.length, errors: errors.length, warnings: diagnostics.length - errors.length }, diagnostics,
   };
   return { skills: outputSkills, graph, audit };
 }

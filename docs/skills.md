@@ -75,6 +75,12 @@ provide these metis contract and profile dependency checks.
 | `scansci-pdf` | acquire | literature | Academic paper acquisition via the scansci-pdf MCP server (17 tools): search, verify, cite, download (Apache-2.0, vendored with provenance) |
 | `metis-router` | meta | workflow-meta | Composes skills for multi-stage tasks: one primary + ≤2 supports per phase, profiles for shared style, artifacts per phase |
 
+Every skill is a bounded SOP: a `## When to stop` section names the
+budget and termination criteria, `## Requirements` lists [B]/[A]-labeled
+verifiable items, and unbounded-loop phrasing fails `skills:check`. See
+[CONTRIBUTING.md](https://github.com/mappedinfo/metis/blob/main/CONTRIBUTING.md)
+for the template.
+
 ## Contributing
 
 Open a PR with **one skill per PR**. Expect review on admission criteria 1–6

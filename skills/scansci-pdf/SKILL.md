@@ -51,6 +51,31 @@ read it when the task needs detailed tool routing or configuration guidance.
 - Gray-source and anti-bot routes require the user's explicit choice and must be
   used only where the user has the right to do so and applicable rules permit it.
 
+## When to use
+
+Use when the task is retrieving scientific PDFs, validating DOI/arXiv
+identifiers, searching literature by known criteria, or exporting citation
+records. Do not use for topic discovery without retrieval intent, reading or
+summarizing PDF content, or non-academic documents — those need other routes.
+
+## Requirements
+
+- [B] R1 Search or validate identifiers before downloading — 验证: the
+  report lists the sources used and per-item outcomes.
+- [B] R2 Deliver PDFs and citation records through the declared routes
+  only — 验证: artifact files or exports exist at the reported paths.
+- [A] R3 Diagnose inaccessible items instead of retrying blindly — 验证:
+  the diagnostic report names the smallest unblock condition per item.
+
+## When to stop
+
+- The item queue is drained, or every remaining item has a written access
+  diagnostic (paywalled, missing identifier, route failure).
+- A named budget (items, retries, rounds) is exhausted: report completed
+  items and the smallest unblock condition; never loop a failing route.
+- Stop once the declared artifacts exist; judging their scientific quality
+  is the caller's review, not this skill's loop.
+
 ## Metis output contract
 
 Return the artifact requested by the user: a sourced search result list,
@@ -68,5 +93,7 @@ with metis taxonomy and contract fields (`category: acquire`, `domain`,
 `action`, `uses`, `artifacts`, `source`, `source_license`); the full workflow
 reference moved from the upstream `skill/SKILL.md` to
 `references/full-workflow.md`; added a "do not use"
-boundary to the description; added the Metis output contract above. The
-vendored workflow instructions and full workflow reference are unchanged.
+boundary to the description; added the Metis output contract above;
+added the When to use / Requirements / When to stop sections required by
+skill-contract.json v2 (2026-09-28). The vendored workflow instructions and
+full workflow reference are unchanged.

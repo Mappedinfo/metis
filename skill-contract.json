@@ -1,10 +1,69 @@
 {
-  "version": 1,
-  "categories": ["acquire", "analyze", "compose", "visualize", "present", "build", "meta"],
-  "domains": ["literature", "paper", "research-design", "experiment", "data-analysis", "writing", "review-qa", "figure", "slides", "office-doc", "web-dev", "knowledge", "project-ops", "media", "workflow-meta"],
-  "actions": ["create", "transform", "revise", "review", "analyze", "retrieve", "orchestrate", "record", "advise", "test"],
+  "version": 2,
+  "categories": [
+    "acquire",
+    "analyze",
+    "compose",
+    "visualize",
+    "present",
+    "build",
+    "meta"
+  ],
+  "domains": [
+    "literature",
+    "paper",
+    "research-design",
+    "experiment",
+    "data-analysis",
+    "writing",
+    "review-qa",
+    "figure",
+    "slides",
+    "office-doc",
+    "web-dev",
+    "knowledge",
+    "project-ops",
+    "media",
+    "workflow-meta"
+  ],
+  "actions": [
+    "create",
+    "transform",
+    "revise",
+    "review",
+    "analyze",
+    "retrieve",
+    "orchestrate",
+    "record",
+    "advise",
+    "test"
+  ],
   "limits": {
-    "domain": {"min": 1, "max": 2},
-    "action": {"min": 1, "max": 3}
+    "domain": {
+      "min": 1,
+      "max": 2
+    },
+    "action": {
+      "min": 1,
+      "max": 3
+    }
+  },
+  "required_sections": [
+    "When to use",
+    "When to stop",
+    "Requirements",
+    "Output contract"
+  ],
+  "boundedness": {
+    "forbidden_patterns": [
+      "until (satisfied|good enough|done|complete)",
+      "as many .{1,40} as needed",
+      "repeat until",
+      "改到满意",
+      "直到满意",
+      "直到没问题",
+      "充分检查",
+      "确保质量"
+    ]
   }
 }

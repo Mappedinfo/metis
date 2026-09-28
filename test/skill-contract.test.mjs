@@ -22,7 +22,24 @@ function write(root, relative, content) {
   return file;
 }
 
-function skill(root, name, extra = '', body = 'Deliver the declared artifact.') {
+const compliantBody = `## When to use
+
+Use it when the caller needs the declared artifact.
+
+## Requirements
+
+- [B] R1 Deliver the declared artifact — 验证: the artifact file exists in the task workspace.
+
+## When to stop
+
+- Stop when the artifact is delivered, or report what remains when the round budget is exhausted.
+
+## Output contract
+
+The declared artifact, saved under the task workspace.
+`;
+
+function skill(root, name, extra = '', body = compliantBody) {
   return write(root, `skills/${name}/SKILL.md`, `---
 name: ${name}
 description: >
@@ -205,4 +222,39 @@ test('CLI supports a valid domain projection and writes profile dependencies', (
   assert.equal(graph.stats.domain_filter, 'paper');
   assert.equal(graph.links[0].target, 'profiles:journal');
   assert.equal(contract.categories.length, 7);
+});
+
+test('required sections are diagnosed per missing heading', (t) => {
+  const root = fixture(t);
+  const file = skill(root, 'writer');
+  const original = fs.readFileSync(file, 'utf8');
+  fs.writeFileSync(file, original.replace('## When to stop\n\n- Stop when the artifact is delivered, or report what remains when the round budget is exhausted.\n\n', ''));
+  const result = checkSkills({ root });
+  assert.equal(result.audit.ok, false);
+  const missing = result.audit.diagnostics.filter((item) => item.code === 'SECTION_MISSING');
+  assert.equal(missing.length, 1);
+  assert.ok(missing[0].message.includes('When to stop'));
+});
+
+test('unbounded language fails with a file line number', (t) => {
+  const root = fixture(t);
+  skill(root, 'polisher', '', compliantBody.replace('- Stop when the artifact is delivered, or report what remains when the round budget is exhausted.', '- Keep going: repeat until the prose reads well.'));
+  const result = checkSkills({ root });
+  assert.equal(result.audit.ok, false);
+  const hit = result.audit.diagnostics.find((item) => item.code === 'UNBOUNDED_LANGUAGE');
+  assert.ok(hit, 'expected UNBOUNDED_LANGUAGE');
+  assert.ok(/Line \d+/.test(hit.message), hit.message);
+});
+
+test('unlabeled Requirements items warn without failing the audit', (t) => {
+  const root = fixture(t);
+  const file = skill(root, 'writer');
+  const original = fs.readFileSync(file, 'utf8');
+  fs.writeFileSync(file, original.replace('- [B] R1 Deliver the declared artifact', '- Deliver the declared artifact'));
+  const result = checkSkills({ root });
+  assert.equal(result.audit.ok, true);
+  assert.equal(result.audit.counts.errors, 0);
+  assert.equal(result.audit.counts.warnings, 1);
+  const hit = result.audit.diagnostics.find((item) => item.code === 'LEDGER_ITEM_UNLABELED');
+  assert.equal(hit.severity, 'warning');
 });
