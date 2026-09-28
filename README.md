@@ -23,6 +23,9 @@ skills/      — what agents can do    (shared, public)
 # Scaffold your USER.md and declare the service contract in AGENTS.md
 npx metis-os init
 
+# Already have a canonical USER.md? Link it instead of writing a new one
+npx metis-os init --link ~/notes/USER.md
+
 # Install metis skills into your agents (Claude Code, Codex, Cursor, …)
 npx skills add mappedinfo/metis
 ```
@@ -38,7 +41,7 @@ npx skills add mappedinfo/metis
 
 ## Companion tool
 
-[skill-atlas](https://github.com/mappedinfo/skill-atlas) (`npx skill-atlas`) scans
+[metis-atlas](https://www.npmjs.com/package/metis-atlas) (`npx metis-atlas`) scans
 any collection of skills and builds a graph of how they reference, route and depend
 on each other — useful once your skill count grows past what fits in your head.
 

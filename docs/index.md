@@ -23,5 +23,5 @@ features:
   - title: metis-os
     details: <code>npx metis-os init</code> scaffolds your USER.md and writes the AGENTS.md service clause — idempotent, zero dependencies.
   - title: skill-atlas
-    details: <code>npx skill-atlas</code> scans your skill collection and graphs how skills reference, route and depend on each other.
+    details: <code>npx metis-atlas</code> scans your skill collection and graphs how skills reference, route and depend on each other.
 ---

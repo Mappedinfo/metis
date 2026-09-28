@@ -30,7 +30,7 @@ Skills carry two controlled tag axes in frontmatter:
 - `action` — 1–3 of: create, transform, revise, review, analyze, retrieve,
   orchestrate, record, advise, test (ordered)
 
-Tags let [skill-atlas](https://github.com/mappedinfo/skill-atlas) graph the
+Tags let [metis-atlas](https://www.npmjs.com/package/metis-atlas) graph the
 collection and surface overlap before it becomes duplication.
 
 ## Contributing

@@ -1,10 +1,10 @@
 # skill-atlas
 
-[skill-atlas](https://github.com/mappedinfo/skill-atlas) is metis's companion
+[skill-atlas](https://www.npmjs.com/package/metis-atlas) is metis's companion
 tool for *seeing* a skill collection.
 
 ```bash
-npx skill-atlas
+npx metis-atlas
 ```
 
 It scans any collection of skills and builds a graph of how they reference,
@@ -26,5 +26,5 @@ The pairing is deliberate:
 - **metis** defines what a good, shareable skill *is*.
 - **skill-atlas** shows what your skill collection *actually looks like*.
 
-See the [skill-atlas repository](https://github.com/mappedinfo/skill-atlas) for
+See the [metis-atlas npm page](https://www.npmjs.com/package/metis-atlas) for
 installation, usage and output formats.
