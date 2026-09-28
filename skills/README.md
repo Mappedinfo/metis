@@ -4,6 +4,17 @@ Public, generic agent skills. Each skill is a directory with a `SKILL.md`
 (frontmatter: `name`, `description`) following the
 [agentskills.io](https://agentskills.io) format.
 
+## The six categories
+
+Every skill carries a `category` frontmatter field with exactly one of:
+`write` (writing & expression) · `research` (methods & evidence) ·
+`paper` (academic writing & peer review) · `present` (slides & talks) ·
+`figure` (scientific figures) · `build` (local builds & tooling).
+
+Skills are original, hand-written contributions — never ports from private
+or vendor collections. See [../CONTRIBUTING.md](../CONTRIBUTING.md) for the
+authoring template and the metis-atlas organizing loop.
+
 ## Admission criteria
 
 A skill belongs here only if all of the following hold:
