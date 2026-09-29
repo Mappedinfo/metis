@@ -10,6 +10,17 @@ The vocabulary is maintained in [skill-contract.json](skill-contract.json).
 Root [profiles/](profiles/) owns shared style data. Each artifact keeps its own
 export and sizing defaults, including in mixed figure-and-deck tasks.
 
+## Source changes — 2026-09-29
+
+- `metis-os skills install` symlinks the bundled skills into
+  `~/.agents/skills/` (or `--dir`), with `--skill` subset selection,
+  `skills uninstall` and `skills list`. Only package-owned symlinks are
+  managed: foreign links require `--force` to retarget, and real directories
+  block the install entirely even with `--force`. Bundles are generated from
+  root skills/ by `scripts/bundle-skills.mjs` (`npm run skills:bundle`,
+  `skills:bundle:check` in `npm run check`); the skill tree hash in the
+  manifest is verified on every CLI run.
+
 ## Source changes — 2026-09-28
 
 - `metis-os` 0.3.0 protects canonical USER.md files when replacing local symlinks

@@ -14,9 +14,11 @@
     "profiles:bundle": "node scripts/bundle-profiles.mjs",
     "profiles:check": "node scripts/bundle-profiles.mjs --check",
     "skills:check": "node scripts/check-skills.mjs",
-    "pretest": "npm run profiles:bundle",
+    "pretest": "npm run profiles:bundle && npm run skills:bundle",
     "test": "node --test test/*.test.mjs packages/metis-os/test/*.test.js",
-    "check": "npm test && npm run profiles:check && npm run skills:check && npm run docs:build"
+    "check": "npm test && npm run profiles:check && npm run skills:bundle:check && npm run skills:check && npm run docs:build",
+    "skills:bundle": "node scripts/bundle-skills.mjs",
+    "skills:bundle:check": "node scripts/bundle-skills.mjs --check"
   },
   "devDependencies": {
     "markdown-it": "14.3.2",

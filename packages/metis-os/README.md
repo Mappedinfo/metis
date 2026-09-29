@@ -1,7 +1,8 @@
 # metis-os
 
 Scaffold the [USER.md convention](https://github.com/mappedinfo/metis/blob/main/CONVENTION.md)
-in any project and install shared metis style profiles.
+in any project, install shared metis style profiles, and link the bundled
+metis skills into an agent skill directory.
 
 Zero dependencies, plain ESM, Node >= 18.
 
@@ -40,8 +41,8 @@ and safe to re-run:
    Existing content outside the block is never touched, and the block is never
    duplicated on re-run. If no `AGENTS.md` exists, a minimal one containing just
    the clause is created.
-3. Prints next steps: edit `USER.md`, optionally gitignore it, and install
-   shared skills with `npx skills add mappedinfo/metis`.
+3. Prints next steps: edit `USER.md`, optionally gitignore it, and link the
+   shared skills with `metis-os skills install`.
 
 ## Commands
 
@@ -53,6 +54,36 @@ and safe to re-run:
 | `metis-os --version`, `-v` | Show version |
 | `metis-os profiles install [--force]` | Install bundled styles into the current project's `profiles/` |
 | `metis-os profiles path <name>` | Print the installed YAML path for a profile such as `journal` |
+| `metis-os skills install [--force] [--dir <path>] [--skill <name> ...]` | Symlink the bundled skills into an agent skill directory |
+| `metis-os skills uninstall [--dir <path>] [--skill <name> ...]` | Remove only the symlinks created by `skills install` |
+| `metis-os skills list [--dir <path>]` | Show each bundled skill's link state |
+
+## Shared skills
+
+`metis-os skills install` symlinks the skills bundled with the package
+(`metis-router`, `scansci-pdf`) into the cross-agent skill directory
+`~/.agents/skills/`, where Claude Code, Codex, DSH and other agents scan for
+skills. Use `--dir` to target a project-level `.agents/skills/` or any other
+directory instead, and `--skill <name>` (repeatable) to manage a subset.
+
+The command manages only the skills it ships, so it coexists with your other
+entries in the same directory:
+
+- Re-running is idempotent; already-linked skills are left unchanged.
+- A **foreign symlink** (same name, pointing elsewhere) is never replaced
+  without `--force`; `--force` retargets it.
+- A **real directory or file** with the same name blocks the install entirely
+  and is never removed or replaced, even with `--force`.
+- `skills uninstall` removes only the symlinks it manages; foreign links and
+  real directories stay untouched.
+- The symlinked skills are **live views** of the package content: upgrading
+  `metis-os` updates what every agent sees, with no copy step.
+
+`skills list` reports `linked` / `missing` / `foreign-link` / `blocked`
+per skill. The root repository's `skills/` is canonical; `npm pack`
+regenerates the bundled copy (`packages/metis-os/skills/`, gitignored) via
+`scripts/bundle-skills.mjs`, and `npm run skills:bundle:check` fails CI when
+the bundle is stale.
 
 ## Shared profiles
 

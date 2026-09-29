@@ -10,5 +10,6 @@ draft/
 USER.md
 .atlas/
 
-# Generated from root profiles/ by npm run profiles:bundle and npm pack.
+# Generated from root profiles/ and skills/ by npm run *:bundle and npm pack.
 packages/metis-os/profiles/
+packages/metis-os/skills/

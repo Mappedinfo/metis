@@ -15,6 +15,7 @@ import {
 import { homedir } from "node:os";
 import { dirname, isAbsolute, parse, resolve, sep } from "node:path";
 import { cmdProfiles } from "../lib/profiles.js";
+import { cmdSkills } from "../lib/skills.js";
 
 const VERSION = JSON.parse(
   readFileSync(new URL("../package.json", import.meta.url), "utf8")
@@ -80,6 +81,12 @@ Usage:
   metis-os init --link <path>      Symlink USER.md to your canonical personal file
   metis-os profiles install [--force]  Install shared styles in ./profiles
   metis-os profiles path <name>   Print an installed profile's absolute path
+  metis-os skills install [--force] [--dir <path>] [--skill <name> ...]
+      Link the bundled skills into an agent skill directory (~/.agents/skills)
+  metis-os skills uninstall [--dir <path>] [--skill <name> ...]
+      Remove only the symlinks created by skills install
+  metis-os skills list [--dir <path>]
+      Show each bundled skill's link state in the target directory
   metis-os --help, -h              Show this help
   metis-os --version, -v           Show version
 
@@ -249,7 +256,9 @@ Next steps:
   1. ${editHint}
   2. Keep it private: add "USER.md" to .gitignore in public repositories
      (the rule covers a symlink too).
-  3. Install shared skills: npx skills add mappedinfo/metis
+  3. Link shared skills into your agent skill directory:
+     metis-os skills install   (symlinks into ~/.agents/skills; your other
+     entries there are never replaced)
 
 Convention: https://github.com/mappedinfo/metis/blob/main/CONVENTION.md
 `);
@@ -269,6 +278,12 @@ function main(argv) {
 
   if (args[0] === "profiles") {
     try { cmdProfiles(args.slice(1)); }
+    catch (error) { fail(error.message); }
+    return 0;
+  }
+
+  if (args[0] === "skills") {
+    try { cmdSkills(args.slice(1)); }
     catch (error) { fail(error.message); }
     return 0;
   }
