@@ -61,7 +61,8 @@ and safe to re-run:
 ## Shared skills
 
 `metis-os skills install` symlinks the skills bundled with the package
-(`metis-router`, `scansci-pdf`) into the cross-agent skill directory
+(`metis-router`, `scansci-pdf`, and the four-skill `taskbook-*`
+family plus `research-taskbook`) into the cross-agent skill directory
 `~/.agents/skills/`, where Claude Code, Codex, DSH and other agents scan for
 skills. Use `--dir` to target a project-level `.agents/skills/` or any other
 directory instead, and `--skill <name>` (repeatable) to manage a subset.

@@ -73,6 +73,11 @@ provide these metis contract and profile dependency checks.
 | Skill | Category | Domain | Description |
 |---|---|---|---|
 | `scansci-pdf` | acquire | literature | Academic paper acquisition via the scansci-pdf MCP server (17 tools): search, verify, cite, download (Apache-2.0, vendored with provenance) |
+| `taskbook-authors` | acquire | literature, research-design | 学术圈探索：论文作者档案（机构/方向/代表作附来源）+ works.bib，来源纪律宁缺毋假 |
+| `taskbook-interpret` | analyze | paper, literature | 单篇论文结构化精读：八节精读笔记 + 参考文献三类整理（AI 补充逐条标待核实） |
+| `taskbook-slides` | present | slides, paper | 论文转中文组会汇报 PPT（10–15 页带演讲者备注，内容忠于原文） |
+| `taskbook-reproduce` | build | experiment, paper | 复现准备：逐图表计划 + 数据可得性方案（缺失零编造）+ 可运行 src/ 脚手架 |
+| `research-taskbook` | meta | research-design, workflow-meta | 把模糊研究问题翻译成任务书：澄清追问 → 形态判定 → 三要素原子任务 → 红线；含 4 份预设 |
 | `metis-router` | meta | workflow-meta | Composes skills for multi-stage tasks: one primary + ≤2 supports per phase, profiles for shared style, artifacts per phase |
 
 Every skill is a bounded SOP: a `## When to stop` section names the

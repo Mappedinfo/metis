@@ -34,7 +34,7 @@ test('skills install links every bundled skill into the target directory', () =>
   const dir = fixture();
   const result = run(['skills', 'install', '--dir', dir]);
   succeeds(result);
-  assert.match(result.stdout, /2 linked, 0 unchanged/);
+  assert.match(result.stdout, /7 linked, 0 unchanged/);
   for (const name of ['metis-router', 'scansci-pdf']) {
     const link = join(dir, name);
     assert.ok(lstatSync(link).isSymbolicLink(), `${name} must be a symlink`);
@@ -51,7 +51,7 @@ test('skills install is idempotent and leaves foreign entries untouched', () => 
   run(['skills', 'install', '--dir', dir]);
   const rerun = run(['skills', 'install', '--dir', dir]);
   succeeds(rerun);
-  assert.match(rerun.stdout, /0 linked, 2 unchanged/);
+  assert.match(rerun.stdout, /0 linked, 7 unchanged/);
   assert.ok(lstatSync(join(dir, 'other-tool')).isSymbolicLink());
   assert.ok(lstatSync(join(dir, 'personal-notes')).isDirectory());
 });
@@ -86,7 +86,7 @@ test('skills uninstall removes only our links, never foreign entries', () => {
   run(['skills', 'install', '--dir', dir]);
   const result = run(['skills', 'uninstall', '--dir', dir]);
   succeeds(result);
-  assert.match(result.stdout, /2 removed/);
+  assert.match(result.stdout, /7 removed/);
   for (const name of ['metis-router', 'scansci-pdf']) {
     assert.equal(lstatSync(join(dir, name), { throwIfNoEntry: false }), undefined);
   }

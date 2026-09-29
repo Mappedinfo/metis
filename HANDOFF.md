@@ -10,6 +10,19 @@ The vocabulary is maintained in [skill-contract.json](skill-contract.json).
 Root [profiles/](profiles/) owns shared style data. Each artifact keeps its own
 export and sizing defaults, including in mixed figure-and-deck tasks.
 
+## Source changes — 2026-09-30
+
+- Ported the research-taskbook family from our own MIT-licensed
+  GIStudio/research-taskbook into `skills/`, split across the category system and
+  upgraded to contract v2: `research-taskbook` (meta, with references/ presets),
+  `taskbook-interpret` (analyze), `taskbook-authors` (acquire),
+  `taskbook-slides` (present), `taskbook-reproduce` (build). Original Chinese
+  method content preserved; added license/category/domain/action/uses/artifacts
+  frontmatter and the four required sections. Executor skills declare
+  `uses: [scansci-pdf]` for large-PDF extraction. `skills:check` PASS with
+  7 skills / 0 errors / 0 warnings; acquire/analyze/build/meta/present categories
+  now filled, compose/visualize remain empty.
+
 ## Source changes — 2026-09-29
 
 - `metis-os skills install` symlinks the bundled skills into
