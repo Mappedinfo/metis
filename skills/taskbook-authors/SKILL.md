@@ -63,4 +63,4 @@ artifacts:
 4. 产出只写入当前工作目录。
 
 任务书家族：本技能是 [research-taskbook](https://github.com/mappedinfo/metis)
-预设 `authors` 的可独立触发版本。
+预设 `authors` 的可独立触发版本（源自自研 MIT 项目 [GIStudio/research-taskbook](https://github.com/GIStudio/research-taskbook)）。

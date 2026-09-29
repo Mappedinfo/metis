@@ -22,6 +22,22 @@ export and sizing defaults, including in mixed figure-and-deck tasks.
   `uses: [scansci-pdf]` for large-PDF extraction. `skills:check` PASS with
   7 skills / 0 errors / 0 warnings; acquire/analyze/build/meta/present categories
   now filled, compose/visualize remain empty.
+- `taskbook-slides` gained the rendered-page visual QA step (render every
+  delivered page, inspect crop/overlap/legibility, recheck after fixes; report
+  "visual unverified" when the environment cannot render) plus requirement R4.
+  Source: the vault copy's verified learning — the first private→public flow
+  through this family.
+- Source of truth: for the `taskbook-*` family and `research-taskbook`, **metis
+  is canonical**. The vault keeps generated copies (metis content + the private
+  `metadata.integration` overlay) and a copy of `references/`; regeneration is a
+  copy of the metis files with the overlay re-injected. The vault's
+  `scripts/audit_skill_sync.py` does not follow directory symlinks, so vault
+  `references/` must stay real files.
+- Added `.github/ISSUE_TEMPLATE/skill-report.yml` (plus `config.yml`): the form
+  asks for skill, version anchor (`metis-os skills list` output), the failing
+  ledger item ([B]/[A] R#, Output contract item, or When to stop), evidence and
+  the caller's reading of the clause — so external reports land as directly
+  actionable polish input and clause rewording is first-class feedback.
 
 ## Source changes — 2026-09-29
 

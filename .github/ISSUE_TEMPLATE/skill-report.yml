@@ -1,0 +1,57 @@
+name: Skill report（对齐 Requirements 台账）
+description: Report a skill behavior against its Requirements ledger items ([B]/[A] R#), so the report maps directly to a verifiable contract clause.
+title: "[skill-report] <skill>: <R# or clause> <short summary>"
+labels: ["skill-report"]
+body:
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Skill
+      description: Which skill this report is about.
+      options:
+        - metis-router
+        - scansci-pdf
+        - research-taskbook
+        - taskbook-interpret
+        - taskbook-authors
+        - taskbook-slides
+        - taskbook-reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: version
+    attributes:
+      label: Version / tree state
+      description: Paste the output of `metis-os skills list` (or the skills/manifest.json tree_hash if you run from a repo checkout). Reports without a version anchor are hard to reproduce.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: requirement
+    attributes:
+      label: Requirement item
+      description: The ledger item this report concerns, e.g. "[B] R2" from the skill's ## Requirements section, or "Output contract #3", or "When to stop". Use "general" only if no clause applies.
+      placeholder: "[B] R2"
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: What happened (evidence)
+      description: What the skill actually did. Include the smallest reproducible input, the produced artifact/path, and why it violates (or awkwardly satisfies) the clause. Logs and rendered outputs beat paraphrase.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected per contract
+      description: What the clause requires, in your reading. If you think the clause itself is wrong or missing, say so and propose wording — clause changes are first-class feedback.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Agent / model (optional)
+      placeholder: "e.g. Claude Code + Sonnet, Codex CLI + gpt-5, DSH + deepseek"
+    validations:
+      required: false

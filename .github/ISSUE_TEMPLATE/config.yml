@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Skill contract & catalog
+    url: https://mappedinfo.github.io/metis/skills
+    about: Controlled vocabulary, category rules and the per-skill Requirements ledger conventions.

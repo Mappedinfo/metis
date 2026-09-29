@@ -139,3 +139,5 @@ AI 执行器（Qoder CLI、DeepSeek Harness、Claude 等）能接手干活；研
 2. **追问清单**（如材料不足）：不超过 5 条，逐条编号。
 3. 收尾一句执行建议，指明先跑哪个任务、带什么产出回来对验收。
 4. 不产出研究结论、正文或可提交文本；不确定处标注"待核实"。
+
+移植自自研 MIT 项目 [GIStudio/research-taskbook](https://github.com/GIStudio/research-taskbook)。
