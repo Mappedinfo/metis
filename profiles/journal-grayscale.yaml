@@ -1,5 +1,5 @@
 name: journal-grayscale
-version: 0.1.0
+version: 0.2.0
 description: >
   Monochrome scientific figures for grayscale printing. Distinguish groups with
   position, labels, marker shapes and line styles as well as gray levels.
@@ -20,6 +20,9 @@ typography:
   label_size_pt: 7
   title_size_pt: 9
 figure:
+  title_position: below
+  caption_position: below
+  panel_title_position: below
   dpi: 300
   format: [pdf, png]
   column_width_mm: 89

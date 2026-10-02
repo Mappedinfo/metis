@@ -158,6 +158,22 @@ class BarChartTests(unittest.TestCase):
             self.render()
         self.assertFalse((self.root / "output").exists())
 
+    def test_legacy_title_and_caption_are_below_the_axis_label(self):
+        _, rows = chart.load_table(self.input, "category", "value")
+        fig, ax, _ = chart.make_figure(rows, self.profile, "value", "points", "Fictional values",
+            "Each bar preserves its supplied value. These observations are fictional.")
+        self.addCleanup(plt.close, fig)
+        footer = next(text for text in fig.texts if text.get_gid() == "metis-figure-title-caption")
+        renderer = fig.canvas.get_renderer()
+        self.assertEqual(ax.get_title(loc="left"), "")
+        self.assertLess(footer.get_window_extent(renderer).y1, ax.xaxis.label.get_window_extent(renderer).y0)
+        self.assertGreaterEqual(footer.get_window_extent(renderer).y0, 0)
+        self.assertLessEqual(footer.get_window_extent(renderer).x1, fig.bbox.x1)
+        receipt = chart.generate(self.input, "category", "value", "points", "Test", self.profile_path,
+                                 self.root / "caption-output", caption="Fictional measurements.")
+        self.assertEqual(receipt["render"]["caption_position"], "below")
+        self.assertIn("--caption", receipt["rerun_command"])
+
 
 if __name__ == "__main__":
     unittest.main()

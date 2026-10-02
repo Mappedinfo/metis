@@ -1,5 +1,5 @@
 name: journal-npg
-version: 0.1.0
+version: 0.2.0
 description: >
   Scientific figures using the ggsci Nature Reviews Cancer-inspired NPG palette.
   This is not an official Nature style or a guarantee of colorblind or grayscale
@@ -21,6 +21,9 @@ typography:
   label_size_pt: 7
   title_size_pt: 9
 figure:
+  title_position: below
+  caption_position: below
+  panel_title_position: below
   dpi: 300
   format: [pdf, png]
   column_width_mm: 89

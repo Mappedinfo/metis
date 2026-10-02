@@ -72,6 +72,9 @@ typography:                   # font stacks and base sizes per artifact role
   body: "..."
   ...
 figure:                       # optional: export defaults for figure artifacts
+  title_position: below
+  caption_position: below
+  panel_title_position: below
   dpi: 300
   format: [pdf, png]
 chart_style:                  # optional: chart consumers require this block
@@ -96,6 +99,13 @@ Continuous quantities use the sequential or diverging colormap rather than
 interpolating through categorical colors. A centered scale needs a meaningful
 reference value in the chart specification; negative numbers alone do not
 establish what comparison matters.
+
+All collection profiles place figure titles and captions below the plot and
+subplot titles below their respective panels. Consumers reserve space beneath
+axis labels so the title, caption and panel labels do not overlap the chart
+or each other. This is the metis project convention requested by its user,
+not a universal journal rule. The fields live under `figure`, including in
+`deck.yaml`; they govern figures used in slides, not slide headings.
 
 ## Current profiles
 

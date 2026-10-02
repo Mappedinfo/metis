@@ -1,5 +1,5 @@
 name: journal
-version: 0.2.0
+version: 0.3.0
 description: >
   Scientific figures with an Okabe-Ito categorical palette, compact sans-serif
   typography and vector-first export defaults. Use redundant encodings and
@@ -23,6 +23,9 @@ typography:
   label_size_pt: 7
   title_size_pt: 9
 figure:
+  title_position: below
+  caption_position: below
+  panel_title_position: below
   dpi: 300
   format: [pdf, png]      # vector for submission, raster for preview
   column_width_mm: 89     # single-column reference width

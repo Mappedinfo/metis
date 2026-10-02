@@ -1,5 +1,5 @@
 name: deck
-version: 0.1.0
+version: 0.2.0
 description: >
   Presentation slides: same color family as the journal profile, scaled up
   for projection, 16:9 defaults, generous type sizes.
@@ -25,6 +25,9 @@ deck:
   max_bullets_per_slide: 5
   min_contrast_ratio: 4.5 # WCAG AA for projected text
 figure:
+  title_position: below
+  caption_position: below
+  panel_title_position: below
   dpi: 150                # screens, not print
   format: [png, svg]
   line_width_pt: 1.5

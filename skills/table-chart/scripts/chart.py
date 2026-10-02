@@ -256,7 +256,7 @@ def render(input_path: Path, spec_path: Path, profile_path: Path, output: Path):
 | R1 Selection fits data and question | blocked | Confirm chosen chart answers the question, declared column types/units and any heatmap center |
 | R2 Values and transformations | done | input.csv, spec.json and receipt.json: full source and recorded transformations |
 | R3 Shared style and layout | done | profile.yaml and receipt.json: applied settings and font paths |
-| R4 Final visual review | blocked | Inspect actual exports at final size: labels, overlap, scales, values, glyphs, color and grayscale distinction |
+| R4 Final visual review | blocked | Inspect actual exports at final size: labels, overlap, scales, values, glyphs, color/grayscale distinction, and figure/panel titles and captions below their plots |
 | R5 Reproducibility | done | All scripts/data/spec/profile snapshotted and hashed; run receipt command from this folder |
 | R6 Palette limitations | blocked | Explain the selected categorical/sequential/diverging scale and any NPG provenance; record why inapplicable when appropriate |
 

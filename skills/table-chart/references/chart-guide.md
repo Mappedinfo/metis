@@ -38,6 +38,20 @@ category list or one series. Use double-column width for a matrix, many long
 labels, or side-by-side facets; dimensions and type sizes come from the
 selected profile. Widen or split a plot before shrinking text.
 
+The collection uses one title-and-caption placement standard: place the
+figure title and optional explanatory caption below the complete figure;
+place each subplot title below its own panel. Axis labels remain adjacent
+to their axes. Reserve separate space below the axis labels so subplot
+titles, tick labels and the figure caption do not overlap. The profile's
+`figure.title_position`, `figure.caption_position` and
+`figure.panel_title_position` are all `below`.
+
+Use the caption to explain the quantity, units, meaning of displayed summary
+statistics and source when that information is supplied. For example, a box
+caption can explain the median, quartiles and whisker convention established
+by the receipt. Do not invent a source, interpretation or result to fill the
+caption. A source-free fictional example should be identified as fictional.
+
 Overlay a small number of distinguishable series when reading differences at
 the same x matters. Prefer faceting when overlap hides observations or a
 legend burdens the reader. For two panels, two columns often works; for
@@ -85,7 +99,8 @@ Create a JSON object with these fields; examples below use fictional data.
 | `group` | Optional categorical series/facet column; heatmaps use one complete matrix without a group column |
 | `types` | Selected column names mapped to `categorical`, `numeric` or `temporal` |
 | `units` | Numeric/temporal selected columns mapped to explicit units; use `date` for dates or an explicit dimensionless unit |
-| `title` | Factual nonempty title supplied by the task |
+| `title` | Factual nonempty title supplied by the task; displayed below the figure |
+| `caption` | Optional explanatory text below the figure title; supplied quantities, units, summary conventions and source information only |
 | `layout` | `{ "mode": "single" or "facet", "width": "single" or "double", "columns": 1, 2 or 3 }` |
 | `bins` | Histogram bin count, an integer from 1 to 100; default 10 |
 | `center` | Optional numeric center for a diverging heatmap |

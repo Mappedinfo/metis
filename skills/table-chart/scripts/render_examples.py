@@ -53,7 +53,7 @@ def main():
     jobs.append(("scatter-npg", observations, "journal-npg", dict(scatter)))
     results = []
     for name, data, profile, spec in jobs:
-        spec = {**spec, "title": f"Fictional example: {name}"}
+        spec = {**spec, "title": f"Fictional example: {name}", "caption": "Illustrative data only. Units and transformations are recorded in the receipt."}
         spec_path = args.output / f"{name}.json"
         write_json(spec_path, spec)
         receipt = render(data, spec_path, args.profiles / f"{profile}.yaml", args.output / name)

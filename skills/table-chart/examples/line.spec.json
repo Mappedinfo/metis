@@ -6,5 +6,6 @@
   "types": { "date": "temporal", "score": "numeric", "series": "categorical" },
   "units": { "date": "date", "score": "points" },
   "title": "Fictional scores over four days",
+  "caption": "Fictional observations for interface demonstration. Scores are measured in points.",
   "layout": { "mode": "single", "width": "double", "columns": 1 }
 }

@@ -114,7 +114,8 @@ class RenderChartTests(unittest.TestCase):
     def test_facet_layout_shared_limits_and_source_order(self):
         data = [{"x": "A", "y": 1, "group": "Second"}, {"x": "B", "y": 100, "group": "First"}]
         fig, result = self.render("bar", data, layout={"mode": "facet", "width": "double", "columns": 2})
-        self.assertEqual([ax.get_title(loc="left") for ax in fig.axes], ["Second", "First"])
+        self.assertEqual([t.get_text() for ax in fig.axes for t in ax.texts if t.get_gid() == "metis-panel-caption"], ["(a) Second", "(b) First"])
+        self.assertTrue(all(not ax.get_title(loc="left") for ax in fig.axes))
         self.assertEqual(fig.axes[0].get_xlim(), fig.axes[1].get_xlim())
         self.assertEqual(result["width_mm"], self.profile["figure"]["max_width_mm"])
         self.assertEqual(result["layout"]["panels"], 2)
@@ -166,7 +167,7 @@ class RenderChartTests(unittest.TestCase):
         original = deepcopy(data)
         fig, result = self.render("bar", data)
         self.assertEqual(data, original)
-        self.assertFalse(fig.axes[0].title.get_parse_math())
+        self.assertFalse(fig._supxlabel.get_parse_math())
         self.assertEqual(result["mapping"]["rows"][0]["values"]["y"], "0.10")
         self.assertIn("Not performed", result["visual_review"])
 
@@ -212,6 +213,67 @@ class RenderChartTests(unittest.TestCase):
                 spec = {"chart": "scatter", "x": "x", "y": "y", "title": "Validation",
                         "types": {"x": "numeric", "y": "numeric"}, "units": {"x": "s", "y": "m"}, **extra}
                 draw_chart(["x", "y"], [{"x": "1", "y": "2"}], spec, self.profile)
+
+    def test_every_chart_family_places_title_and_caption_below_axes(self):
+        inputs = {
+            "bar": [{"x": "A", "y": 1}], "dot": [{"x": "A", "y": 1}],
+            "line": [{"x": 1, "y": 2}, {"x": 2, "y": 3}],
+            "scatter": [{"x": 1, "y": 2}], "histogram": [{"x": 1}, {"x": 2}],
+            "box": [{"x": "A", "y": 1}, {"x": "A", "y": 2}],
+            "heatmap": [{"x": "A", "y": "B", "value": 1}],
+        }
+        for chart, data in inputs.items():
+            with self.subTest(chart=chart):
+                fig, details = self.render(chart, data, caption="Prepared observations.\nNo inferential claim.")
+                renderer = fig.canvas.get_renderer()
+                footer = fig._supxlabel.get_window_extent(renderer)
+                ax = fig.axes[0]
+                self.assertLess(footer.y1, ax.xaxis.label.get_window_extent(renderer).y0)
+                self.assertLess(footer.y1, ax.bbox.y0)
+                self.assertGreaterEqual(footer.y0, 0)
+                self.assertLessEqual(footer.x1, fig.bbox.x1)
+                self.assertGreaterEqual(footer.x0, 0)
+                self.assertTrue(all(not ax.get_title(loc=loc) for loc in ("left", "center", "right")))
+                self.assertIsNone(fig._suptitle)
+                self.assertEqual(details["text_placement"]["figure"]["position"], "below")
+                self.assertIn("Prepared observations.", fig._supxlabel.get_text())
+                self.assertAlmostEqual(details["height_mm"], fig.get_figheight() * 25.4)
+
+    def test_facet_captions_have_separate_measured_space_below_each_panel(self):
+        data = [{"x": point, "y": point * (index + 1), "group": name}
+                for index, name in enumerate(("First long group label with several descriptive words", "Second", "Third", "Fourth"))
+                for point in (1, 2, 3)]
+        fig, details = self.render("line", data, caption="Shared scales across all four groups.", layout={"mode": "facet", "width": "double", "columns": 2})
+        renderer = fig.canvas.get_renderer()
+        footer = fig._supxlabel.get_window_extent(renderer)
+        panels = []
+        for ax in fig.axes:
+            caption = next(text for text in ax.texts if text.get_gid() == "metis-panel-caption")
+            bounds = caption.get_window_extent(renderer)
+            panels.append(bounds)
+            self.assertLess(bounds.y1, ax.xaxis.label.get_window_extent(renderer).y0)
+            self.assertLess(bounds.y1, ax.bbox.y0)
+            self.assertGreater(bounds.y0, footer.y1)
+            for other in fig.axes:
+                self.assertFalse(bounds.overlaps(other.bbox))
+        for i, box in enumerate(panels):
+            for other in panels[i + 1:]:
+                self.assertFalse(box.overlaps(other))
+        self.assertEqual(len(details["text_placement"]["panel_titles"]), 4)
+        self.assertTrue(all(item["position"] == "below" for item in details["text_placement"]["panel_titles"]))
+
+    def test_caption_requires_covered_glyphs_and_below_only_profile_positions(self):
+        with self.assertRaisesRegex(ValueError, "font stack"):
+            self.render("scatter", [{"x": 1, "y": 2}], caption="Missing glyph \U0010ffff")
+        for caption in ("", None, [], "tab\there"):
+            with self.subTest(caption=caption), self.assertRaisesRegex(ValueError, "Caption"):
+                self.render("scatter", [{"x": 1, "y": 2}], caption=caption)
+        for setting in ("title_position", "caption_position", "panel_title_position"):
+            with self.subTest(setting=setting):
+                self.profile["figure"][setting] = "above"
+                with self.assertRaisesRegex(ValueError, "must be below"):
+                    self.render("scatter", [{"x": 1, "y": 2}])
+                del self.profile["figure"][setting]
 
 
 if __name__ == "__main__":

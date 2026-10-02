@@ -16,7 +16,7 @@ matplotlib.use("Agg")
 from matplotlib import cbook, colors, dates, markers as mpl_markers, pyplot as plt
 import numpy as np
 
-from bar_chart import resolve_font
+from bar_chart import add_figure_footer, resolve_font
 
 
 _ORIGINAL, _RECORD = object(), object()
@@ -51,7 +51,7 @@ def _unique(values):
 def _prepare(header, records, spec):
     if not isinstance(spec, dict):
         raise ValueError("Chart specification must be a JSON object.")
-    allowed = {"chart", "x", "y", "value", "group", "types", "units", "title", "layout", "bins", "center"}
+    allowed = {"chart", "x", "y", "value", "group", "types", "units", "title", "caption", "layout", "bins", "center"}
     unknown = set(spec) - allowed
     if unknown:
         raise ValueError(f"Unknown chart specification fields: {', '.join(sorted(unknown))}.")
@@ -65,6 +65,8 @@ def _prepare(header, records, spec):
     if chart == "histogram" and "y" in spec:
         raise ValueError("A histogram counts x observations; do not select a y column.")
     _text(spec.get("title"), "Title")
+    if "caption" in spec and (not isinstance(spec["caption"], str) or not spec["caption"].strip() or any(c in spec["caption"] for c in "\r\t")):
+        raise ValueError("Caption must be nonempty text; line breaks are allowed, tabs and carriage returns are not.")
     if not records or len(records) > 10000:
         raise ValueError("Supply 1–10000 prepared rows; choose an explicit scope for larger tables.")
     if not header or len(header) != len(set(header)) or any(not isinstance(c, str) or not c.strip() for c in header):
@@ -196,11 +198,51 @@ def _style(profile, chart, group_count, facet):
     return {"categorical": categorical, "markers": markers, "line_styles": styles, "hatches": hatches, **{k: config.get(k) for k in ("sequential", "diverging")}}
 
 
+def _panel_captions(fig, axes, groups, font, typography, ink, nrows):
+    """Measure axis decorations and reserve separate, below-panel text space."""
+    renderer = fig.canvas.get_renderer()
+    size = typography["title_size_pt"]
+    measure_font = font.copy()
+    measure_font.set_size(size)
+    captions, maximum_height = [], 0
+    for index, (ax, group) in enumerate(zip(axes, groups)):
+        full_text = f"({chr(97 + index)}) {group}"
+        remaining, lines = full_text, []
+        while remaining:
+            limit = len(remaining)
+            for end in range(1, len(remaining) + 1):
+                if renderer.get_text_width_height_descent(remaining[:end], measure_font, False)[0] > ax.bbox.width * .97:
+                    limit = max(1, end - 1)
+                    break
+            if limit < len(remaining):
+                space = remaining.rfind(" ", 0, limit + 1)
+                if space > 0:
+                    limit = space
+            lines.append(remaining[:limit].rstrip())
+            remaining = remaining[limit:].lstrip()
+        decorators = [ax.xaxis.label, ax.xaxis.get_offset_text()] + ax.get_xticklabels()
+        lowest = min([ax.bbox.y0] + [text.get_window_extent(renderer).y0 for text in decorators if text.get_visible() and text.get_text()])
+        offset_points = (ax.bbox.y0 - lowest) * 72 / fig.dpi + 5
+        text = ax.annotate("\n".join(lines), xy=(.5, 0), xycoords="axes fraction",
+                           xytext=(0, -offset_points), textcoords="offset points", ha="center", va="top",
+                           fontproperties=font, fontsize=size, color=ink,
+                           annotation_clip=False, clip_on=False)
+        text.set_gid("metis-panel-caption")
+        text.set_in_layout(True)
+        captions.append({"artist": text, "axis": ax, "title": full_text, "rendered_text": text.get_text(), "position": "below"})
+        maximum_height = max(maximum_height, text.get_window_extent(renderer).height)
+    fig.set_figheight(fig.get_figheight() + nrows * (maximum_height / fig.dpi + 8 / 72))
+    return captions
+
+
 def draw_chart(header: list[str], records: list[dict[str, str]], spec: dict, profile: dict):
     """Draw every selected row or a disclosed descriptive summary; never review it."""
     rows, groups, layout = _prepare(header, records, spec)
     chart, x, y, group = spec["chart"], spec["x"], spec.get("y"), spec.get("group")
     palette, typeface, figure = profile["palette"], profile["typography"], profile["figure"]
+    for setting in ("title_position", "caption_position", "panel_title_position"):
+        if figure.get(setting, "below") != "below":
+            raise ValueError(f"Profile figure.{setting} must be below under this project's figure convention.")
     facet = layout["mode"] == "facet"
     style = _style(profile, chart, len(groups), facet)
     axis_label = lambda column: f"{column} ({spec['units'][column]})" if spec["types"][column] in {"numeric", "temporal"} else column
@@ -208,7 +250,7 @@ def draw_chart(header: list[str], records: list[dict[str, str]], spec: dict, pro
     body_text = "0123456789.-e+() Count" + "".join(sorted(selected)) + "".join(str(v) for c, v in spec.get("units", {}).items() if c in selected)
     body_text += "".join(str(value) for row in rows for key, value in row[_ORIGINAL].items() if key in selected)
     body_font = resolve_font(typeface["body"], body_text, "body")
-    heading_font = resolve_font(typeface["heading"], spec["title"] + "".join(g or "" for g in groups), "heading")
+    heading_font = resolve_font(typeface["heading"], spec["title"] + spec.get("caption", "") + ("abcdef()" if facet else "") + "".join(g or "" for g in groups), "heading/title/caption")
     category_order = _unique(row[x] for row in rows) if spec["types"][x] == "categorical" else []
     panes = len(groups) if facet else 1
     ncols = min(layout["columns"], panes) if facet else 1
@@ -240,8 +282,6 @@ def draw_chart(header: list[str], records: list[dict[str, str]], spec: dict, pro
             for unused in axes[panes:]:
                 unused.remove()
             axes = axes[:panes]
-            if facet:
-                fig.suptitle(spec["title"], fontproperties=heading_font, fontsize=typeface["title_size_pt"], color=palette["ink"])
             edges = None
             if chart == "histogram":
                 edges = np.histogram_bin_edges([r[x] for r in rows], bins=spec.get("bins", 10))
@@ -349,7 +389,6 @@ def draw_chart(header: list[str], records: list[dict[str, str]], spec: dict, pro
                             ax.text(xi, yi, next(r[_ORIGINAL][value].strip() for r in rows if r[x] == xv and r[y] == yv), ha="center", va="center", color=text_color, fontproperties=body_font, fontsize=typeface["label_size_pt"])
                     series.update({"x_order": category_order, "y_order": y_order, "matrix": matrix.tolist(), "center": spec.get("center"), "annotated_cells": len(rows)})
                 details["series"].append(series)
-                ax.set_title(str(group_value) if facet else spec["title"], loc="left", fontproperties=heading_font, fontsize=typeface["title_size_pt"], color=palette["ink"])
             if group and not facet:
                 legend = axes[0].legend(title=group, loc="upper left", bbox_to_anchor=(1.01, 1), borderaxespad=0, prop=body_font, frameon=False)
                 legend.get_title().set_fontproperties(body_font)
@@ -363,6 +402,23 @@ def draw_chart(header: list[str], records: list[dict[str, str]], spec: dict, pro
                 for key, spine in ax.spines.items():
                     spine.set_color(palette["ink"]); spine.set_visible(key not in {"top", "right"})
             fig.canvas.draw()
+            panels = _panel_captions(fig, axes, groups, heading_font, typeface, palette["ink"], nrows) if facet else []
+            footer = add_figure_footer(fig, spec["title"], spec.get("caption"), profile, heading_font)
+            fig.canvas.draw()
+            renderer = fig.canvas.get_renderer()
+            footer_bounds = fig._supxlabel.get_window_extent(renderer)
+            for ax in axes:
+                if footer_bounds.y1 >= min(ax.bbox.y0, ax.xaxis.label.get_window_extent(renderer).y0):
+                    raise ValueError("Figure footer overlaps the chart or axis label; choose a wider output or shorter caption.")
+            panel_metadata = []
+            for item in panels:
+                bounds = item["artist"].get_window_extent(renderer)
+                xlabel = item["axis"].xaxis.label.get_window_extent(renderer)
+                if bounds.y1 >= min(item["axis"].bbox.y0, xlabel.y0) or bounds.y0 <= footer_bounds.y1:
+                    raise ValueError("Panel caption overlaps an axis label or figure footer; choose a wider layout or shorter labels.")
+                panel_metadata.append({key: value for key, value in item.items() if key not in {"artist", "axis"}})
+            details["text_placement"] = {"figure": footer, "panel_titles": panel_metadata, "axis_labels": "Separate from figure and panel captions"}
+            details["height_mm"] = float(fig.get_figheight() * 25.4)
             if chart == "heatmap":
                 ax, renderer = axes[0], fig.canvas.get_renderer()
                 for text in ax.texts:

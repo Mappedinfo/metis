@@ -26,10 +26,15 @@ export and sizing defaults, including in mixed figure-and-deck tasks.
   `journal-grayscale` and `journal-npg` add named alternatives. NPG uses ggsci's
   Nature Reviews Cancer-inspired colors, not an official journal palette or
   accessibility certification. The collection now has 9 skills and 4 profiles.
+- All shared figure profiles require figure titles, captions and panel titles
+  below their plots. Both chart entrypoints apply this project convention;
+  optional captions wrap to the available width, and labeled subplots reserve
+  separate space below axis labels. Slide headings retain their own layout.
 - Validated: `npm run check` passes 49 tests, bundle consistency, the collection
   audit (0 errors / 0 warnings) and the docs build. `npm run table-chart:check`
-  passes 34 tests, including the legacy interface, every chart family, malformed
-  specs, missing/duplicate data, numeric precision and portable snapshot reruns.
+  passes 38 tests, including the legacy interface, every chart family, malformed
+  specs, missing/duplicate data, numeric precision, portable snapshot reruns and
+  measured figure/panel title and caption positions.
   A bounded code review found and fixed non-renderable numeric-line suggestions
   and malformed type fields; regression cases pass.
 - Nine fictional examples cover all seven forms, facets and the three figure

@@ -110,6 +110,9 @@ def load_profile(path: Path) -> tuple[bytes, dict]:
             if isinstance(number, bool) or not isinstance(number, (int, float)) or not math.isfinite(number) or number <= 0:
                 raise ValueError(f"Profile {section}.{key} must be a positive finite number.")
     figure = profile["figure"]
+    for field in ("title_position", "caption_position", "panel_title_position"):
+        if figure.get(field, "below") != "below":
+            raise ValueError(f"Profile figure.{field} must be below under the shared figure convention.")
     if figure["column_width_mm"] > figure["max_width_mm"]:
         raise ValueError("Profile column width exceeds its maximum width.")
     formats = figure.get("format")
@@ -135,11 +138,46 @@ def resolve_font(stack: str, text: str, role: str) -> font_manager.FontPropertie
     )
 
 
-def make_figure(rows: list[dict], profile: dict, value: str, unit: str, title: str):
+def add_figure_footer(fig, title: str, caption: str | None, profile: dict, heading_font):
+    """Reserve a bottom title/caption block; wrap using the actual font metrics."""
+    for field in ("title_position", "caption_position", "panel_title_position"):
+        if profile["figure"].get(field, "below") != "below":
+            raise ValueError(f"Profile figure.{field} must be below under the shared figure convention.")
+    font = heading_font.copy()
+    size = profile["typography"]["title_size_pt"]
+    font.set_size(size)
+    renderer = fig.canvas.get_renderer()
+    available = fig.get_figwidth() * fig.dpi * .92
+    lines = []
+    content = title + ("\n" + caption if caption else "")
+    for paragraph in content.split("\n"):
+        current = ""
+        for character in paragraph:
+            trial = current + character
+            if current and renderer.get_text_width_height_descent(trial, font, ismath=False)[0] > available:
+                split = current.rfind(" ")
+                if split > 0:
+                    lines.append(current[:split])
+                    current = current[split + 1:] + character
+                else:
+                    lines.append(current)
+                    current = character
+            else:
+                current = trial
+        lines.append(current.rstrip())
+    rendered = "\n".join(lines)
+    fig.set_figheight(fig.get_figheight() + len(lines) * size / 72 * 1.3 + .12)
+    footer = fig.supxlabel(rendered, fontproperties=font, fontsize=size,
+                           color=profile["palette"]["ink"], ha="center")
+    footer.set_gid("metis-figure-title-caption")
+    return {"position": "below", "title": title, "caption": caption, "rendered_text": rendered}
+
+
+def make_figure(rows: list[dict], profile: dict, value: str, unit: str, title: str, caption: str | None = None):
     palette, typography, style = profile["palette"], profile["typography"], profile["figure"]
     xlabel = f"{value} ({unit})"
     body_font = resolve_font(typography["body"], xlabel + "0123456789.-e+" + "".join(row["category"] + row["original_value"] for row in rows), "body")
-    title_font = resolve_font(typography["heading"], title, "heading")
+    title_font = resolve_font(typography["heading"], title + (caption or ""), "heading")
     width = style["column_width_mm"] / 25.4
     height = max(width * 0.65, (len(rows) + 5) * typography["base_size_pt"] / 72)
     settings = {"text.parse_math": False, "axes.unicode_minus": False,
@@ -152,7 +190,7 @@ def make_figure(rows: list[dict], profile: dict, value: str, unit: str, title: s
         ax.set_yticks(range(len(rows)), [row["category"] for row in rows])
         ax.invert_yaxis()
         ax.set_xlabel(xlabel, fontproperties=body_font, fontsize=typography["label_size_pt"], color=palette["ink"])
-        ax.set_title(title, loc="left", fontproperties=title_font, fontsize=typography["title_size_pt"], color=palette["ink"])
+        add_figure_footer(fig, title, caption, profile, title_font)
         ax.axvline(0, color=palette["muted"], linewidth=style["line_width_pt"])
         ax.margins(x=0.2)
         ax.bar_label(bars, labels=[row["original_value"].strip() for row in rows], padding=3,
@@ -182,20 +220,22 @@ def make_figure(rows: list[dict], profile: dict, value: str, unit: str, title: s
 
 
 def generate(input_path: Path, category: str, value: str, unit: str,
-             title: str, profile_path: Path, output: Path) -> dict:
+             title: str, profile_path: Path, output: Path, caption: str | None = None) -> dict:
     if output.exists() or output.is_symlink():
         raise ValueError(f"Output already exists; choose a new directory: {output}")
     if not unit.strip() or not title.strip() or any(char in unit + title for char in "\r\n\t"):
         raise ValueError("Supply a nonempty single-line unit and title; use 'dimensionless' when appropriate.")
+    if caption is not None and (not isinstance(caption, str) or not caption.strip() or any(char in caption for char in "\r\t")):
+        raise ValueError("Caption must be nonempty text; line breaks are supported.")
     input_bytes, rows = load_table(input_path, category, value)
     profile_bytes, profile = load_profile(profile_path)
-    fig, ax, fonts = make_figure(rows, profile, value, unit, title)
+    fig, ax, fonts = make_figure(rows, profile, value, unit, title, caption)
     try:
         output.mkdir(parents=True, exist_ok=False)
         exports = []
         for extension in profile["figure"]["format"]:
             target = output / f"chart.{extension}"
-            with target.open("xb") as stream:
+            with matplotlib.rc_context({"pdf.fonttype": 42, "svg.fonttype": "none"}), target.open("xb") as stream:
                 fig.savefig(stream, format=extension, dpi=profile["figure"]["dpi"])
             exports.append({"file": target.name, "sha256": sha256(target.read_bytes())})
         script_bytes = Path(__file__).read_bytes()
@@ -207,6 +247,8 @@ def generate(input_path: Path, category: str, value: str, unit: str,
                    "python", str((output / "bar_chart.py").resolve()), "--input", str(input_path.resolve()),
                    "--category", category, "--value", value, "--unit", unit, "--title", title,
                    "--profile", str((output / "profile.yaml").resolve()), "--output", "NEW_OUTPUT_DIRECTORY"]
+        if caption is not None:
+            command += ["--caption", caption]
         receipt = {
             "schema_version": 1, "input": {"path": str(input_path.resolve()), "sha256": sha256(input_bytes)},
             "profile": {"path": str(profile_path.resolve()), "sha256": sha256(profile_bytes), "name": profile.get("name")},
@@ -214,7 +256,7 @@ def generate(input_path: Path, category: str, value: str, unit: str,
                         "row_count": len(rows), "rows": rows},
             "transformations": [], "data_policy": "No rows dropped, imputed, aggregated, sorted or normalized; finite decimals round-trip through float text without changing their decimal value, and original numeric labels are retained.",
             "geometry_check": "passed: each bar starts at zero with its supplied signed value",
-            "render": {"title": title, "width_mm": profile["figure"]["column_width_mm"],
+            "render": {"title": title, "caption": caption, "title_position": "below", "caption_position": "below", "width_mm": profile["figure"]["column_width_mm"],
                        "height_mm": float(fig.get_figheight() * 25.4), "dpi": profile["figure"]["dpi"],
                        "formats": profile["figure"]["format"], "fonts": fonts},
             "exports": exports, "script_sha256": sha256(script_bytes),
@@ -235,7 +277,7 @@ Add any further accepted user requirements. `done` requires evidence;
 | R1 Prepared input preserved | done | receipt.json: input hash and complete row mapping |
 | R2 Original values and order | done | receipt.json: row mapping and geometry check |
 | R3 Profile applied | done | receipt.json: profile hash, resolved fonts, export settings and hashes |
-| R4 Final visual inspection | blocked | View the final export; record its path and findings on labels, glyphs, clipping, values and zero baseline |
+| R4 Final visual inspection | blocked | View the final export; record labels, glyphs, clipping, values, zero baseline, and title/caption below the plot |
 | R5 Reproducible artifact | done | bar_chart.py, profile.yaml and receipt.json rerun_command; original CSV must remain available |
 
 Repair rounds used: 0 / 2.
@@ -252,9 +294,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     for flag in ("input", "category", "value", "unit", "title", "profile", "output"):
         parser.add_argument(f"--{flag}", required=True, type=Path if flag in ("input", "profile", "output") else str)
+    parser.add_argument("--caption", help="Optional figure caption placed below the plot with its title.")
     args = parser.parse_args()
     try:
-        receipt = generate(args.input, args.category, args.value, args.unit, args.title, args.profile, args.output)
+        receipt = generate(args.input, args.category, args.value, args.unit, args.title, args.profile, args.output, args.caption)
     except (OSError, ValueError, csv.Error, yaml.YAMLError) as exc:
         parser.exit(2, f"Chart not completed: {exc}\n")
     print(f"Rendered {receipt['mapping']['row_count']} rows to {args.output}. Visual inspection is still required.")

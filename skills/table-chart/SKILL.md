@@ -38,7 +38,9 @@ parameters; they do not establish significance or causal effects.
 ## Method
 
 1. Establish the comparison, selected columns, semantic types, units and
-   factual title from the request and data documentation. Preserve the input.
+   factual title from the request and data documentation. Add a caption when
+   explanation is needed, using only supplied quantities, units, summary
+   conventions and sources. Preserve the input.
    If selection is unresolved, run the planner and compare its alternatives:
 
    ```sh
@@ -63,6 +65,10 @@ parameters; they do not establish significance or causal effects.
    profiles through metis-os's [profile installation guide](https://github.com/mappedinfo/metis/blob/main/profiles/README.md).
    Palette values, fonts and export defaults belong in profiles; local
    variations receive a new profile name.
+   The collection's layout standard places the figure title and any caption
+   below the complete figure, and each subplot title below its panel. Profiles
+   declare `figure.title_position`, `figure.caption_position` and
+   `figure.panel_title_position` as `below`. Axis labels stay with their axes.
 3. Render the agreed specification with explicit paths:
 
    ```sh
@@ -84,7 +90,8 @@ parameters; they do not establish significance or causal effects.
    its original category/value interface.
 4. Inspect the final exports at the intended size and the grayscale preview.
    Check mappings, units, ordering, scales, legends, panel alignment, glyphs,
-   clipping and whether groups remain distinguishable without hue. A preview
+   clipping, titles/captions below their plots, and whether groups remain
+   distinguishable without hue. A preview
    alone does not establish accessibility under every visual condition.
    Unsupported glyphs require an installed font in a named profile variant;
    Chinese text needs a matching CJK font. Review the actual final PDF or
@@ -104,11 +111,12 @@ parameters; they do not establish significance or causal effects.
   selected columns, row mappings and recorded ordering/binning/box statistics
   explain the plotted data; no hidden dropping, imputation or aggregation.
 - [B] R3 Shared style and layout are applied — verification: exact profile,
-  dimensions, palette/encoding choice, resolved fonts and export settings
-  appear in the receipt and match the specification.
+  dimensions, palette/encoding choice, resolved fonts, title/caption positions
+  and export settings appear in the receipt and match the specification.
 - [B] R4 The final figure is visually checked — verification: the ledger
   identifies the viewed export and grayscale preview and records mapping,
-  readability, group discrimination, glyph and clipping checks. For an
+  readability, group discrimination, glyph and clipping checks, including
+  separation of axis labels, subplot titles and the figure caption. For an
   explicitly planning-only task this is `n/a`, with rendering unperformed.
 - [B] R5 Execution is reproducible — verification: rendering delivers input,
   specification, profile and executable script snapshots, recorded software
