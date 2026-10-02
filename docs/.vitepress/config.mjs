@@ -31,6 +31,7 @@ export default defineConfig({
         text: 'Ecosystem',
         items: [
           { text: 'Skills Catalog', link: '/skills' },
+          { text: '基础能力 / Minimal skills', link: '/minimal-skills' },
           { text: 'metis-os CLI', link: '/cli' },
           { text: 'skill-atlas', link: '/atlas' }
         ]

@@ -58,6 +58,10 @@ Release readiness and the currently published version are tracked in the
 | [packages/metis-os](packages/metis-os/) | `npx metis-os` — scaffolds USER.md + the AGENTS.md service clause |
 | [docs/](docs/) | The website: <https://mappedinfo.github.io/metis/> |
 
+Start with [基础能力 / Minimal skills](docs/minimal-skills.md) for a concrete
+input, deliverable and acceptance check in each category. Category coverage
+does not establish that every workflow has passed an end-to-end task.
+
 ## Companion tool
 
 [metis-atlas](https://www.npmjs.com/package/metis-atlas) (`npx metis-atlas`) scans

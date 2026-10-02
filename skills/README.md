@@ -4,6 +4,9 @@ Public, generic agent skills. Each skill is a directory with a `SKILL.md`
 (frontmatter: `name`, `description`) following the
 [agentskills.io](https://agentskills.io) format.
 
+For the smallest useful input, deliverable and acceptance check in each
+category, read [基础能力 / Minimal skills](../docs/minimal-skills.md).
+
 ## The seven categories
 
 Every skill carries a `category` frontmatter field with exactly one of the

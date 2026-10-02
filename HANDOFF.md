@@ -10,6 +10,41 @@ The vocabulary is maintained in [skill-contract.json](skill-contract.json).
 Root [profiles/](profiles/) owns shared style data. Each artifact keeps its own
 export and sizing defaults, including in mixed figure-and-deck tasks.
 
+## Source changes — 2026-10-02
+
+- Added two original, narrowly scoped skills: `source-brief` (compose) turns
+  supplied material into a short brief or revision with a claim/source map;
+  `table-chart` (visualize) turns a prepared CSV into one horizontal bar
+  chart using `profiles/journal`, with a reproducible plotter and receipt.
+  No private skill text or research material was copied. The collection now
+  has entries in all seven categories; this is coverage, not seven-category
+  business validation.
+- [Minimal skills](docs/minimal-skills.md) explains each entry's smallest
+  input, output and acceptance check. Existing paper-reading, slides and
+  reproduction entries retain their scope; no parallel generic aliases were
+  added. The installer tests now inspect every bundled skill rather than
+  hard-coding the former collection size.
+- The full check reproduced a race: the tarball test's prepack rebuilt the
+  shared skill bundle while installer tests were reading it. Test files now
+  run serially so package rebuilds finish before another file reads them.
+- Verified locally: `npm run check` passed 49 tests, both bundle checks,
+  the 9-skill / 2-profile audit (0 errors, 0 warnings) and the docs build.
+  `npm run table-chart:check` passed 10 behavior tests, including rejection
+  of nonzero underflow and decimal precision loss. These optional Python
+  tests run with uv-managed dependencies and do not add CLI dependencies.
+- Independent source-brief forward-use tasks delivered a 223-character
+  Chinese brief and a 119-word English brief from fictional notes; source
+  maps preserve blocked checks, proposals and absent comparison/user data.
+  English and CJK chart examples were rendered; PNGs and PDF rasterizations
+  were inspected for values, signed baseline, glyphs and clipping. The
+  default journal profile correctly rejects unsupported CJK text; a named
+  CJK font variant supports it. An exported script was rerun successfully.
+  These are bounded example checks, not general usability measurements.
+- Remaining work: the taskbook PDF/OCR routing and slides profile connection
+  still need repair and task-specific acceptance. Bilingual source files and
+  Git-based language selection remain a design proposal, not implemented
+  behavior. No npm publication or Pages deployment is part of this change.
+
 ## Source changes — 2026-09-30
 
 - Ported the research-taskbook family from our own MIT-licensed

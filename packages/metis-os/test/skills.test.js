@@ -4,13 +4,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { lstatSync, mkdtempSync, mkdirSync, readlinkSync, realpathSync, symlinkSync, writeFileSync } from 'node:fs';
+import { lstatSync, mkdtempSync, mkdirSync, readFileSync, readlinkSync, realpathSync, symlinkSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 
 const cli = fileURLToPath(new URL('../bin/metis-os.js', import.meta.url));
 const bundledRoot = realpathSync(fileURLToPath(new URL('../skills/', import.meta.url)));
+const bundledNames = JSON.parse(readFileSync(join(bundledRoot, 'manifest.json'), 'utf8')).skills.map(({ name }) => name);
 
 function fixture() {
   const dir = join(mkdtempSync(join(tmpdir(), 'metis-os-')), 'agent-skills');
@@ -34,8 +35,8 @@ test('skills install links every bundled skill into the target directory', () =>
   const dir = fixture();
   const result = run(['skills', 'install', '--dir', dir]);
   succeeds(result);
-  assert.match(result.stdout, /7 linked, 0 unchanged/);
-  for (const name of ['metis-router', 'scansci-pdf']) {
+  assert.ok(result.stdout.includes(`${bundledNames.length} linked, 0 unchanged`));
+  for (const name of bundledNames) {
     const link = join(dir, name);
     assert.ok(lstatSync(link).isSymbolicLink(), `${name} must be a symlink`);
     assert.equal(realpathSync(link), join(bundledRoot, name));
@@ -51,7 +52,7 @@ test('skills install is idempotent and leaves foreign entries untouched', () => 
   run(['skills', 'install', '--dir', dir]);
   const rerun = run(['skills', 'install', '--dir', dir]);
   succeeds(rerun);
-  assert.match(rerun.stdout, /0 linked, 7 unchanged/);
+  assert.ok(rerun.stdout.includes(`0 linked, ${bundledNames.length} unchanged`));
   assert.ok(lstatSync(join(dir, 'other-tool')).isSymbolicLink());
   assert.ok(lstatSync(join(dir, 'personal-notes')).isDirectory());
 });
@@ -86,8 +87,8 @@ test('skills uninstall removes only our links, never foreign entries', () => {
   run(['skills', 'install', '--dir', dir]);
   const result = run(['skills', 'uninstall', '--dir', dir]);
   succeeds(result);
-  assert.match(result.stdout, /7 removed/);
-  for (const name of ['metis-router', 'scansci-pdf']) {
+  assert.ok(result.stdout.includes(`${bundledNames.length} removed`));
+  for (const name of bundledNames) {
     assert.equal(lstatSync(join(dir, name), { throwIfNoEntry: false }), undefined);
   }
   assert.ok(lstatSync(join(dir, 'other-tool')).isSymbolicLink(), 'foreign link kept');
