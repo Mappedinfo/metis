@@ -1,127 +1,152 @@
 ---
 name: table-chart
 description: >
-  Turn a prepared CSV into one horizontal bar chart, preserving one unique
-  category and one numeric value per row. Use for a small, direct comparison
-  with known units; data cleaning, aggregation and statistical inference are
-  outside this skill.
+  Recommend and render charts from a prepared CSV using the data's semantic
+  types and the comparison the reader needs. Provides chart and layout
+  alternatives, shared accessible or NPG-inspired style profiles, and
+  reproducible exports. Data cleaning and statistical inference are outside
+  this skill.
 license: MIT
 category: visualize
 domain: [figure, data-analysis]
-action: [create, transform]
-uses: [profiles/journal]
+action: [create, transform, advise]
+uses: [profiles/journal, profiles/journal-grayscale, profiles/journal-npg]
 artifacts:
-  - "One bar chart exported in the selected profile's formats"
-  - "Rerunnable plotting script and the exact profile used"
-  - "JSON input mapping and provenance receipt; requirements ledger with visual evidence"
+  - "Chart-selection plan with assumptions, alternatives, layout and style choices"
+  - "Selected chart in the profile's formats and a grayscale inspection preview"
+  - "Input, specification, profile and plotting scripts; provenance receipt and requirements ledger"
 ---
 
 # table-chart
 
 ## When to use
 
-Use when the user supplies a prepared UTF-8 CSV, identifies a category column
-and a numeric column, and wants one direct comparison. Confirm the value's
-unit and a factual title from the input or task context. Each category must
-occur once; the accepted scope is 1–20 rows, kept in source order.
+Use for a prepared UTF-8 CSV when the user wants help choosing a chart or
+wants a chart rendered. Supported forms are horizontal bar, dot, line,
+scatter, histogram, box and heatmap, with grouped or faceted layouts where
+the form supports them. Choose from the reader's question and column
+meaning: numeric-looking IDs are categories, and numeric years may be time.
+The planner's suggestions are candidates, not a determination of meaning.
 
-Do not use for raw-data cleaning, aggregation, inferred units, percentages
-calculated from counts, inferential tests, uncertainty estimates, multi-panel
-figures, or a chart whose requested form is not a horizontal bar chart. Name
-the missing preparation or capability instead of silently changing the task.
+Use the [chart and layout guide](references/chart-guide.md) when selecting a
+form, writing its specification or choosing a palette. Raw-data cleaning,
+imputation, inferred units, statistical tests, fitted models, maps and
+uncertainty estimation require a separate preparation or analysis task.
+Histograms and box plots provide descriptive summaries with recorded
+parameters; they do not establish significance or causal effects.
 
 ## Method
 
-1. Record the selected columns, unit, title and output directory. Preserve the
-   input file. Missing values, duplicate categories, non-finite numbers and
-   more than 20 rows are blockers; do not drop or repair rows automatically.
-   Values that underflow or change decimal value during floating-point
-   conversion also block rendering; seek an agreed precision or another tool
-   instead of silently rounding. Labels retain the original numeric text.
-2. Read the project's `profiles/journal.yaml`. `uses: [profiles/journal]` is
-   a logical project dependency, not a path inside this installed skill.
-   Install the shared profile with `metis-os profiles install` when available
-   and authorized, or follow the collection's profile installation guide.
-   Resolve profile conflicts before rendering. Styles come from the profile;
-   a change in style belongs in a named profile variant.
-3. Run the bundled [plotter](scripts/bar_chart.py) with explicit paths. It
-   requires Python 3.10+, Matplotlib and PyYAML; `uv` can supply dependencies:
+1. Establish the comparison, selected columns, semantic types, units and
+   factual title from the request and data documentation. Preserve the input.
+   If selection is unresolved, run the planner and compare its alternatives:
 
    ```sh
    uv run --with 'matplotlib>=3.7,<4' --with 'PyYAML>=6,<7' python \
-     /path/to/table-chart/scripts/bar_chart.py \
-     --input /path/to/prepared.csv --category category --value value \
-     --unit points --title 'Example comparison' \
+     /path/to/table-chart/scripts/chart.py plan \
+     --input /path/to/prepared.csv --output /path/to/new-plan.json \
+     --types '{"sample_id":"categorical","date":"temporal"}'
+   ```
+
+   Omit `--types` only when requesting an initial assessment. Explain why the
+   selected form fits the question, its useful alternative, and the proposed
+   single-panel or faceted layout. Fill the selected specification's title
+   and required units; do not infer either from the column's spelling alone.
+   If only a plan was requested, deliver the plan and state rendering is
+   unperformed.
+2. Read the chosen project's shared profile: `journal` for Okabe–Ito-based
+   categorical colors, `journal-grayscale` for monochrome, or `journal-npg`
+   for the ggsci NPG-inspired family. The latter is not an official Nature
+   style or a guarantee of colorblind or grayscale accessibility. Check
+   redundant markers, line styles, hatches or facets along with colors.
+   `uses` targets resolve under `<project-root>/profiles/`; install missing
+   profiles through metis-os's [profile installation guide](https://github.com/mappedinfo/metis/blob/main/profiles/README.md).
+   Palette values, fonts and export defaults belong in profiles; local
+   variations receive a new profile name.
+3. Render the agreed specification with explicit paths:
+
+   ```sh
+   uv run --with 'matplotlib>=3.7,<4' --with 'PyYAML>=6,<7' python \
+     /path/to/table-chart/scripts/chart.py render \
+     --input /path/to/prepared.csv --spec /path/to/chart.spec.json \
      --profile /path/to/project/profiles/journal.yaml \
      --output /path/to/new-chart-output
    ```
 
-   The output directory must not already exist. The script uses the profile's
-   palette, font stack, type sizes, width, line width, resolution and export
-   formats. Height is derived from the row count and type size. It preserves
-   negative and zero values, includes the zero baseline, and does not sort,
-   normalize or aggregate. The included [sample CSV](examples/example.csv)
-   is entirely fictional and only demonstrates the interface.
-4. Inspect the exported figure at its intended size, not just the code or
-   receipt. Check category order, values, units, baseline, legibility,
-   truncation, overlap and glyphs. The script requires installed fonts named
-   by the profile that cover the actual text. For Chinese, use a named profile
-   with an installed CJK family, such as Noto Sans CJK SC; missing coverage
-   fails with an explicit message rather than exporting broken characters.
-5. Complete `requirements.md` with status and evidence for each blocking
-   requirement and any additional accepted user requirements. The generated
-   receipt states that visual review was not performed by the script. Record
-   the actual visual review in the ledger; do not reinterpret a successful
-   render as visual acceptance. Allow at most two targeted repair rounds,
-   writing each attempt to a new directory and reviewing the final export.
+   Python 3.10+, Matplotlib and PyYAML are required. Output paths must be new.
+   The renderer refuses missing or invalid selected values, non-finite or
+   unrepresentable numbers, more than 10,000 rows, more than 20 categories
+   per categorical axis, more than six groups/panels, and duplicate heatmap
+   cells. Heatmaps require a complete grid. Report preparation blockers;
+   never silently drop rows, average repeated observations or fill gaps.
+   Line ordering and histogram/box summaries are recorded transformations.
+   The existing [bar plotter](scripts/bar_chart.py) remains available for
+   its original category/value interface.
+4. Inspect the final exports at the intended size and the grayscale preview.
+   Check mappings, units, ordering, scales, legends, panel alignment, glyphs,
+   clipping and whether groups remain distinguishable without hue. A preview
+   alone does not establish accessibility under every visual condition.
+   Unsupported glyphs require an installed font in a named profile variant;
+   Chinese text needs a matching CJK font. Review the actual final PDF or
+   raster export, not only its code or a successful rendering receipt.
+5. Complete the generated requirements ledger with evidence for the accepted
+   scope. The renderer leaves visual review pending. Allow at most two
+   targeted repair rounds, each in a new output directory, then report any
+   unresolved requirement and the smallest unblock condition.
 
 ## Requirements
 
-- [B] R1 Prepared input and scope are preserved — verification: receipt names
-  the input SHA-256, selected columns, unit, source rows and row count; no row
-  is omitted, imputed, combined or reordered.
-- [B] R2 The plot represents the supplied values — verification: receipt's
-  category/value mapping matches the CSV, and each horizontal bar starts at
-  zero with the original signed width; no inferred statistic is introduced.
-- [B] R3 Shared style is applied — verification: receipt identifies the exact
-  profile SHA-256, resolved fonts, dimensions, resolution and exported files;
-  the selected profile's formats exist.
-- [B] R4 The final figure has been visually checked — verification: the ledger
-  names the viewed export and records readability, clipping, glyphs, baseline
-  and value checks; unavailable inspection leaves this item blocked.
-- [B] R5 The artifact can be reproduced — verification: the output contains
-  `bar_chart.py`, `profile.yaml`, `receipt.json` and `requirements.md`; the
-  receipt records software versions and a rerun command using a fresh output
-  directory, with the unchanged original CSV retained at its recorded path.
+- [B] R1 Selection fits the data and question — verification: plan or
+  specification identifies semantic types, units, chosen form, layout and
+  the assumptions behind the choice; ambiguous meaning is resolved before
+  rendering.
+- [B] R2 Values and transformations are traceable — verification: source hash,
+  selected columns, row mappings and recorded ordering/binning/box statistics
+  explain the plotted data; no hidden dropping, imputation or aggregation.
+- [B] R3 Shared style and layout are applied — verification: exact profile,
+  dimensions, palette/encoding choice, resolved fonts and export settings
+  appear in the receipt and match the specification.
+- [B] R4 The final figure is visually checked — verification: the ledger
+  identifies the viewed export and grayscale preview and records mapping,
+  readability, group discrimination, glyph and clipping checks. For an
+  explicitly planning-only task this is `n/a`, with rendering unperformed.
+- [B] R5 Execution is reproducible — verification: rendering delivers input,
+  specification, profile and executable script snapshots, recorded software
+  versions and a rerun command. A planning-only deliverable records its input,
+  candidates and unresolved information; it does not claim execution.
+- [A] R6 Palette limitations are explained — verification: recommendations
+  distinguish categorical, sequential and diverging use and identify the
+  NPG-inspired palette's provenance when it is selected.
 
 ## When to stop
 
-Stop after delivering the figure and evidence with all applicable blocking
-items done. No chart means the task is incomplete. Do not add more charts or
-interpret the comparison as a causal or statistically significant finding.
+Stop when the requested plan or rendered chart and its applicable evidence
+are delivered. A rendered-chart request remains incomplete without an
+inspected figure. Do not add unrelated plots or expand a descriptive chart
+into an analysis claim.
 
-Stop when required input, fonts, profile or rendering capability is missing,
-or the two repair rounds are exhausted. Report completed items, blocked items
-and the smallest missing input or layout decision; never claim full acceptance
-while a blocking requirement is unresolved. A request exceeding 20 rows needs
-an explicit scope or layout choice before a different workflow is used.
+Stop at a missing semantic decision, input/profile/font blocker, unsupported
+form or exhausted repair budget. Report completed and blocked items. If the
+data exceed the renderer's readability limits, propose an explicit selection
+or another workflow; do not truncate categories or observations automatically.
 
 ## Output contract
 
-Deliver one output directory containing the figure in the profile's formats,
-the exact plotting script and profile, a machine-readable input/provenance
-receipt, and a completed requirements ledger. Link the rendered figure and
-state the actual visual-check result and any unresolved requirement.
+For planning, deliver the column assessment and ranked chart candidates with
+layout/style choices, assumptions, alternatives and fields still needed.
+For rendering, deliver the chart in the profile's formats, grayscale preview,
+`input.csv`, `spec.json`, `profile.yaml`, plotting scripts, `receipt.json`
+and completed `requirements.md`. Link the final figure and report the actual
+visual-check result and any remaining limitation.
 
-The receipt includes source and profile hashes, selected columns, supplied
-units, row mapping, an explicit no-transformation declaration, geometry and
-export settings, resolved fonts, tool versions and the rerun command. Keep
-source paths and receipts with the user's artifacts; publishing them is a
-separate action from creating a chart.
+The receipt binds input/profile/script hashes, mappings and transformations
+to dimensions, fonts, exports, software versions and the rerun command.
+Keep source snapshots and receipts with the user's artifacts; publication
+is a separate action from chart creation.
 
 ## Provenance
 
 Original generic implementation for metis, licensed MIT under the repository
-license. No private skill text, research data or personal style assets were
-copied. Shared colors and typography are read from the separately maintained
-profile; this skill does not own a second style definition.
+license. Examples are fictional. Shared palettes and typography live in
+profiles with their source references; no private skill text, research data
+or personal style assets were copied.

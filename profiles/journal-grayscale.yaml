@@ -1,0 +1,39 @@
+name: journal-grayscale
+version: 0.1.0
+description: >
+  Monochrome scientific figures for grayscale printing. Distinguish groups with
+  position, labels, marker shapes and line styles as well as gray levels.
+palette:
+  primary: "#202020"
+  secondary: "#606060"
+  accent: "#989898"
+  warn: "#202020"
+  neutral: "#C8C8C8"
+  muted: "#999999"
+  ink: "#1A1A1A"
+  paper: "#FFFFFF"
+typography:
+  body: "Helvetica, Arial, 'Noto Sans', sans-serif"
+  heading: "Helvetica, Arial, 'Noto Sans', sans-serif"
+  mono: "'JetBrains Mono', Menlo, Consolas, monospace"
+  base_size_pt: 8
+  label_size_pt: 7
+  title_size_pt: 9
+figure:
+  dpi: 300
+  format: [pdf, png]
+  column_width_mm: 89
+  max_width_mm: 183
+  line_width_pt: 0.75
+chart_style:
+  # Original gray levels; four categories before preferring separate panels.
+  # Redundant encodings: https://jfly.uni-koeln.de/color/#redundant
+  categorical: ["#202020", "#606060", "#989898", "#C8C8C8"]
+  sequential: gray_r
+  # A monotonic fallback for centered scales, not a two-hue diverging map.
+  # White-centered symmetric gray would make opposite signs ambiguous.
+  # Retain signed cell labels and mark the center on the colorbar.
+  diverging: gray_r
+  markers: [o, s, "^", D]
+  line_styles: ["-", "--", "-.", ":"]
+  hatches: ["", "//", "\\\\", xx]

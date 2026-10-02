@@ -1,0 +1,10 @@
+{
+  "chart": "line",
+  "x": "date",
+  "y": "score",
+  "group": "series",
+  "types": { "date": "temporal", "score": "numeric", "series": "categorical" },
+  "units": { "date": "date", "score": "points" },
+  "title": "Fictional scores over four days",
+  "layout": { "mode": "single", "width": "double", "columns": 1 }
+}

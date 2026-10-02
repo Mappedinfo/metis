@@ -1,0 +1,10 @@
+condition,measure,difference
+Setting A,Measure 1,-3
+Setting A,Measure 2,0
+Setting A,Measure 3,2
+Setting B,Measure 1,-1
+Setting B,Measure 2,1
+Setting B,Measure 3,4
+Setting C,Measure 1,0
+Setting C,Measure 2,2
+Setting C,Measure 3,5

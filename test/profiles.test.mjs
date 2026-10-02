@@ -8,6 +8,9 @@ import { spawnSync } from 'node:child_process';
 import { installProfiles, profilePath } from '../packages/metis-os/lib/profiles.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
+const canonicalNames = readdirSync(join(root, 'profiles'))
+  .filter((name) => name.endsWith('.yaml'))
+  .map((name) => name.slice(0, -5)).sort();
 function fixture(t) {
   const cwd = mkdtempSync(join(tmpdir(), 'metis-profile-test-'));
   t.after(() => rmSync(cwd, { recursive: true, force: true }));
@@ -21,8 +24,8 @@ function run(command, args, cwd) {
 
 test('install delivers canonical YAML and repeats without changing local variants', (t) => {
   const cwd = fixture(t);
-  assert.equal(installProfiles({ cwd }).installed, 2);
-  for (const name of ['journal', 'deck']) {
+  assert.equal(installProfiles({ cwd }).installed, canonicalNames.length);
+  for (const name of canonicalNames) {
     assert.deepEqual(readFileSync(profilePath(name, cwd)), readFileSync(join(root, 'profiles', `${name}.yaml`)));
   }
   assert.equal(installProfiles({ cwd }).installed, 0);
@@ -38,7 +41,7 @@ test('conflict preflight preserves every file and --force replaces only bundled 
   assert.throws(() => installProfiles({ cwd }), /differs/);
   assert.equal(existsSync(join(cwd, 'profiles/deck.yaml')), false);
   assert.equal(readFileSync(join(cwd, 'profiles/journal.yaml'), 'utf8'), 'local journal');
-  assert.equal(installProfiles({ cwd, force: true }).installed, 2);
+  assert.equal(installProfiles({ cwd, force: true }).installed, canonicalNames.length);
 });
 
 test('install never follows profile directory or file symlinks, even with --force', (t) => {
@@ -83,7 +86,7 @@ test('npm tarball installs and resolves profiles in a clean consumer project', (
   run('npm', ['install', '--prefix', consumer, '--ignore-scripts', '--no-audit', '--no-fund', '--package-lock=false', join(temp, tarball)], temp);
   const cli = join(consumer, 'node_modules/metis-os/bin/metis-os.js');
   run(process.execPath, [cli, 'profiles', 'install'], consumer);
-  for (const name of ['journal', 'deck']) {
+  for (const name of canonicalNames) {
     const installedPath = run(process.execPath, [cli, 'profiles', 'path', name], consumer).trim();
     assert.equal(installedPath, join(realpathSync(consumer), 'profiles', `${name}.yaml`));
     assert.deepEqual(readFileSync(installedPath), readFileSync(join(root, 'profiles', `${name}.yaml`)));

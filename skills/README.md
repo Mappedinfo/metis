@@ -7,6 +7,11 @@ Public, generic agent skills. Each skill is a directory with a `SKILL.md`
 For the smallest useful input, deliverable and acceptance check in each
 category, read [基础能力 / Minimal skills](../docs/minimal-skills.md).
 
+For prepared-table visualization, [table-chart](table-chart/SKILL.md) chooses
+among comparison, trend, relationship, distribution and matrix charts. Its
+[chart guide](table-chart/references/chart-guide.md) explains the corresponding
+layouts and shared colorblind-oriented, grayscale and NPG-inspired profiles.
+
 ## The seven categories
 
 Every skill carries a `category` frontmatter field with exactly one of the

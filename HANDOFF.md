@@ -10,6 +10,39 @@ The vocabulary is maintained in [skill-contract.json](skill-contract.json).
 Root [profiles/](profiles/) owns shared style data. Each artifact keeps its own
 export and sizing defaults, including in mixed figure-and-deck tasks.
 
+## Chart expansion — 2026-10-02
+
+- `table-chart` now proposes chart, layout and profile alternatives from a
+  prepared CSV and explicit column semantics. Its `chart.py plan` output is
+  a set of candidates requiring the comparison question, title and units;
+  automatic type/group guesses are not scientific decisions.
+- `chart.py render` supports bar, dot, line, scatter, histogram, box and
+  heatmap, with grouping and shared-scale facets where supported. The original
+  `bar_chart.py` interface remains compatible. Line ordering, histogram bins
+  and descriptive box statistics are recorded; rows are never silently dropped
+  or averaged. Outputs include source/spec/profile/script snapshots, hashes,
+  dependency versions, a rerun command and an actual-palette grayscale preview.
+- `journal` adds Okabe–Ito series encodings and continuous scales;
+  `journal-grayscale` and `journal-npg` add named alternatives. NPG uses ggsci's
+  Nature Reviews Cancer-inspired colors, not an official journal palette or
+  accessibility certification. The collection now has 9 skills and 4 profiles.
+- Validated: `npm run check` passes 49 tests, bundle consistency, the collection
+  audit (0 errors / 0 warnings) and the docs build. `npm run table-chart:check`
+  passes 34 tests, including the legacy interface, every chart family, malformed
+  specs, missing/duplicate data, numeric precision and portable snapshot reruns.
+  A bounded code review found and fixed non-renderable numeric-line suggestions
+  and malformed type fields; regression cases pass.
+- Nine fictional examples cover all seven forms, facets and the three figure
+  profiles. Color/grayscale PNGs were inspected; PDF pages were rasterized and
+  inspected in the coordinator and independent consumer checks. These checks
+  verify the example artifacts, not universal readability or user satisfaction.
+  Reproduce the examples with `scripts/render_examples.py` inside the skill;
+  [the chart guide](skills/table-chart/references/chart-guide.md) gives commands.
+- Source and generated runtime bundles are updated locally. Shared profiles
+  already copied into other projects remain snapshots and require explicit
+  reinstallation; do not overwrite local variants. This task does not publish
+  npm or deploy Pages. Local commits follow the existing daily push queue.
+
 ## Source changes — 2026-10-02
 
 - Added two original, narrowly scoped skills: `source-brief` (compose) turns

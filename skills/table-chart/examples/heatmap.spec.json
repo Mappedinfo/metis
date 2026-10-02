@@ -1,0 +1,11 @@
+{
+  "chart": "heatmap",
+  "x": "condition",
+  "y": "measure",
+  "value": "difference",
+  "types": { "condition": "categorical", "measure": "categorical", "difference": "numeric" },
+  "units": { "difference": "points" },
+  "title": "Fictional differences from a reference",
+  "center": 0,
+  "layout": { "mode": "single", "width": "single", "columns": 1 }
+}

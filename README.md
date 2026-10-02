@@ -62,6 +62,10 @@ Start with [基础能力 / Minimal skills](docs/minimal-skills.md) for a concret
 input, deliverable and acceptance check in each category. Category coverage
 does not establish that every workflow has passed an end-to-end task.
 
+For prepared tables, [table-chart](skills/table-chart/SKILL.md) recommends and
+renders seven chart forms with single-panel or faceted layouts and shared
+color, grayscale and NPG-inspired profiles.
+
 ## Companion tool
 
 [metis-atlas](https://www.npmjs.com/package/metis-atlas) (`npx metis-atlas`) scans
