@@ -16,8 +16,9 @@
 | 构建 / build | `taskbook-reproduce` | 一篇论文及可获得的数据/代码线索 | 逐图表复现计划、数据方案和可运行脚手架；缺失条件列明，入口能运行。它交付复现准备，不证明论文结果已复现。 |
 | 编排 / meta | `metis-router` | 一个跨阶段目标及已有材料 | 每阶段主 skill、必要支持、产出和验收台账；先处理最早尚未完成的步骤。只请求计划时，计划就是交付。 |
 
-另外两个专用入口：`taskbook-authors` 从论文作者名单整理带来源的作者档案；
+另外的专用入口：`taskbook-authors` 从论文作者名单整理带来源的作者档案；
 `research-taskbook` 把尚不清楚的研究想法变成带输入、输出、验收的任务书。
+`review-advance` 根据已有目标和工作证据复盘，给出可核查的进展、下一步与计划。
 它们保留各自职责，不需要再创建同义的通用 skill。
 
 ## 两个可以从小任务开始的入口
@@ -77,6 +78,23 @@
 和[图型与排版指南](https://github.com/mappedinfo/metis/blob/main/skills/table-chart/references/chart-guide.md)。
 仅要求方案时交付方案；要求绘图时，还须查看实际图和完成验收台账。
 
+## review-advance：已有目标与证据 → 复盘和下一步
+
+示例请求：
+
+> 根据本周的目标、变更记录和验收结果，解释哪些工作真正推进了目标、哪些还没有证据。
+> 给出最值得先做的一步及其验收条件。这次只读审查，不更新项目状态或安排定时任务。
+
+公有 SOP 负责反思、总结、推进、规划，区分观察、解释、决策和行动。
+实际执行下一步、写入台账或改变调度，需要当前任务或既有有效授权。
+研究主线判断只在研究任务中启用；伴学复习和预习也按任务需要启用。
+
+个人时区、证据目录、主线入口、输出位置和伴学工具由调用方提供。
+不提供个人配置时，也可以只凭明确目标和所给材料完成一次只读复盘。
+私人适配层可以复用这个流程，同时将真实台账和本地工具保留在自己的存储中。
+具体输入契约见
+[`review-advance`](https://github.com/mappedinfo/metis/blob/main/skills/review-advance/SKILL.md)。
+
 ## 什么才算 MVP 通过
 
 每个入口至少要完成一个有代表性的任务，并检查实际产物。声明齐全、安装成功和
@@ -108,7 +126,7 @@ Matplotlib/PyYAML 环境；它不增加 metis-os CLI 的运行依赖。
 Git 记录用于追溯意图，不按最后修改时间选择执行语言。只修正错字或表达、
 不改变流程含义的修改，可以只改对应语言。
 
-现有 9 个 skill 均已配齐英文 `SKILL.md` 与中文 `SKILL.zh.md`，
+集合中的 skill 均配有英文 `SKILL.md` 与中文 `SKILL.zh.md`，
 直接使用的流程参考、模板和 Markdown 示例说明也有对应译本。
 [技能目录](skills.md#catalog)提供每个入口的中英文链接。详见
 [维护规范](https://github.com/mappedinfo/metis/blob/main/CONTRIBUTING.md#skill-languages)

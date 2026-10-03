@@ -4,7 +4,7 @@ The `skills/` directory holds public, generic agent skills. Each skill is a
 directory with a `SKILL.md` (frontmatter: `name`, `description`) following
 the [agentskills.io](https://agentskills.io) format.
 
-All nine current skills use `SKILL.md` for the authoritative English
+All current skills use `SKILL.md` for the authoritative English
 workflow and `SKILL.zh.md` for an editable Chinese translation. Either file
 may be edited first; synchronize workflow changes across the pair, and follow
 English when they conflict. Output language still follows the user and the
@@ -92,6 +92,7 @@ For concrete inputs, deliverables and verification boundaries, see
 | `taskbook-reproduce` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/taskbook-reproduce/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/taskbook-reproduce/SKILL.zh.md) | build | experiment, paper | 复现准备：逐图表计划 + 数据可得性方案（缺失零编造）+ 可运行 src/ 脚手架 |
 | `research-taskbook` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/research-taskbook/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/research-taskbook/SKILL.zh.md) | meta | research-design, workflow-meta | 把模糊研究问题翻译成任务书：澄清追问 → 形态判定 → 三要素原子任务 → 红线；含 4 份预设 |
 | `metis-router` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/metis-router/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/metis-router/SKILL.zh.md) | meta | workflow-meta | Composes skills for multi-stage tasks: one primary + ≤2 supports per phase, profiles for shared style, artifacts per phase |
+| `review-advance` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/review-advance/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/review-advance/SKILL.zh.md) | meta | project-ops, workflow-meta | Evidence-based retrospective → substantive summary, one authorized next action and a verifiable plan; optional research and learning review |
 
 Every skill is a bounded SOP: a `## When to stop` section names the
 budget and termination criteria, `## Requirements` lists [B]/[A]-labeled

@@ -1,11 +1,14 @@
 # Contributing — writing metis skills
 
-metis skills are **hand-written for the public system**. We do not port,
-sanitize or adapt skills from private collections or vendor repositories —
-every skill here is original work, written against the admission criteria in
-[skills/README.md](skills/README.md). This keeps the collection clean of
-provenance and licensing doubt by construction. Everything is MIT licensed
-(see [LICENSE](LICENSE)).
+metis skills are **hand-written for the public system**, against the admission
+criteria in [skills/README.md](skills/README.md). Do not mirror private
+collections or vendor repositories. An owner may explicitly authorize
+extracting a workflow they own: write a self-contained public SOP, review it
+for private information, and keep personal configuration, state and assets in
+the private source. Validate the public workflow with fictional inputs in an
+independent workspace. This authorization covers the selected workflow, not
+the rest of the collection. Original contributions are MIT licensed
+(see [LICENSE](LICENSE)); vendored skills retain their declared upstream license.
 
 ## The seven categories
 

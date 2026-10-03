@@ -7,7 +7,7 @@ Public, generic agent skills. Each skill is a directory with a `SKILL.md`
 For the smallest useful input, deliverable and acceptance check in each
 category, read [基础能力 / Minimal skills](../docs/minimal-skills.md).
 
-In all nine current skills, `SKILL.md` is the authoritative English
+In all current skills, `SKILL.md` is the authoritative English
 workflow and `SKILL.zh.md` is its editable Chinese translation. Edits may begin
 in either language; workflow changes must be synchronized, with English
 governing conflicts. Follow the
@@ -34,8 +34,11 @@ a *combination* of skills sharing a `domain` tag. Shared style (palette,
 typography, export defaults) lives once in [../profiles/](../profiles/) and
 is referenced with `uses:`, never duplicated inside skills.
 
-Skills are original, hand-written contributions — never ports from private
-or vendor collections. See [../CONTRIBUTING.md](../CONTRIBUTING.md) for the
+Skills are hand-written public contributions. Explicitly owner-authorized
+workflow extraction requires a self-contained public rewrite, a private-data
+review and a fictional standalone example; personal defaults, live state and
+private tool integrations stay outside the public skill. Do not mirror a
+private collection. See [../CONTRIBUTING.md](../CONTRIBUTING.md) for the
 authoring template and the metis-atlas organizing loop.
 
 **Narrow exception — vendored upstream skills.** A skill whose value lives in a

@@ -62,7 +62,7 @@ Start with [基础能力 / Minimal skills](docs/minimal-skills.md) for a concret
 input, deliverable and acceptance check in each category. Category coverage
 does not establish that every workflow has passed an end-to-end task.
 
-All nine skills have an English execution entry (`SKILL.md`) and an editable
+All skills have an English execution entry (`SKILL.md`) and an editable
 Chinese translation (`SKILL.zh.md`); the [catalog](docs/skills.md#catalog)
 links both. Workflow changes stay synchronized under the
 [English-authoritative language policy](CONTRIBUTING.md#skill-languages).
@@ -70,6 +70,11 @@ links both. Workflow changes stay synchronized under the
 For prepared tables, [table-chart](skills/table-chart/SKILL.md) recommends and
 renders seven chart forms with single-panel or faceted layouts and shared
 color, grayscale and NPG-inspired profiles.
+
+For retrospectives, [review-advance](skills/review-advance/SKILL.md) turns
+existing objectives and evidence into a review, an authorized next action
+and a verifiable plan. Personal defaults and learning stores belong to the
+caller; the public workflow also works without them.
 
 ## Companion tool
 

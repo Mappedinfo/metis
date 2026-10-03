@@ -16,6 +16,33 @@ authoritative for bilingual skills: `SKILL.md` is the execution entry and
 synchronize workflow meaning in the same change. Output language remains
 independent of source language.
 
+## Public retrospective workflow — 2026-10-03
+
+- Added [review-advance](skills/review-advance/SKILL.md), the tenth public skill,
+  in `meta` with `project-ops` / `workflow-meta` domains. Its six English/Chinese
+  document pairs cover the core SOP, caller inputs, evidence decisions,
+  optional companion learning, unattended delivery and fictional raw evidence.
+  English is authoritative; the public method works with supplied facts alone.
+- The public SOP owns Reflect → Summarize → Advance → Plan. A caller may supply
+  personal defaults and optional local adapters; those values are data, not
+  authorization. Research alignment is conditional, source validity stays
+  separate from learner mastery, and a review does not install scheduled jobs.
+  Personal paths, actual learning records and runtime integrations remain with
+  the caller. The selected owner-authorized extraction is documented in the
+  contribution rules; it does not authorize mirroring private collections.
+- Validated: independent privacy and bilingual review, all 17 local links,
+  installation of only the new skill with identical source hashes, all 49
+  existing tests, the 10-skill / 4-profile audit (0 errors / 0 warnings), bundle
+  consistency and docs build. Local bundles include the new skill. These checks
+  do not establish fresh-session discovery, a real scheduled review, npm
+  publication or Pages deployment.
+- An independent agent applied the copied public source to two fictional cases
+  in an isolated directory. Readback confirms a no-config review works, planned
+  actions stay unexecuted, config values do not override read-only authority,
+  and process success / learner exposure are not promoted to delivery / mastery.
+  All 19 frozen input files are unchanged; only the two requested responses were
+  added. This is bounded simulated use, not a real project review.
+
 ## Bilingual migration — 2026-10-03
 
 - All 9 skills now have complete English `SKILL.md` entries and editable
