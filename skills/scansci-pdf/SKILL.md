@@ -19,6 +19,8 @@ source: https://github.com/Rimagination/scansci-pdf
 source_license: Apache-2.0
 ---
 
+[中文译本](SKILL.zh.md)
+
 # ScanSci PDF
 
 Use the bundled `scansci-pdf` MCP server for paper discovery, metadata,
@@ -60,11 +62,11 @@ summarizing PDF content, or non-academic documents — those need other routes.
 
 ## Requirements
 
-- [B] R1 Search or validate identifiers before downloading — 验证: the
+- [B] R1 Search or validate identifiers before downloading — Verification: the
   report lists the sources used and per-item outcomes.
 - [B] R2 Deliver PDFs and citation records through the declared routes
-  only — 验证: artifact files or exports exist at the reported paths.
-- [A] R3 Diagnose inaccessible items instead of retrying blindly — 验证:
+  only — Verification: artifact files or exports exist at the reported paths.
+- [A] R3 Diagnose inaccessible items instead of retrying blindly — Verification:
   the diagnostic report names the smallest unblock condition per item.
 
 ## When to stop
@@ -107,5 +109,7 @@ boundary to the description; added the Metis output contract above;
 added the When to use / Requirements / When to stop sections required by
 skill-contract.json v2, explicit unfinished-item reporting on budget
 exhaustion, and a status-and-evidence ledger in the Metis output contract
-(2026-09-28). The vendored workflow instructions and
-full workflow reference are unchanged.
+(2026-09-28). Added the Chinese entry, translated the full workflow reference
+into English while retaining its Chinese companion, and added language links
+and this modification notice (2026-10-03). Workflow meaning, commands and
+authorization boundaries are preserved; the Apache-2.0 license is unchanged.

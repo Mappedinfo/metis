@@ -108,8 +108,9 @@ Matplotlib/PyYAML 环境；它不增加 metis-os CLI 的运行依赖。
 Git 记录用于追溯意图，不按最后修改时间选择执行语言。只修正错字或表达、
 不改变流程含义的修改，可以只改对应语言。
 
-该规则已确立，存量 skill 尚未完成双语迁移：当前每个目录仍只有 `SKILL.md`，
-其中 taskbook 家族保留中文正文，迁移前继续使用现有入口。详见
+现有 9 个 skill 均已配齐英文 `SKILL.md` 与中文 `SKILL.zh.md`，
+直接使用的流程参考、模板和 Markdown 示例说明也有对应译本。
+[技能目录](skills.md#catalog)提供每个入口的中英文链接。详见
 [维护规范](https://github.com/mappedinfo/metis/blob/main/CONTRIBUTING.md#skill-languages)
 和[迁移状态](https://github.com/mappedinfo/metis/blob/main/HANDOFF.md)。
 工作流的源语言不限制交付语言；例如简报可按请求输出中文或英文，

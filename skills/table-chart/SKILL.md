@@ -19,6 +19,8 @@ artifacts:
 
 # table-chart
 
+[中文译本](SKILL.zh.md)
+
 ## When to use
 
 Use for a prepared UTF-8 CSV when the user wants help choosing a chart or

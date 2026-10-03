@@ -1,75 +1,105 @@
 ---
 name: taskbook-slides
 description: >
-  文献转 PPT 任务书：把一篇论文 PDF 转成中文组会汇报幻灯片（10–15 页，每页带
-  演讲者备注，结构为标题→研究问题→方法→关键结果→局限→总结与讨论问题）。
-  当用户给出一篇论文 PDF 并要求"做成 PPT""转成幻灯片""做个汇报 ppt"
-  "组会讲这篇论文"时使用。所有内容必须忠于原文，禁止编造结果。不适用于：
-  英文幻灯片定制、深读笔记（用 taskbook-interpret）。
+  Turn one paper PDF into Chinese slides for a group meeting: 10–15 slides,
+  speaker notes on every slide, and the sequence title, research question,
+  methods, key results, limitations, summary and discussion questions. Use
+  when a user provides a paper PDF and asks to make a PPT, turn it into
+  slides, prepare a presentation, or present it at a group meeting. Keep
+  all content faithful to the paper; never invent results. Not for custom
+  English slides or close-reading notes (use taskbook-interpret).
 license: MIT
 category: present
 domain: [slides, paper]
 action: [transform, create]
 uses: [scansci-pdf]
 artifacts:
-  - "汇报.pptx — 10–15 页中文组会汇报幻灯片（每页演讲者备注）"
+  - "汇报.pptx — 10–15 Chinese group-meeting slides with speaker notes on every slide"
 ---
 
-# 文献 → PPT（taskbook 家族）
+[中文译本](SKILL.zh.md)
 
-你是论文汇报幻灯片制作器。对附件或指定路径的论文 PDF，产出中文汇报 PPT
-`汇报.pptx`。大 PDF 或扫描件先用 `scansci-pdf` 提取正文与图表定位。
+# Paper → PPT (taskbook family)
+
+Turn the attached paper PDF or the PDF at the specified path into a Chinese
+presentation, `汇报.pptx`. For a large PDF or scanned document, first use
+`scansci-pdf` to extract the text and figure/table locations.
 
 ## When to use
 
-- 用户给出一篇论文 PDF，要求"做成 PPT""转成幻灯片""做个汇报 ppt"
-  "组会讲这篇论文"
+- The user provides a paper PDF and asks to make a PPT, turn it into slides,
+  prepare a presentation, or present it at a group meeting.
 
-不要使用：英文幻灯片定制（本技能固定中文组会风格）；深读笔记
-（用 taskbook-interpret）。
+Do not use for custom English slides (this skill uses a fixed Chinese
+group-meeting style) or close-reading notes (use `taskbook-interpret`).
 
 ## Method
 
-1. **完整读取论文 PDF**，梳清研究问题、方法、关键结果（对应原文图表）、局限。
-2. **生成 `汇报.pptx`**：中文 10–15 页，每页附演讲者备注；优先使用生成
-   工具（pptx 技能、python-pptx 等）。
-3. **结构**：标题页 → 研究问题与动机 → 方法（一页讲清核心设计）→ 关键结果
-   （逐页展开，对应原文图表）→ 局限（作者自述 + 你发现的疑点）→ 总结与讨论
-   问题（3 个可问作者/听众的问题）。
-4. **备注**：每页写讲稿提示，用说话的语气，不是论文翻译。
-5. **导出后检查最终文件**：把实际交付的 `汇报.pptx` 全部页面渲染为图片或
-   PDF，并逐页查看最终显示效果，不能只检查源代码、文本框属性或生成日志。
-   检查标题、正文、图表、页脚及出处是否被裁切、遮挡或意外重叠；按组会投影
-   尺寸判断文字、图例和原文图表是否可读，并核对图表/数字与论文原页一致。
-   修复问题后重新导出并复查受影响页；修改母版、字体或版式等全局设置后复查
-   全部页。备注另行核查，渲染页不能代替备注检查。
-6. 完成后在总结中给出 `汇报.pptx` 路径、页数和逐页视觉检查状态。若当前
-   环境无法渲染或查看最终文件，明确写明未完成视觉验收及原因；可以交付文件，
-   但不得称其版式已验证或验收通过。
+1. **Read the entire paper PDF** and identify its research question, methods,
+   key results with their original figures/tables, and limitations.
+2. **Generate `汇报.pptx`**: 10–15 slides in Chinese with speaker notes on
+   every slide. Prefer generation tools such as the `pptx` skill or
+   `python-pptx`.
+3. **Structure**: title → research question and motivation → methods (explain
+   the core design on one slide) → key results (develop them slide by slide,
+   tied to the original figures/tables) → limitations (the authors' stated
+   limitations plus questions you identify) → summary and discussion
+   questions (3 questions to ask the authors/audience).
+4. **Notes**: write speaking prompts for every slide in a conversational
+   tone, rather than translating the paper.
+5. **Inspect the final file after export**: render every slide of the actual
+   `汇报.pptx` delivery as images or a PDF, and inspect the final appearance
+   slide by slide. Inspecting only source code, text-box properties, or
+   generation logs is insufficient. Check titles, body text, figures,
+   tables, footers, and sources for clipping, occlusion, or unintended
+   overlap. Assess text, legends, and original figures/tables for readability
+   at group-meeting projection size, and verify figures/tables and numbers
+   against the original paper pages. After fixes, export again and recheck
+   affected slides. After changing global settings such as the master,
+   fonts, or layout, recheck every slide. Check notes separately; rendered
+   slides do not replace a notes check.
+6. In the final summary, give the `汇报.pptx` path, slide count, and status
+   of the slide-by-slide visual inspection. If the current environment
+   cannot render or view the final file, explicitly state that visual
+   acceptance remains incomplete and explain why. The file may be
+   delivered, but do not claim its layout is verified or has passed
+   acceptance.
 
 ## Requirements
 
-- [B] R1 页数 10–15、每页有演讲者备注 — 验证: 打开 pptx 检查页数在区间内
-  且备注逐页存在
-- [B] R2 所有数字与结论能在原文找到出处 — 验证: 关键结果页注明对应的原文
-  图表/章节
-- [B] R3 六段结构齐全，含 3 个讨论问题 — 验证: 标题/问题/方法/结果/局限/
-  讨论各段均在
-- [B] R4 交付前对最终 pptx 做逐页渲染视觉检查（裁切/遮挡/可读性/图表与原文
-  一致），修复后复查 — 验证: 总结含逐页视觉检查状态；无法渲染时明确标注
-  视觉未验证，不得声称版式已验收
+- [B] R1 Include 10–15 slides, each with speaker notes — Verification: open
+  the PPTX and check that the slide count is within range and notes are
+  present on every slide.
+- [B] R2 Every number and conclusion has a source in the paper —
+  Verification: key-result slides identify the corresponding original
+  figure/table/section.
+- [B] R3 Include all six parts and 3 discussion questions — Verification:
+  title, question, methods, results, limitations, and discussion are all
+  present.
+- [B] R4 Before delivery, render and visually inspect every slide of the
+  final PPTX for clipping, occlusion, readability, and figure/table fidelity
+  to the paper; recheck after fixes — Verification: the summary states the
+  slide-by-slide visual inspection status. If rendering is unavailable,
+  explicitly mark the visuals as unverified and do not claim layout
+  acceptance.
 
 ## When to stop
 
-- `汇报.pptx` 交付并给出路径与页数总结即停。
-- 不追加原文没有的讨论结论或评价；风格定制请求超出预设范围时如实说明。
+- Stop after delivering `汇报.pptx` with a summary of its path and slide
+  count.
+- Do not add discussion conclusions or evaluations absent from the paper.
+  State when a style customization request exceeds the preset's scope.
 
 ## Output contract
 
-1. `汇报.pptx` 一份，10–15 页，每页带演讲者备注。
-2. 图表优先复用论文原始图表（注明出处）；重绘需保持数据一致。
-3. 不得编造论文中没有的结果、数字或结论；贡献表述与原文一致，不夸大。
-4. 产出只写入当前工作目录。
+1. One `汇报.pptx` file with 10–15 slides, each containing speaker notes.
+2. Prefer reusing the paper's original figures/tables with source attribution;
+   any redraw must preserve the data.
+3. Never invent results, numbers, or conclusions absent from the paper.
+   Describe contributions faithfully without exaggeration.
+4. Write outputs only in the current working directory.
 
-任务书家族：本技能是 [research-taskbook](https://github.com/mappedinfo/metis)
-预设 `paper2ppt` 的可独立触发版本（源自自研 MIT 项目 [GIStudio/research-taskbook](https://github.com/GIStudio/research-taskbook)）。
+Taskbook family: this skill is the independently triggerable version of the
+`paper2ppt` preset in [research-taskbook](https://github.com/mappedinfo/metis),
+originating in the skill maintainers' own MIT-licensed project
+[GIStudio/research-taskbook](https://github.com/GIStudio/research-taskbook).

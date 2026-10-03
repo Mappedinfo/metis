@@ -1,5 +1,7 @@
 # Choosing a chart, layout and profile
 
+[中文译本](chart-guide.zh.md)
+
 Use this guide to turn a reader's question and prepared columns into a
 renderable specification. A file's parseable types narrow the options; the
 meaning of its variables decides which options are appropriate.

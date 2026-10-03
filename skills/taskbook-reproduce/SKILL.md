@@ -1,71 +1,91 @@
 ---
 name: taskbook-reproduce
 description: >
-  复现准备任务书：对一篇论文 PDF 制定复现计划——逐图表清单、数据可得性方案
-  （未提供的数据逐条标注缺失，禁止编造）、可运行的代码脚手架（src/ + README）。
-  当用户给出一篇论文 PDF 并要求"复现这篇论文""准备复现""把论文的实验跑起来"
-  "复现表3/图2"时使用。产出复现准备材料，不产出复现结论。不适用于：精读解读
-  （用 taskbook-interpret）、已具备完整数据代码后的正式实验执行。
+  Prepare to reproduce one paper PDF: a figure/table checklist, a data
+  availability plan marking every missing dataset without fabrication, and a
+  runnable code scaffold (src/ + README). Use when a user provides a paper PDF
+  and asks to reproduce it, prepare a reproduction, get its experiments
+  running, or reproduce Table 3/Figure 2. Produce preparation materials, not
+  reproduction conclusions. Not for close reading (use taskbook-interpret) or
+  executing the full experiment once complete data and code are available.
 license: MIT
 category: build
 domain: [experiment, paper]
 action: [create, test]
 uses: [scansci-pdf]
 artifacts:
-  - "复现计划.md — 逐图表复现清单（数据 + 步骤 + 预期输出 + 对照验收标准）"
-  - "data_plan.md — 数据可得性方案（缺失逐条标注，附替代建议）"
-  - "src/ — 可运行代码脚手架（含 src/README.md）"
+  - "复现计划.md — Figure/table reproduction checklist: data, steps, expected outputs and acceptance criteria against the original"
+  - "data_plan.md — Data availability plan identifying every missing item and suggesting alternatives"
+  - "src/ — Runnable code scaffold, including src/README.md"
 ---
 
-# 复现数据与代码（taskbook 家族）
+[中文译本](SKILL.zh.md)
 
-你是复现准备器。对附件或指定路径的论文 PDF，产出复现所需的计划、数据方案与
-代码脚手架。**这一步是复现准备，不是替论文作者下结论**——结果对不对由人验收。
-大 PDF 或扫描件先用 `scansci-pdf` 提取正文与图表清单。
+# Prepare Reproduction Data and Code (taskbook family)
+
+For the attached paper PDF or the PDF at the specified path, produce the
+plan, data strategy, and code scaffold needed for reproduction. **This step
+prepares reproduction; it does not draw conclusions on behalf of the paper's
+authors.** A person determines whether the results are correct. For a large
+PDF or scanned document, first use `scansci-pdf` to extract the text and a
+figure/table inventory.
 
 ## When to use
 
-- 用户给出一篇论文 PDF，要求"复现这篇论文""准备复现""把论文的实验跑起来"
-  "复现表3/图2"
+- The user provides a paper PDF and asks to reproduce it, prepare a
+  reproduction, get its experiments running, or reproduce Table 3/Figure 2.
 
-不要使用：精读解读（用 taskbook-interpret）；已具备完整数据代码后的正式
-实验执行（那属于实验工作流，不在本技能边界内）。
+Do not use for close reading (use `taskbook-interpret`) or executing the full
+experiment after complete data and code are available. Such execution belongs
+to an experiment workflow outside this skill's scope.
 
 ## Method
 
-1. **完整读取论文 PDF**（含所有图表、附录），列出论文中需要复现的
-   实验/表格/图形清单。
-2. **产出三个文件**：
-   - `复现计划.md`：每个图表一行以上——所需数据 + 步骤 + 预期输出 +
-     与原文对照的验收标准。
-   - `data_plan.md`：所需数据清单（名称、来源、获取方式、许可证）；论文
-     未提供的数据逐条标注**缺失**，给出替代获取建议（公开代理数据集）或明确
-     「无法获取」。
-   - `src/`：可运行的代码脚手架（数据读取、预处理、核心算法入口），附
-     `src/README.md` 说明目录结构与运行方式。
-3. 无法确定的实现细节在代码注释中**显式标出**，不要静默假设。
-4. 完成后用简短中文总结列出每个产出文件路径。
+1. **Read the entire paper PDF**, including every figure, table, and appendix.
+   List the experiments, tables, and figures that need to be reproduced.
+2. **Produce three outputs**:
+   - `复现计划.md`: at least one line per figure/table, covering required
+     data, steps, expected outputs, and acceptance criteria against the
+     original paper.
+   - `data_plan.md`: inventory of required data with names, sources, access
+     methods, and licenses. Mark every dataset not provided by the paper
+     **缺失** (missing), and suggest alternative sources (public proxy
+     datasets) or explicitly state “无法获取” (cannot be obtained).
+   - `src/`: a runnable code scaffold for data loading, preprocessing, and
+     the core algorithm entry point. Include `src/README.md` explaining the
+     directory structure and how to run it.
+3. **Explicitly mark** uncertain implementation details in code comments;
+   do not silently assume them.
+4. Finish with a brief Chinese summary listing each output path.
 
 ## Requirements
 
-- [B] R1 论文全部主表/主图 100% 入计划清单 — 验证: `复现计划.md` 条目数
-  与论文主表主图数一致
-- [B] R2 数据缺失逐条标注，零编造 — 验证: `data_plan.md` 每个缺失条目附
-  替代获取建议或「无法获取」
-- [B] R3 `src/` 在干净环境中能运行到「仅缺数据」的错误点（或直接跑通） —
-  验证: 运行入口脚本无语法/导入错误
+- [B] R1 Include 100% of the paper's main tables and figures in the plan —
+  Verification: the number of entries in `复现计划.md` matches the paper's
+  number of main tables and figures.
+- [B] R2 Mark every missing dataset; fabricate nothing — Verification:
+  every missing item in `data_plan.md` has an alternative access suggestion
+  or is marked “无法获取”.
+- [B] R3 In a clean environment, `src/` runs until only missing data prevents
+  progress, or runs successfully — Verification: executing the entry script
+  produces no syntax or import errors.
 
 ## When to stop
 
-- 三个产出交付并给出路径总结即停。
-- 不执行正式复现实验、不汇报"复现成功/失败"结论——解读与判定由研究者完成。
+- Stop after delivering the three outputs with a path summary.
+- Do not execute the full reproduction experiment or report a conclusion of
+  "reproduction succeeded/failed". Interpretation and judgment belong to
+  the researcher.
 
 ## Output contract
 
-1. `复现计划.md`、`data_plan.md`、`src/`（含 `src/README.md`）。
-2. 不编造任何数据与结果；不替论文作者下结论。
-3. 无法确定的实现细节在代码注释中显式标出。
-4. 产出只写入当前工作目录。
+1. `复现计划.md`, `data_plan.md`, and `src/` (including `src/README.md`).
+2. Never invent data or results, or draw conclusions on behalf of the paper's
+   authors.
+3. Explicitly mark uncertain implementation details in code comments.
+4. Write outputs only in the current working directory.
 
-任务书家族：本技能是 [research-taskbook](https://github.com/mappedinfo/metis)
-预设 `reproduce` 的可独立触发版本（源自自研 MIT 项目 [GIStudio/research-taskbook](https://github.com/GIStudio/research-taskbook)）。
+Taskbook family: this skill is the independently triggerable version of the
+`reproduce` preset in [research-taskbook](https://github.com/mappedinfo/metis),
+originating in the skill maintainers' own MIT-licensed project
+[GIStudio/research-taskbook](https://github.com/GIStudio/research-taskbook).

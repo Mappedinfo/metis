@@ -1,44 +1,48 @@
-# 任务书模板
+[中文译本](taskbook-template.zh.md)
 
-> 使用说明：`{花括号}` 为占位符。任务书单独成块输出，可直接复制给任何 AI 执行器。
-> 子任务数量服从问题复杂度：首份只细写第 1–2 个原子任务，其余占位。
+# Taskbook template
+
+> Usage: `{braces}` mark placeholders. Deliver the taskbook in a separate block
+> that can be copied directly to any AI executor. Let the question's complexity
+> determine the number of subtasks; in the first taskbook, detail only the first
+> 1–2 atomic tasks and leave placeholders for the rest.
 
 ```markdown
-# 任务书：{一句话标题}
+# Taskbook: {one-sentence title}
 
-## 背景
-{2–3 句：这个任务从哪来、为什么做、服务于什么研究问题。}
+## Background
+{2–3 sentences: where the task came from, why it is needed and which research question it serves.}
 
-## 问题形态
-{实证检验 / 质性阐释 / 系统构建 / 复现审计 / 混合}
-{一句话说明判断理由。}
+## Question type
+{Empirical testing / Qualitative interpretation / System building / Reproduction audit / Mixed}
+{One sentence explaining the classification.}
 
-## 原子任务
+## Atomic tasks
 
-### 任务 1：{动词开头的名字}
-- 输入：{读什么文件、用什么数据、参考哪些文献；路径或来源写清}
-- 输出：{交什么文件，什么格式，写入哪个路径}
-- 验收：{可检验的标准：指标阈值 / 清单逐项 / 与某基线对照}
-- 建议工具：{可选：适合的命令、库或技能}
+### Task 1: {a name beginning with a verb}
+- Input: {which files to read, data to use and literature to consult; specify paths or sources}
+- Output: {which file to deliver, in which format and at which path}
+- Acceptance: {testable criteria: a metric threshold / an item-by-item checklist / comparison with a baseline}
+- Suggested tools: {optional: suitable commands, libraries or skills}
 
-### 任务 2：{…}
-（同上结构；或写「占位：待任务 1 验收后细化」）
+### Task 2: {…}
+{Use the same structure, or write “Placeholder: detail after Task 1 passes acceptance checks.”}
 
-## 红线（执行器必读）
-- 不编造数据、文献或指标基线；来源无法核实时标注「待核实」
-- 不代写可直接提交的学术正文；产出仅限结构化笔记、数据与代码
-- 遇到歧义或越界操作，停下来向人提问，不要自行发挥
+## Boundaries (the executor must read)
+- Do not fabricate data, literature or metric baselines; mark unverifiable sources as “待核实” (needs verification).
+- Do not ghostwrite academic prose ready for submission; limit outputs to structured notes, data and code.
+- When encountering ambiguity or an action that crosses a boundary, stop and ask a person rather than improvising.
 
-## 人的职责（不在任务书内）
-- 判断任务是否值得做、子问题拆得对不对
-- 精读与分辨关键材料
-- 解读结果、下结论、撰写正式文本
+## Human responsibilities (outside the taskbook's execution scope)
+- Judge whether the task is worth doing and whether the subquestions are well decomposed.
+- Read key material closely and exercise discernment.
+- Interpret results, draw conclusions and write formal prose.
 ```
 
-## 验收标准写法对照
+## Writing acceptance criteria
 
-| 反例（不可检验） | 正例（可检验） |
+| Counterexample: not testable | Example: testable |
 | --- | --- |
-| "整理一下相关文献" | "输出 `文献对比表.md`，含 ≥8 篇 2020 年后文献 × 5 列（问题/方法/数据/结论/局限），每篇附 DOI" |
-| "跑一下回归看看" | "`results/表1.csv` 含 NDVI 系数、SE、p 值、N；与论文表 1 数值一致（容差 ±0.01）或差异可归因" |
-| "把代码写得干净点" | "`src/` 通过 `python -m src.check` 全部断言；每个公开函数有类型注解" |
+| “Organize the relevant literature.” | “Deliver `文献对比表.md` with ≥8 papers published after 2020 × 5 columns (question/method/data/conclusion/limitations), each with a DOI.” |
+| “Run a regression and see.” | “`results/表1.csv` contains the NDVI coefficient, SE, p-value and N; values match the paper's Table 1 within ±0.01, or discrepancies can be attributed.” |
+| “Make the code cleaner.” | “`src/` passes every assertion in `python -m src.check`; every public function has type annotations.” |

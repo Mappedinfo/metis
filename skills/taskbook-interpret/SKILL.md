@@ -1,76 +1,105 @@
 ---
 name: taskbook-interpret
 description: >
-  解读文献任务书：对一篇论文 PDF 做结构化精读，产出精读笔记——一句话概括、
-  研究问题与动机、核心主张（附证据位置）、方法与数据、局限与疑点、证据等级、
-  可借鉴之处、参考文献三类整理（主要引用/领域重要/AI 补充待核实）。当用户给出
-  一篇论文 PDF 并要求"解读""精读""解析""拆一下这篇论文""做阅读笔记"时使用。
-  只产出结构化分析笔记，不代写论文正文。不适用于：仅取回 PDF（用 scansci-pdf
-  类工具）、批量文献综述写作。
+  Closely read one paper PDF and produce structured notes: a one-sentence
+  summary, research question and motivation, core claims with evidence
+  locations, methods and data, limitations and questions, evidence level,
+  transferable insights, and references in three groups (main citations,
+  important field references, and AI suggestions awaiting verification).
+  Use when a user provides a paper PDF and asks to interpret, closely read,
+  analyze, break down, or take reading notes on it. Produce analysis notes
+  only, not manuscript prose. Not for PDF retrieval alone (use tools such
+  as scansci-pdf) or writing multi-paper literature reviews.
 license: MIT
 category: analyze
 domain: [paper, literature]
 action: [analyze, record]
 uses: [scansci-pdf]
 artifacts:
-  - "精读笔记.md — 八条结构化精读笔记（含三类参考文献整理）"
+  - "精读笔记.md — Structured close-reading notes in eight sections, including references in three groups"
 ---
 
-# 解读文献（taskbook 家族）
+[中文译本](SKILL.zh.md)
 
-你是文献解读器。对附件或指定路径的论文 PDF 完成一次结构化精读，写出
-`精读笔记.md`。大 PDF 或扫描件先用 `scansci-pdf` 提取结构化正文再精读。
+# Interpret a Paper (taskbook family)
+
+Closely read the attached paper PDF or the PDF at the specified path and
+write structured notes in `精读笔记.md`. For a large PDF or scanned document,
+first use `scansci-pdf` to extract structured text, then read it closely.
 
 ## When to use
 
-- 用户给出一篇论文 PDF，要求"解读""精读""解析""拆一下这篇论文""做阅读笔记"
+- The user provides a paper PDF and asks to interpret, closely read, analyze,
+  break down, or take reading notes on it.
 
-不要使用：仅取回 PDF（那是 acquire 类任务）；批量文献综述写作（多篇综合
-超出本技能的单篇精读边界）。
+Do not use for PDF retrieval alone (an `acquire` task) or writing multi-paper
+literature reviews. Synthesis across papers exceeds this skill's scope of
+closely reading one paper.
 
 ## Method
 
-1. **完整读取 PDF**（含参考文献列表），不跳章节。
-2. 按下面的笔记结构逐条产出；每条核心主张必须注明证据位置（章节/图表）。
-3. 证据等级如实标注：全文阅读 / 仅摘要 / 仅元数据。
-4. 完成后用简短中文总结列出产出文件路径。
+1. **Read the entire PDF**, including its reference list, without skipping
+   sections.
+2. Produce each item in the note structure below. Every core claim must cite
+   an evidence location (section/figure/table).
+3. State the evidence level honestly: “全文阅读” (full text read), “仅摘要”
+   (abstract only), or “仅元数据” (metadata only).
+4. Finish with a brief Chinese summary listing the output file path.
 
-### 笔记结构（照此产出）
+### Note structure (use these output labels)
 
-1. **一句话概括**：这篇论文做了什么、结论是什么。
-2. **研究问题与动机**：试图回答什么问题，为什么重要。
-3. **核心主张**：逐条列出，每条注明证据位置。
-4. **方法与数据**：方法、数据、数据来源。
-5. **局限与疑点**：方法或证据弱点、未说明的假设。
-6. **证据等级**：全文阅读 / 仅摘要 / 仅元数据。
-7. **可借鉴之处**：对读者自己研究的启发，只给分析与建议。
-8. **参考文献整理**（三类，以论文参考文献列表原文为准）：
-   - **主要引用**：正文论证核心依赖的文献，注明支撑了论文哪个部分；
-   - **领域重要文献**：引用的领域经典或奠基性工作，注明为什么重要；
-   - **潜在相关（AI 补充，未被论文引用）**：可能相关但未引用的方向或文献。
-     每条标注「AI 建议，待核实」；只推荐确定真实存在的经典工作或给出具体
-     检索式，无法确认存在的不要写。
+1. **一句话概括** (one-sentence summary): what the paper did and concluded.
+2. **研究问题与动机** (research question and motivation): the question it
+   attempts to answer and why it matters.
+3. **核心主张** (core claims): list each claim with its evidence location.
+4. **方法与数据** (methods and data): methods, data, and data sources.
+5. **局限与疑点** (limitations and questions): weaknesses in methods or
+   evidence, and unstated assumptions.
+6. **证据等级** (evidence level): “全文阅读” / “仅摘要” / “仅元数据”.
+7. **可借鉴之处** (transferable insights): implications for the reader's own
+   research; provide analysis and suggestions only.
+8. **参考文献整理** (reference organization): three groups, using the paper's
+   original reference list as the authority:
+   - **主要引用** (main citations): references central to the paper's
+     argument; identify which part of the paper each supports.
+   - **领域重要文献** (important field references): cited classic or
+     foundational works in the field; explain why they matter.
+   - **潜在相关（AI 补充，未被论文引用）** (potentially related: AI additions
+     not cited by the paper): potentially relevant directions or works that
+     the paper did not cite. Mark every item “AI 建议，待核实” (AI suggestion,
+     to be verified). Recommend only classic works known to exist, or give
+     specific search queries. Omit works whose existence cannot be confirmed.
 
 ## Requirements
 
-- [B] R1 完整读取 PDF，不跳章节 — 验证: 笔记证据位置覆盖方法、结果与参考
-  文献章节；证据等级如实标注
-- [B] R2 八条结构齐全，核心主张逐条附证据位置 — 验证: 笔记含全部 8 节，
-  每条主张带章节/图表定位
-- [B] R3 「AI 补充」类与论文真实引用分列，逐条标「AI 建议，待核实」 —
-  验证: 三类参考文献独立成节，补充类无一遗漏标注
+- [B] R1 Read the entire PDF without skipping sections — Verification:
+  evidence locations in the notes cover methods, results, and references;
+  the evidence level is stated honestly.
+- [B] R2 Include all eight sections and an evidence location for every core
+  claim — Verification: the notes contain all 8 sections, and each claim
+  identifies a section/figure/table.
+- [B] R3 Separate AI additions from references actually cited by the paper;
+  mark each “AI 建议，待核实” — Verification: the three reference groups have
+  separate sections, and no AI addition lacks the label.
 
 ## When to stop
 
-- `精读笔记.md` 交付并给出路径总结即停。
-- 用户继而要求写综述或正文时，声明那超出本技能边界，不代为产出。
+- Stop after delivering `精读笔记.md` with a path summary.
+- If the user subsequently asks for a literature review or manuscript prose,
+  state that this exceeds the skill's scope and do not produce it under this
+  skill.
 
 ## Output contract
 
-1. `精读笔记.md` 一份，八节结构齐全。
-2. 论文没写的内容标注「论文未说明」，禁止编造文献、数据或结论。
-3. 只产出结构化分析笔记，不代写论文、综述或任何可直接提交的学术正文。
-4. 产出只写入当前工作目录，不修改目录之外的任何文件。
+1. One `精读笔记.md` file containing all eight sections.
+2. Mark information absent from the paper “论文未说明” (not specified in the
+   paper). Never invent references, data, or conclusions.
+3. Produce structured analysis notes only. Do not ghostwrite a paper,
+   literature review, or any academic prose ready for submission.
+4. Write outputs only in the current working directory; do not modify any
+   files outside it.
 
-任务书家族：本技能是 [research-taskbook](https://github.com/mappedinfo/metis)
-预设 `interpret` 的可独立触发版本（源自自研 MIT 项目 [GIStudio/research-taskbook](https://github.com/GIStudio/research-taskbook)）。
+Taskbook family: this skill is the independently triggerable version of the
+`interpret` preset in [research-taskbook](https://github.com/mappedinfo/metis),
+originating in the skill maintainers' own MIT-licensed project
+[GIStudio/research-taskbook](https://github.com/GIStudio/research-taskbook).

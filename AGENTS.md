@@ -18,4 +18,4 @@ read [the language workflow](CONTRIBUTING.md#skill-languages). `SKILL.md` is
 the authoritative English entry for new or migrated bilingual skills;
 `SKILL.zh.md` is an editable translation. Synchronize semantic changes made
 in either language; do not select execution rules by Git modification time.
-Check [HANDOFF.md](HANDOFF.md) for existing skills awaiting migration.
+Check [HANDOFF.md](HANDOFF.md) for migration and validation status.

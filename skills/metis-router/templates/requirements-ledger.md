@@ -1,3 +1,5 @@
+[中文译本](requirements-ledger.zh.md)
+
 # Requirements ledger
 
 Template version: 1

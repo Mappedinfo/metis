@@ -1,8 +1,13 @@
-# 练习请求
+# Practice request
 
-请根据同目录 `source-notes.md`，给项目负责人写一份 150–250 字的中文简报，
-帮助他安排下一步工作。保留“模拟案例”的标识，说明当前进展、对下一步判断
-有影响的信息和待补材料。请交付 `brief.md` 与 `source-map.md`。
+[中文译本](request.zh.md)
 
-长度只统计简报正文的非空白字符，包含标点，不包含标题、来源表和验收台账。
-不需要查找外部材料。不要把计划写成已经完成的工作。
+Using `source-notes.md` in this directory, write a 150–250-character Chinese
+brief for the project lead to help plan the next steps. Retain the label
+“模拟案例” (fictional example). Explain current progress, information that
+affects the next decision, and missing material. Deliver `brief.md` and
+`source-map.md`.
+
+Count only non-whitespace characters in the brief's body, including
+punctuation but excluding the title, source table and acceptance ledger.
+No external retrieval is needed. Do not describe planned work as completed.

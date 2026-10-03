@@ -18,6 +18,8 @@ artifacts:
 
 # Source brief
 
+[中文译本](SKILL.zh.md)
+
 Turns supplied notes, excerpts or an existing draft into a brief a named
 audience can use. It selects and explains the relevant material; it does
 not establish facts beyond those sources. It needs no private service or

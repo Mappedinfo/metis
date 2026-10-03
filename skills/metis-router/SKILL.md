@@ -19,6 +19,8 @@ artifacts:
   - "Requirements ledger recording completion status, evidence and unresolved work"
 ---
 
+[中文译本](SKILL.zh.md)
+
 # metis-router
 
 ## What it does
@@ -133,21 +135,21 @@ replace evidence that the accepted task requirements were met.
 ## Requirements
 
 - [B] R1 Primary = the earliest unresolved stage with completion evidence,
-  not declaration order — 验证: the routing note names the primary and its
+  not declaration order — Verification: the routing note names the primary and its
   stage evidence.
-- [B] R2 At most two supports per agent and phase — 验证: the supports list
+- [B] R2 At most two supports per agent and phase — Verification: the supports list
   has at most two entries, each with its gap.
-- [B] R3 Profiles are kept per artifact and never merge audiences — 验证:
+- [B] R3 Profiles are kept per artifact and never merge audiences — Verification:
   each artifact names its own profile or explicitly none.
-- [B] R4 Every phase is anchored to a declared artifact — 验证: the plan
+- [B] R4 Every phase is anchored to a declared artifact — Verification: the plan
   lists the expected artifacts in production order.
-- [A] R5 Audit-and-repair work follows map–freeze–reduce — 验证: the frozen
+- [A] R5 Audit-and-repair work follows map–freeze–reduce — Verification: the frozen
   issue ledger is named in the output.
-- [B] R6 Stop rules and budget exhaustion are honored — 验证: the close-out
+- [B] R6 Stop rules and budget exhaustion are honored — Verification: the close-out
   states which stop condition fired and lists completed items, unfinished
   items and the smallest unblock condition when a budget is exhausted.
 - [B] R7 Every accepted task and applicable skill requirement is accounted
-  for — 验证: the requirements ledger records status and evidence or a
+  for — Verification: the requirements ledger records status and evidence or a
   reason for each item; every applicable blocking item is done before the
   task is declared complete.
 

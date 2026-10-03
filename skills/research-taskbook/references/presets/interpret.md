@@ -1,31 +1,53 @@
-# 任务书预设：解读文献（interpret）
+[中文译本](interpret.zh.md)
 
-> **适用输入**：一篇论文 PDF（附件或明确路径），可选附一句你关心的具体问题。
-> **产出**：`精读笔记.md`
-> **用法**：把本任务书原文连同论文一起交给 AI 执行器；或按你的学科改写后再用（改法见 `../taskbook-template.md`）。
+# Taskbook preset: interpret a paper (interpret)
 
-## 三要素
+> **Input**: one paper PDF, attached or at an explicit path, optionally with a
+> sentence stating the specific question of interest.
+> **Artifact**: `精读笔记.md`.
+> **Usage**: give this taskbook unchanged to an AI executor together with the
+> paper, or adapt it to your discipline using [the template](../taskbook-template.md).
 
-- **输入**：论文 PDF 全文；执行器需完整读取（含参考文献列表）。
-- **输出**：单文件 `精读笔记.md`，结构化条目如下。
-- **验收**：八个条目齐全；核心主张每条注明论文中的证据位置（章节/图表）；参考文献整理三类不混淆；全文未提供的信息标注「论文未说明」而非猜测。
+## The three elements
 
-## 笔记结构（执行器照此产出）
+- **Input**: the full paper PDF; the executor must read it completely, including
+  the reference list.
+- **Output**: one file, `精读笔记.md`, with the structured items below.
+- **Acceptance**: all eight items are present; every core claim identifies its
+  evidence location in the paper (section/figure/table); the three reference
+  categories remain distinct; mark information absent from the full text as
+  “论文未说明” (not stated in the paper), rather than guessing.
 
-1. **一句话概括**：这篇论文做了什么、结论是什么。
-2. **研究问题与动机**：试图回答什么问题，为什么重要。
-3. **核心主张**：逐条列出，每条注明证据位置（章节/图表）。
-4. **方法与数据**：方法、数据、数据来源。
-5. **局限与疑点**：方法或证据弱点、未说明的假设。
-6. **证据等级**：全文阅读 / 仅摘要 / 仅元数据，明确标注依据。
-7. **可借鉴之处**：对读者自己研究的启发，只给分析与建议。
-8. **参考文献整理**（三类，信息以论文参考文献列表原文为准）：
-   - **主要引用**：正文论证核心依赖的文献（方法、数据、直接对话对象），注明支撑了论文哪个部分；
-   - **领域重要文献**：引用的领域经典或奠基性工作，注明为什么重要；
-   - **潜在相关（AI 补充，未被论文引用）**：可能相关但论文未引用的方向或文献。每条标注「AI 建议，待核实」；只推荐确定真实存在的经典工作或给出具体检索式，无法确认存在的不要写。
+## Note structure (for the executor to follow)
 
-## 红线
+1. **One-sentence summary**: what the paper did and what it concluded.
+2. **Research question and motivation**: what question it tries to answer and
+   why it matters.
+3. **Core claims**: list each claim with its evidence location (section/figure/table).
+4. **Methods and data**: methods, data and data sources.
+5. **Limitations and doubts**: weaknesses in the methods or evidence, and
+   assumptions left unstated.
+6. **Evidence level**: full-text reading / abstract only / metadata only;
+   explicitly identify the basis.
+7. **Transferable insights**: implications for the reader's own research;
+   provide only analysis and suggestions.
+8. **Reference organization**, in three categories, using the paper's original
+   reference list as the authority for cited-reference information:
+   - **Main references**: works on which the paper's argument centrally depends
+     (methods, data or works it directly engages with). Identify the part of the
+     paper each supports.
+   - **Important works in the field**: cited classic or foundational works;
+     state why they matter.
+   - **Potentially relevant (AI additions, not cited by the paper)**: directions
+     or works that may be relevant but are not cited. Mark each “AI 建议，待核实”
+     (AI suggestion, needs verification). Recommend only classic works whose
+     existence is certain, or provide a specific search query. Do not list works
+     whose existence cannot be confirmed.
 
-- 不编造文献、数据或结论；论文没写的标注「论文未说明」
-- 只产出结构化分析笔记，不代写论文、综述或任何可直接提交的学术正文
-- 「AI 补充」类不得与论文真实引用混淆
+## Boundaries
+
+- Do not fabricate references, data or conclusions; mark what the paper does not
+  state as “论文未说明” (not stated in the paper).
+- Produce only structured analytical notes. Do not ghostwrite a paper, review
+  article or any academic prose ready for submission.
+- Keep “AI additions” distinct from works actually cited by the paper.

@@ -62,6 +62,11 @@ Start with [基础能力 / Minimal skills](docs/minimal-skills.md) for a concret
 input, deliverable and acceptance check in each category. Category coverage
 does not establish that every workflow has passed an end-to-end task.
 
+All nine skills have an English execution entry (`SKILL.md`) and an editable
+Chinese translation (`SKILL.zh.md`); the [catalog](docs/skills.md#catalog)
+links both. Workflow changes stay synchronized under the
+[English-authoritative language policy](CONTRIBUTING.md#skill-languages).
+
 For prepared tables, [table-chart](skills/table-chart/SKILL.md) recommends and
 renders seven chart forms with single-panel or faceted layouts and shared
 color, grayscale and NPG-inspired profiles.

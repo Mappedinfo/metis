@@ -1,24 +1,41 @@
-# 任务书预设：学术圈探索（authors）
+[中文译本](authors.zh.md)
 
-> **适用输入**：一篇论文 PDF（附件或明确路径）。需要执行器具备联网检索能力；无网络时降级为「仅基于论文内信息」。
-> **产出**：`学者档案.md` + `works.bib`
-> **用法**：同其他预设；信息不可得时如实降级，不编造。
+# Taskbook preset: explore the academic network (authors)
 
-## 三要素
+> **Input**: one paper PDF, attached or at an explicit path. The executor needs
+> online search; without network access, fall back to information contained in
+> the paper only.
+> **Artifacts**: `学者档案.md` + `works.bib`.
+> **Usage**: as with the other presets. If information is unavailable, state the
+> reduced scope honestly and do not fabricate it.
 
-- **输入**：论文 PDF（确认作者名单与署名机构）+ 网络检索。
-- **输出**：两个文件——`学者档案.md`（作者、机构、方向、代表作）、`works.bib`（BibTeX 条目）。
-- **验收**：每位作者标注当前机构与至少一个可靠来源；通讯作者显式标出；无法确认的信息一律标注「待核实」，条目数量不设下限（宁缺毋假）。
+## The three elements
 
-## 档案结构（执行器照此产出）
+- **Input**: the paper PDF, to establish the author list and listed affiliations,
+  plus online search.
+- **Output**: two files: `学者档案.md` (authors, institutions, research directions,
+  representative works) and `works.bib` (BibTeX entries).
+- **Acceptance**: identify each author's current institution with at least one
+  reliable source; explicitly identify corresponding authors; mark all
+  unconfirmed information “待核实” (needs verification). Set no minimum entry
+  count: omission is preferable to fabrication.
 
-1. **作者列表**：全部作者，标明通讯作者；每人当前机构、研究方向。
-2. **代表性成果**：每人 2–4 项代表作，附可核实的链接或 DOI。
-3. **团队/实验室脉络**（如有）：所在实验室、合作网络、招生或招聘动态等公开信息。
-4. **检索痕迹**：每条信息注明来源（链接、DOI 或论文出处）；检索不到的项目写「未检索到」，不要留空。
+## Dossier structure (for the executor to follow)
 
-## 红线
+1. **Author list**: all authors, with corresponding authors marked; each author's
+   current institution and research directions.
+2. **Representative works**: 2–4 works per author, with verifiable links or DOIs.
+3. **Team/laboratory context**, if available: public information such as
+   laboratory membership, collaboration networks and admissions or recruitment
+   updates.
+4. **Search trail**: give a source for every information item (link, DOI or
+   location in the paper). Write “未检索到” (not found in the search) for items
+   that could not be found; do not leave them blank.
 
-- 禁止编造作者信息、机构、文献或链接；不确定的一律「待核实」
-- 只整理公开可得的信息；不推断或传播未经证实的个人信息
-- BibTeX 条目字段以可核实来源为准，缺字段宁可留空
+## Boundaries
+
+- Do not fabricate author information, institutions, publications or links;
+  mark every uncertain item “待核实” (needs verification).
+- Use only publicly available information. Do not infer or spread unverified
+  personal information.
+- Base BibTeX fields on verifiable sources; leave unavailable fields empty.

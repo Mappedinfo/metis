@@ -1,66 +1,85 @@
 ---
 name: taskbook-authors
 description: >
-  学术圈探索任务书：对一篇论文 PDF 整理作者档案——全部作者与通讯作者标注、
-  当前机构、研究方向、代表性成果（附可核实来源）、团队脉络，并产出代表作的
-  BibTeX。当用户给出一篇论文 PDF 并要求"查作者""作者是谁""整理作者信息"
-  "这个团队做什么"时使用。需要联网检索能力，无网络时降级为仅基于论文内信息。
-  不适用于：解读论文内容（用 taskbook-interpret）、把论文转成 PPT。
+  Build author profiles from one paper PDF: all authors and corresponding-author
+  labels, current affiliations, research interests, representative works with
+  verifiable sources, team context, and BibTeX for the works. Use when a user
+  provides a paper PDF and asks to look up its authors, identify them, organize
+  author information, or find out what the team does. Requires web search;
+  without network access, fall back to information within the paper only.
+  Not for interpreting the paper (use taskbook-interpret) or making slides.
 license: MIT
 category: acquire
 domain: [literature, research-design]
 action: [retrieve, record]
 uses: [scansci-pdf]
 artifacts:
-  - "学者档案.md — 作者机构、方向、代表作与团队脉络（每条附可核实来源）"
-  - "works.bib — 代表作与本文的 BibTeX 条目（缺字段留空）"
+  - "学者档案.md — Author affiliations, interests, representative works and team context, each with a verifiable source"
+  - "works.bib — BibTeX entries for representative works and the supplied paper; leave missing fields empty"
 ---
 
-# 学术圈探索（taskbook 家族）
+[中文译本](SKILL.zh.md)
 
-你是学者信息整理器。对附件或指定路径论文的作者团队完成一次信息整理，产出
-`学者档案.md` 与 `works.bib`。大 PDF 或扫描件先用 `scansci-pdf` 提取正文。
+# Explore an Author Team (taskbook family)
+
+Organize information about the authors of the attached paper or the paper at
+the specified path. Produce `学者档案.md` and `works.bib`. For a large PDF or
+scanned document, first use `scansci-pdf` to extract the text.
 
 ## When to use
 
-- 用户给出一篇论文 PDF，要求"查作者""作者是谁""整理作者信息""这个团队做什么"
+- The user provides a paper PDF and asks to look up its authors, identify
+  them, organize author information, or find out what the team does.
 
-不要使用：解读论文内容（用 taskbook-interpret）；把论文转成 PPT
-（用 taskbook-slides）。
+Do not use for interpreting the paper (use `taskbook-interpret`) or turning
+it into slides (use `taskbook-slides`).
 
 ## Method
 
-1. **读取论文 PDF**，确认作者名单、署名顺序与通讯作者标注。
-2. **联网检索补全**：每位作者的当前机构、研究方向、代表性成果；需要时查
-   实验室主页与学术主页。无网络时降级为仅基于论文内信息，并显式声明降级。
-3. **产出两个文件**：
-   - `学者档案.md`：作者列表（标明通讯作者）→ 每人机构、方向、代表作
-     （2–4 项，附可核实链接或 DOI）→ 团队/实验室脉络（如有）。
-   - `works.bib`：代表作与本文的 BibTeX 条目。
-4. **来源纪律**：每条信息注明来源（链接、DOI 或论文出处）；检索不到的写
-   「未检索到」，不要留空、不要编造。
-5. 完成后用简短中文总结产出文件路径。
+1. **Read the paper PDF** and confirm the author list, author order, and
+   corresponding-author labels.
+2. **Search the web to fill in** each author's current affiliation, research
+   interests, and representative works. Consult laboratory and academic
+   homepages when needed. Without network access, use only information within
+   the paper and explicitly state this fallback.
+3. **Produce two files**:
+   - `学者档案.md`: author list with corresponding authors marked → each
+     author's affiliation, interests, and 2–4 representative works with
+     verifiable links or DOIs → team/laboratory context, if available.
+   - `works.bib`: BibTeX entries for the representative works and the paper.
+4. **Source discipline**: cite a source for each piece of information using a
+   link, DOI, or paper reference. Mark information that cannot be found as
+   “未检索到” (not found); do not leave it blank or invent it.
+5. Finish with a brief Chinese summary of the output file paths.
 
 ## Requirements
 
-- [B] R1 每位作者有机构标注且来源可核实 — 验证: 档案逐人附来源链接/DOI；
-  无来源的条目标注「未检索到」
-- [B] R2 通讯作者显式标出 — 验证: 作者列表含通讯标注
-- [B] R3 works.bib 条目真实可解析，缺字段宁可留空 — 验证: bib 无占位假值
-  （如 "unknown" 充当年份）
+- [B] R1 Every author has an affiliation entry with a verifiable source —
+  Verification: each author's profile includes a source link/DOI; entries
+  without sources are marked “未检索到”.
+- [B] R2 Corresponding authors are explicitly identified — Verification:
+  the author list includes corresponding-author labels.
+- [B] R3 Entries in `works.bib` are real and parseable; leave missing fields
+  empty — Verification: the bibliography contains no invented placeholder
+  values, such as "unknown" used as a year.
 
 ## When to stop
 
-- `学者档案.md` 与 `works.bib` 交付并给出路径总结即停。
-- 不顺势解读论文内容或评价学术水平高低——那是另一项任务。
+- Stop after delivering `学者档案.md` and `works.bib` with a path summary.
+- Do not extend the task into interpreting the paper or judging academic
+  standing; those are separate tasks.
 
 ## Output contract
 
-1. `学者档案.md` 与 `works.bib` 两个文件。
-2. 禁止编造作者信息、机构、文献或链接；只整理公开可得的信息，不推断或传播
-   未经证实的个人信息。
-3. 无法确认的信息一律标注「待核实」；条目宁缺毋假。
-4. 产出只写入当前工作目录。
+1. Two files: `学者档案.md` and `works.bib`.
+2. Never invent author information, affiliations, references, or links.
+   Organize only publicly available information; do not infer or spread
+   unverified personal information.
+3. Mark all unconfirmed information “待核实” (to be verified); prefer missing
+   entries to fabricated ones.
+4. Write outputs only in the current working directory.
 
-任务书家族：本技能是 [research-taskbook](https://github.com/mappedinfo/metis)
-预设 `authors` 的可独立触发版本（源自自研 MIT 项目 [GIStudio/research-taskbook](https://github.com/GIStudio/research-taskbook)）。
+Taskbook family: this skill is the independently triggerable version of the
+`authors` preset in [research-taskbook](https://github.com/mappedinfo/metis),
+originating in the skill maintainers' own MIT-licensed project
+[GIStudio/research-taskbook](https://github.com/GIStudio/research-taskbook).

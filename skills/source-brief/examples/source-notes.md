@@ -1,22 +1,31 @@
-# 模拟项目记录：青禾预约页
+# Fictional project notes: Qinghe booking page
 
-这是原创虚构练习材料。项目、人物和结果均为模拟数据，不是实际测试或研究结果。
+[中文译本](source-notes.zh.md)
 
-## S1 — 2026-09-24 测试记录
+These are original fictional practice materials. The project, people and
+results are simulated; they are not actual test or research findings.
 
-本轮计划检查 18 项预约页功能。15 项已通过；另外 3 项因模拟邮件服务不可用而
-被阻断，没有执行到结果判断。已通过项目覆盖表单输入、时段选择和取消预约。
-本轮仅在本地测试环境检查，未进行真实用户试用。
+## S1 — 2026-09-24 Test record
 
-## S2 — 2026-09-24 待办记录
+This round planned to check 18 booking-page functions. Fifteen passed; the
+other three were blocked because the simulated email service was unavailable
+and did not reach an outcome assessment. Passing items covered form input,
+time-slot selection and booking cancellation. Checks ran only in the local
+test environment; no real-user trial took place.
 
-维护者拟先恢复模拟邮件服务，再执行被阻断的 3 项。恢复工作尚未开始，当前
-没有可承诺的完成日期。原定的候选方案 A 与 B 的比较表尚未制作，也没有
-关于两者速度、成本或满意度的比较数据。
+## S2 — 2026-09-24 To-do record
 
-## S3 — 2026-09-25 讨论摘录
+The maintainer proposes restoring the simulated email service before running
+the three blocked checks. Restoration has not started, and no completion
+date can currently be promised. The planned comparison table for candidates
+A and B has not been produced. There are no comparative data on their speed,
+cost or satisfaction.
 
-虚构项目成员林溪说：“我觉得现在的预约流程已经更清楚，之后用户应该会更
-喜欢它。”这段话是个人判断，没有用户访谈、使用记录或问卷作为依据。
+## S3 — 2026-09-25 Discussion excerpt
 
-另一位成员建议下周邀请用户试用；团队尚未决定试用日期和人数。
+Fictional team member Lin Xi (林溪) said, in translation: “I think the booking
+flow is clearer now, and users will probably like it more.” This is a personal
+judgment without supporting user interviews, usage records or questionnaires.
+
+Another member suggested inviting users to try it next week; the team has
+not decided the trial date or number of participants.

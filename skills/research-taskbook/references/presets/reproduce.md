@@ -1,23 +1,43 @@
-# 任务书预设：复现数据与代码（reproduce）
+[中文译本](reproduce.zh.md)
 
-> **适用输入**：一篇论文 PDF（附件或明确路径）；可选附作者公开代码仓链接。
-> **产出**：`复现计划.md` + `data_plan.md` + `src/` 代码脚手架
-> **用法**：这是复现**准备**任务书——产出计划与脚手架，不产出「复现成功」的结论；结论由人验收后下。
+# Taskbook preset: reproduction data and code (reproduce)
 
-## 三要素
+> **Input**: one paper PDF, attached or at an explicit path, optionally with a
+> link to the authors' public code repository.
+> **Artifacts**: `复现计划.md` + `data_plan.md` + a code scaffold under `src/`.
+> **Usage**: this taskbook prepares for reproduction. Deliver a plan and scaffold,
+> not a claim that reproduction succeeded; a person draws that conclusion after
+> checking the results.
 
-- **输入**：论文 PDF 全文（含所有图表与附录）；作者公开代码/数据（如有）。
-- **输出**：三个产物——`复现计划.md`、`data_plan.md`、`src/`（可运行脚手架 + README）。
-- **验收**：论文每个主表/主图 100% 入计划清单；数据未提供处逐条标注「缺失」；`src/README.md` 写明运行方式；无法确定的实现细节用注释显式标出。
+## The three elements
 
-## 产物结构（执行器照此产出）
+- **Input**: the full paper PDF, including all figures, tables and appendices,
+  plus the authors' public code/data, if available.
+- **Output**: three artifacts: `复现计划.md`, `data_plan.md` and `src/` (a runnable
+  scaffold with a README).
+- **Acceptance**: the plan lists 100% of the paper's main tables and figures;
+  every dataset not provided is marked “缺失” (missing); `src/README.md` explains
+  how to run the code; uncertain implementation details are explicitly marked
+  in comments.
 
-1. **`复现计划.md`**：论文中需要复现的实验/表格/图形清单，每项 = 输入 + 步骤 + 预期输出 + 与原文对照的验收标准。
-2. **`data_plan.md`**：所需数据清单（名称、来源、获取方式、许可证）；论文未提供的数据逐条标注**缺失**，给出替代获取建议（如公开代理数据集）或明确「无法获取」。
-3. **`src/`**：可运行的代码脚手架（数据读取、预处理、核心算法入口），`src/README.md` 说明目录与运行方式。
+## Artifact structure (for the executor to follow)
 
-## 红线
+1. **`复现计划.md`**: an inventory of experiments, tables and figures to reproduce
+   from the paper. Each item has inputs, steps, expected outputs and acceptance
+   criteria for comparison with the original.
+2. **`data_plan.md`**: an inventory of required data (name, source, access method,
+   license). Mark every dataset not supplied by the paper **“缺失” (missing)**;
+   suggest alternative acquisition routes, such as a public proxy dataset, or
+   explicitly mark it “无法获取” (unavailable).
+3. **`src/`**: a runnable code scaffold covering data loading, preprocessing and
+   the core algorithm entry point. Explain the directory structure and run
+   instructions in `src/README.md`.
 
-- 不编造任何数据与结果；论文未提供的数据标「缺失」，禁止凭空生成
-- 无法确定的实现细节在注释中显式标出，不要静默假设
-- 这一步是复现准备，不是替论文作者下结论；结果对不对由人验收
+## Boundaries
+
+- Do not fabricate any data or results. Mark data not supplied by the paper
+  “缺失” (missing); do not generate it from nothing.
+- Mark uncertain implementation details explicitly in comments rather than
+  silently assuming them.
+- This step prepares for reproduction; it does not draw conclusions on behalf
+  of the paper's authors. A person checks whether the results are correct.

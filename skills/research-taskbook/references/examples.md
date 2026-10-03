@@ -1,53 +1,57 @@
-# 跨形态示例
+[中文译本](examples.zh.md)
 
-三个不同问题形态的最小任务书片段。共同点不是模板，而是拆法：**大问题 → 可验证子问题 → 三要素原子任务**。
+# Examples across question types
 
-## 示例 1 · 实证检验（定量）
+Minimal taskbook excerpts for three question types. What they share is the
+method of decomposition, not one template: **broad question → verifiable
+subquestions → atomic tasks with three explicit elements**.
 
-**模糊想法**："城市绿地是不是能缓解居民压力？"
+## Example 1 · Empirical testing (quantitative)
 
-**澄清后拆解**（节选）：
+**Vague idea**: “Can urban green space reduce residents' stress?”
 
-> ### 任务 1：文献初筛
-> - 输入：检索式 `(green space OR NDVI) AND (stress OR cortisol)`，限定 2018–2026，Web of Science + PubMed
-> - 输出：`文献对比表.md`，≥12 篇 × 列（研究地/暴露度量/压力度量/识别策略/结论）
-> - 验收：每篇附 DOI；识别策略列出现"横截面/纵向/准实验"标注率 100%
+**Decomposition after clarification** (excerpt):
+
+> ### Task 1: screen the literature
+> - Input: query `(green space OR NDVI) AND (stress OR cortisol)`, restricted to 2018–2026, in Web of Science + PubMed.
+> - Output: `文献对比表.md`, ≥12 papers × columns (study location/exposure measure/stress measure/identification strategy/conclusion).
+> - Acceptance: every paper has a DOI; 100% of rows identify the strategy as cross-sectional, longitudinal or quasi-experimental.
 >
-> ### 任务 2：数据可得性清单
-> - 输入：任务 1 的表 + 公开数据源清单
-> - 输出：`数据方案.md`，每行 = 数据集 + 变量 + 获取路径 + 许可证 + 风险
-> - 验收：论文核心变量（暴露、结局、协变量）每项 ≥1 条可行来源或标注「缺失：需向作者索取」
+> ### Task 2: list data availability
+> - Input: the table from Task 1 + a list of public data sources.
+> - Output: `数据方案.md`, one row per dataset + variables + access path + license + risks.
+> - Acceptance: every core variable in the paper (exposures, outcomes, covariates) has ≥1 feasible source or is marked “缺失：需向作者索取” (missing: request from the authors).
 
-## 示例 2 · 复现/审计
+## Example 2 · Reproduction/audit
 
-**模糊想法**："这篇论文的结果靠谱吗，能不能复现出来？"
+**Vague idea**: “Are this paper's results reliable, and can we reproduce them?”
 
-**澄清后拆解**（节选）：
+**Decomposition after clarification** (excerpt):
 
-> ### 任务 1：逐表对照清单
-> - 输入：论文 PDF（作者提供）+ 作者公开代码仓（如有）
-> - 输出：`复现清单.md`，每个图表一行 = 所需数据 + 代码入口 + 运行命令 + 预期输出
-> - 验收：论文全部主表/主图 100% 入列；论文未提供的数据逐条标注「缺失」，禁止编造
+> ### Task 1: create a table-by-table comparison checklist
+> - Input: paper PDF supplied by the author + the author's public code repository, if available.
+> - Output: `复现清单.md`, one row per figure/table = required data + code entry point + run command + expected output.
+> - Acceptance: 100% of the paper's main tables and figures are listed; mark every dataset not supplied by the paper as “缺失” (missing), and do not fabricate it.
 >
-> ### 任务 2：环境与数据获取
-> - 输入：复现清单 + 代码仓 README
-> - 输出：可运行的 `environment.yml` / `requirements.txt` + 数据下载脚本；下载失败的源标注原因
-> - 验收：干净环境中 `bash run_all.sh` 可跑通至「仅缺数据」的错误点
+> ### Task 2: prepare the environment and acquire data
+> - Input: reproduction checklist + the code repository's README.
+> - Output: a runnable `environment.yml` / `requirements.txt` + a data download script; record the reason for each failed download source.
+> - Acceptance: in a clean environment, `bash run_all.sh` runs as far as the failure point caused only by missing data.
 
-## 示例 3 · 质性阐释
+## Example 3 · Qualitative interpretation
 
-**模糊想法**："官方规划文本里'韧性'是怎么被讲出来的？"
+**Vague idea**: “How is ‘resilience’ articulated in official planning texts?”
 
-**澄清后拆解**（节选）：
+**Decomposition after clarification** (excerpt):
 
-> ### 任务 1：语料边界清单
-> - 输入：用户指定的文件目录（如 20 份总体规划 PDF）
-> - 输出：`语料清单.md`，每份 = 文件名 + 年份 + 发布机构 + 页数 + 纳入/排除理由
-> - 验收：与用户给的纳入标准逐条对照；排除项全部有理由，零脑补
+> ### Task 1: define the corpus inventory
+> - Input: a directory specified by the user, such as 20 master-plan PDFs.
+> - Output: `语料清单.md`, one entry per document = filename + year + issuing institution + page count + reason for inclusion/exclusion.
+> - Acceptance: check every entry against the user's inclusion criteria; every exclusion has a reason, with no invented details.
 >
-> ### 任务 2：关键词语境索引
-> - 输入：语料清单内全部 PDF 的文本
-> - 输出：`韧性索引.csv`，每行 = 文件 + 页码 + 原文句子 + 初步语义标签（开放编码）
-> - 验收：抽 10 条人工复核，标签-原文对应率 ≥90%；编码框架只描述不评价
+> ### Task 2: index keywords in context
+> - Input: text from every PDF in the corpus inventory.
+> - Output: `韧性索引.csv`, one row = file + page number + original sentence + preliminary semantic label (open coding).
+> - Acceptance: manually check a sample of 10 entries; label-to-text correspondence is ≥90%; the coding framework describes rather than evaluates.
 >
-> **边界声明**：编码的理论解释与话语分析由研究者完成——AI 只做定位与摘录。
+> **Boundary statement**: the researcher provides the theoretical interpretation of the codes and the discourse analysis; AI only locates and excerpts material.

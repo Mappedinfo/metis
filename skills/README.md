@@ -7,12 +7,13 @@ Public, generic agent skills. Each skill is a directory with a `SKILL.md`
 For the smallest useful input, deliverable and acceptance check in each
 category, read [基础能力 / Minimal skills](../docs/minimal-skills.md).
 
-For new or migrated bilingual skills, `SKILL.md` is the authoritative English
+In all nine current skills, `SKILL.md` is the authoritative English
 workflow and `SKILL.zh.md` is its editable Chinese translation. Edits may begin
 in either language; workflow changes must be synchronized, with English
 governing conflicts. Follow the
 [language workflow](../CONTRIBUTING.md#skill-languages) and check the
-[handoff](../HANDOFF.md) for existing skills awaiting migration.
+[handoff](../HANDOFF.md) for migration and validation status. The
+[catalog](../docs/skills.md#catalog) links both languages for every skill.
 
 For prepared-table visualization, [table-chart](table-chart/SKILL.md) chooses
 among comparison, trend, relationship, distribution and matrix charts. Its

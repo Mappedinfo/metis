@@ -16,16 +16,45 @@ authoritative for bilingual skills: `SKILL.md` is the execution entry and
 synchronize workflow meaning in the same change. Output language remains
 independent of source language.
 
+## Bilingual migration — 2026-10-03
+
+- All 9 skills now have complete English `SKILL.md` entries and editable
+  Chinese `SKILL.zh.md` companions. The 11 directly used Markdown references,
+  templates, presets and example descriptions are also paired: 20 document
+  pairs in total. Canonical English files retain their original paths;
+  Chinese documents link their translated counterparts where available.
+- The five taskbook entries and previously Chinese supporting workflows now
+  have English instructions. Chinese output requirements, artifact filenames,
+  status labels, identifiers, commands, numerical limits and source attribution
+  are preserved. Translation does not change what the skills are authorized
+  to do. The scansci-pdf modification notice records its translation; its
+  Apache-2.0 license file is unchanged.
+- Validated: each pair was reviewed against the pre-migration source for
+  workflow meaning; independent reviews covered all nine skills and their
+  support documents. Structural checks confirm 20 pairs, 83 resolving local
+  links, unchanged runtime identity fields and requirement IDs/levels, and
+  no duplicate Chinese runtime frontmatter. These checks complement semantic
+  review; they do not automate translation-equivalence judgment.
+- `npm run check` passes all 49 tests, profile/skill bundle checks, the
+  9-skill / 4-profile audit (0 errors / 0 warnings) and the docs build.
+  A clean temporary installation exposes all nine skills; every installed
+  Markdown file matches its canonical source. Local release bundles are
+  regenerated. This does not establish fresh-session discovery or replace
+  task-specific end-to-end validation.
+- The catalog links both languages. npm publication and Pages deployment
+  remain separate; local commits follow the existing daily push queue.
+  Taskbook PDF/OCR routing and slides profile integration remain separate
+  method defects; translation does not resolve those earlier findings.
+
 ## Language policy — 2026-10-03
 
 - Accepted: English governs conflicts; Git history supports reconciliation,
   not execution-language selection. This replaces the earlier proposal to
   choose whichever language was modified last. Chinese-origin workflow edits
   remain pending until incorporated into English; retain their intent.
-- Migration has not been performed in this policy change. All 9 skills still
-  have only `SKILL.md`; the 5 research-taskbook / taskbook-family entries retain
-  Chinese method content. Their existing entries continue to run until each
-  is migrated as a complete English/Chinese pair. New skills use the pair now.
+- The initial policy-only change left migration pending. The subsequent
+  bilingual migration above completes all 9 current entries and their used
+  Markdown support documents. New skills also use the English/Chinese pair.
 - Acceptance for a migrated pair: equivalent triggers, inputs, workflow,
   boundaries, outputs, checks and stop rules; preserved identifiers, commands,
   references and licensing; a passing collection check and a regenerated
@@ -106,8 +135,8 @@ independent of source language.
   CJK font variant supports it. An exported script was rerun successfully.
   These are bounded example checks, not general usability measurements.
 - Remaining work: the taskbook PDF/OCR routing and slides profile connection
-  still need repair and task-specific acceptance. Bilingual migration remains
-  pending under the English-authoritative language policy above.
+  still need repair and task-specific acceptance. Bilingual migration was
+  subsequently completed under the English-authoritative language policy above.
   No npm publication or Pages deployment is part of this change.
 
 ## Source changes — 2026-09-30

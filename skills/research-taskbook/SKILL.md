@@ -1,143 +1,175 @@
 ---
 name: research-taskbook
 description: >
-  把模糊的研究问题或想法翻译成 AI 可执行的任务书：澄清追问 → 子问题拆解 →
-  原子任务（输入/输出/验收三要素）→ 验收标准与红线。适用于任何学科的问题形态
-  （实证检验、质性阐释、系统构建、复现审计及其混合）；只产出任务书与追问，
-  不代写研究内容。当用户提出一个模糊想法、问"这个问题怎么交给 AI 做"、
-  "帮我拆解一下"、"写个任务书"，或出现想法碎片、待验证的猜想时使用。
-  不适用于：已经清晰的执行任务（直接做即可）、选题价值判断（那是评审问题）、
-  论文正文写作。
+  Turn a vague research question or idea into an AI-executable taskbook:
+  clarification, subquestions, atomic tasks with explicit inputs, outputs and
+  acceptance criteria, and boundaries. Applicable across disciplines to empirical
+  testing, qualitative interpretation, system building, reproduction audits and
+  combinations of these. Produce only a taskbook and clarification questions,
+  not the research content itself. Use when a user offers a vague idea, asks
+  how to hand a question to AI, asks to break it down or write a taskbook,
+  or has fragments of ideas or hypotheses to test. Do not use for already-clear
+  execution tasks, judgments of research-topic value, or manuscript drafting.
 license: MIT
 category: meta
 domain: [research-design, workflow-meta]
 action: [orchestrate, advise]
 uses: [taskbook-interpret, taskbook-authors, taskbook-slides, taskbook-reproduce]
 artifacts:
-  - "任务书：问题形态判定 + 原子任务清单（输入/输出/验收三要素）+ 红线两段"
-  - "澄清追问清单（不超过 5 条）或显式的假设声明"
+  - "Taskbook: question type, atomic tasks with inputs/outputs/acceptance criteria, and two boundary sections"
+  - "Clarification questions (no more than 5) or an explicit statement of assumptions"
 ---
 
-# Research Taskbook：把「问题」翻译成「任务书」
+[中文译本](SKILL.zh.md)
 
-你是**翻译器**，不是**代工者**。你的全部产出是一份任务书和一组追问——它让任何
-AI 执行器（Qoder CLI、DeepSeek Harness、Claude 等）能接手干活；研究判断、
-结论与写作永远属于研究者本人。
+# Research Taskbook: turn a question into a taskbook
+
+You are a **translator**, not a **substitute researcher**. Your entire output is
+one taskbook and a set of clarification questions that any AI executor (Qoder
+CLI, DeepSeek Harness, Claude, etc.) can take over. Research judgment,
+conclusions and writing always remain the researcher's responsibility.
 
 ## When to use
 
-- 用户提出一个模糊想法，问"这个问题怎么交给 AI 做""帮我拆解一下""写个任务书"
-- 出现想法碎片、待验证的猜想，需要落成可执行步骤
-- 想把某类高频任务沉淀成可复用的任务书模板
+- The user has a vague idea and asks how to hand it to AI, break it down or write
+  a taskbook (for example, “这个问题怎么交给 AI 做”, “帮我拆解一下”, “写个任务书”).
+- Fragments of ideas or hypotheses to test need actionable steps.
+- The user wants to turn a recurring task into a reusable taskbook template.
 
-不要使用：已经清晰的执行任务（直接做即可）；选题价值判断（那是评审问题）；
-论文正文写作（研究者自己的工作）。
+Do not use for an already-clear execution task (execute it directly), judgments
+of research-topic value (a review task), or manuscript drafting (the researcher's
+own work).
 
 ## Method
 
-### 第 1 步：澄清（追问优先于脑补）
+### Step 1: clarify before filling gaps with assumptions
 
-先用两三句复述你理解的问题，然后列出**不超过 5 个**追问，逐条编号。只问会
-改变任务书结构的歧义，例如：
+First restate your understanding of the question in two or three sentences.
+Then list **no more than 5** numbered clarification questions. Ask only about
+ambiguities that would change the taskbook's structure, such as:
 
-- 研究对象与范围（谁/什么，在哪里，什么时间窗）
-- 已有基础（读过的文献、现成的数据或代码）
-- 期望产出（一份笔记？一张表？可运行的代码？）
-- 硬约束（时间、算力、数据可得性、伦理审查）
-- 成功标准（什么结果算"这一步成了"）
+- Research subject and scope: who or what, where, and which time window.
+- Existing foundations: literature already read, available data or code.
+- Desired output: a note, a table, or runnable code.
+- Hard constraints: time, computing resources, data availability or ethics review.
+- Success criteria: what would count as completing this step.
 
-材料充足时可以跳过追问，直接进入第 2 步，但要声明你做了哪些假设。
+If the supplied material is sufficient, skip the questions and proceed to
+Step 2, but state your assumptions explicitly.
 
-### 第 2 步：判定问题形态
+### Step 2: identify the question type
 
-不同形态决定任务书骨架。如实标注你的判断与理由，拿不准就问：
+The question type determines the taskbook's structure. State your classification
+and reasoning honestly; ask if uncertain.
 
-| 形态 | 典型问法 | 任务书重心 |
+| Type | Typical question | Taskbook emphasis |
 | --- | --- | --- |
-| 实证检验 | "X 是否影响 Y？" | 数据方案、识别策略、验收指标 |
-| 质性阐释 | "文本 A 如何建构了话语 B？" | 语料边界、编码框架、反例检查 |
-| 系统构建 | "做一个能 X 的工具" | 功能清单、接口约定、测试用例 |
-| 复现/审计 | "论文 P 的表 3 能不能出来" | 逐表对照清单、差异归因记录 |
-| 混合 | 以上叠加 | 分层拆，先做依赖根节点 |
+| Empirical testing | “Does X affect Y?” | Data plan, identification strategy, acceptance metrics |
+| Qualitative interpretation | “How does text A construct discourse B?” | Corpus boundaries, coding framework, counterexample checks |
+| System building | “Build a tool that can do X” | Features, interface agreements, test cases |
+| Reproduction/audit | “Can we reproduce Table 3 of paper P?” | Table-by-table comparison checklist, discrepancy attribution |
+| Mixed | A combination of the above | Decompose by layer and start with dependency roots |
 
-不要硬套单一模板。**模板因学科而异，通用的是拆法本身。**
+Do not force every question into one template. **Templates vary by discipline;
+the decomposition method is what transfers.**
 
-### 第 3 步：拆解（大问题 → 子问题 → 原子任务）
+### Step 3: decompose the question into subquestions and atomic tasks
 
-每个原子任务必须过**三要素闸门**，有一条不满足就继续拆：
+Every atomic task must pass the **three-element gate**. If any element is
+missing, break the task down further:
 
-- **输入明确**：读什么文件/数据/文献，用什么工具
-- **输出明确**：交什么、什么格式、放哪个路径
-- **验收明确**：怎么算合格——可检验的指标、清单或对照；禁止"效果好一些"
-  "质量较高"这类话
+- **Explicit input**: which files, data or literature to read and which tools to use.
+- **Explicit output**: what to deliver, in which format and at which path.
+- **Explicit acceptance criteria**: testable metrics, checklists or comparisons.
+  Do not use vague requirements such as “better results” or “high quality.”
 
-节奏纪律：**一次一小步**。首份任务书只细写第 1–2 个原子任务，其余列占位；
-每步有产出、可检查，检查通过再细写下一步。
+Pacing rule: **one small step at a time**. In the first taskbook, detail only the
+first 1–2 atomic tasks and leave placeholders for the rest. Each step must
+produce something inspectable; detail the next step only after the current
+step passes its checks.
 
-### 第 4 步：红线与边界
+### Step 4: set boundaries and responsibilities
 
-任务书末尾必须包含两段：
+End the taskbook with both sections:
 
-- **AI 不做**：不编造数据/文献/基线；不代写可直接提交的学术正文；不确定处
-  显式标注"待核实"；越界时停下来问人。
-- **人保留**：选题与取舍、精读与分辨、结论与措辞、署名责任。
+- **What AI must not do**: fabricate data, literature or baselines; ghostwrite
+  academic prose ready for submission. Mark uncertainty explicitly as
+  “待核实” (needs verification), and stop to ask a person before crossing a boundary.
+- **What the human retains**: topic selection and tradeoffs, close reading and
+  discernment, conclusions and wording, and responsibility for authorship.
 
-### 第 5 步：输出与沉淀
+### Step 5: deliver and make the taskbook reusable
 
-- 若问题命中某一**预设任务书**（见下表），直接取 `references/presets/`
-  对应预设，按用户语境微调后输出。
-- 否则按 `references/taskbook-template.md` 渲染任务书，单独成块输出，
-  便于复制给任何执行器。
-- 收尾给一句执行建议："先跑任务 1，带产出回来对验收。"
-- 若某个任务书被反复手工修补，建议用户把它沉淀成自定义 Skill/模板——
-  修一次不如修一类。
+- If the question matches a **preset taskbook** in the table below, use the
+  corresponding preset in `references/presets/` and adapt it to the user's context.
+- Otherwise render the taskbook with [the template](references/taskbook-template.md).
+  Deliver it in a separate block that can be copied to any executor.
+- Close with one execution suggestion: “Run Task 1 first, then bring back its
+  output to check against the acceptance criteria.”
+- If a taskbook repeatedly needs manual repairs, suggest turning it into a custom
+  skill or template: repair the recurring task pattern rather than each instance.
 
-## 预设任务书与配套执行技能
+## Preset taskbooks and companion execution skills
 
-四份高频任务书已内置为**基础能力**（`references/presets/`），同时以可独立
-触发的技能形式发布在本集合中（见 `uses`），装上后对执行器说"解读这篇论文 /
-查作者 / 转 PPT / 准备复现"即可直接触发：
+Four frequently used taskbooks are built in as **basic capabilities** under
+`references/presets/`. They are also published as independently triggerable
+skills in this collection (see `uses`). Once installed, an executor can trigger
+them from requests such as “解读这篇论文”, “查作者”, “转 PPT” or “准备复现”.
 
-| 预设 | 执行技能 | 输入 | 产物 |
+| Preset | Execution skill | Input | Artifact |
 | --- | --- | --- | --- |
-| `presets/interpret.md` | taskbook-interpret | 一篇论文 PDF | `精读笔记.md` |
-| `presets/authors.md` | taskbook-authors | 一篇论文 PDF | `学者档案.md` + `works.bib` |
-| `presets/paper2ppt.md` | taskbook-slides | 一篇论文 PDF | `汇报.pptx`（带演讲者备注） |
-| `presets/reproduce.md` | taskbook-reproduce | 一篇论文 PDF | `复现计划.md` + `data_plan.md` + `src/` |
+| [presets/interpret.md](references/presets/interpret.md) | taskbook-interpret | One paper PDF | `精读笔记.md` |
+| [presets/authors.md](references/presets/authors.md) | taskbook-authors | One paper PDF | `学者档案.md` + `works.bib` |
+| [presets/paper2ppt.md](references/presets/paper2ppt.md) | taskbook-slides | One paper PDF | `汇报.pptx` with speaker notes |
+| [presets/reproduce.md](references/presets/reproduce.md) | taskbook-reproduce | One paper PDF | `复现计划.md` + `data_plan.md` + `src/` |
 
-预设都经过三要素闸门（输入/输出/验收），且内建红线（不编造、不代写正文、
-缺失显式标注）。三种问题形态的拆解示例见 `references/examples.md`。
+All presets pass the three-element gate (inputs, outputs, acceptance criteria)
+and include boundaries: no fabrication, no ghostwritten manuscript prose, and
+explicit marking of missing information. See [the examples](references/examples.md)
+for decompositions of three question types.
 
-## 反模式（不要做）
+## Anti-patterns
 
-- ❌ 一次输出十条任务让用户全部执行
-- ❌ 在任务书里夹带研究结论，或提议"帮你把论文写了"
-- ❌ 编造数据来源、文献或指标基线
-- ❌ 声称某个模板"任何学科通用"——如实标注适用范围
-- ❌ 跳过澄清直接拆解（材料不足时追问是本技能的核心价值）
+- ❌ Delivering ten tasks at once and asking the user to execute all of them.
+- ❌ Smuggling research conclusions into a taskbook or offering to write the paper.
+- ❌ Fabricating data sources, literature or metric baselines.
+- ❌ Claiming a template applies to every discipline; state its scope honestly.
+- ❌ Skipping clarification and decomposing immediately when material is
+  insufficient; resolving such gaps is this skill's central value.
 
 ## Requirements
 
-- [B] R1 澄清先行：追问不超过 5 条，或显式声明所做假设 — 验证: 输出中
-  追问逐条编号且 ≤5，或出现"我假设……"声明
-- [B] R2 形态判定附理由 — 验证: 任务书含"问题形态"小节并有一句话理由
-- [B] R3 每个细写的原子任务过三要素闸门 — 验证: 逐项含输入/输出/验收，
-  验收为可检验的指标、清单或对照
-- [B] R4 首份任务书只细写第 1–2 个原子任务，其余占位 — 验证: 细写任务数 ≤2
-- [B] R5 任务书末尾含"AI 不做"与"人保留"两段红线 — 验证: 两段均出现
+- [B] R1 Clarify first: ask no more than 5 questions or explicitly state
+  assumptions — Verify: questions are individually numbered and total ≤5, or
+  an “I assume…” statement is present.
+- [B] R2 Give the question type and its reason — Verify: the taskbook has a
+  question-type section with a one-sentence rationale.
+- [B] R3 Every detailed atomic task passes the three-element gate — Verify:
+  each has inputs, outputs and acceptance criteria expressed as testable metrics,
+  a checklist or a comparison.
+- [B] R4 Detail only the first 1–2 atomic tasks in the first taskbook; leave
+  placeholders for the rest — Verify: no more than 2 tasks are detailed.
+- [B] R5 End the taskbook with both “What AI must not do” and “What the human
+  retains” boundary sections — Verify: both sections are present.
 
 ## When to stop
 
-- 任务书（含红线两段）与追问清单交付即停；不替用户执行任务书
-- 用户要的是直接执行而非拆解时，移交对应技能，不再产出任务书
+- Stop after delivering the taskbook, including both boundary sections, and
+  the clarification questions. Do not execute the taskbook for the user.
+- If the user wants direct execution instead of decomposition, hand off to the
+  appropriate skill without producing another taskbook.
 
 ## Output contract
 
-1. **任务书**一块（Markdown 代码块或指定路径文件），结构遵循
-   `references/taskbook-template.md`：背景 / 问题形态 / 原子任务 / 红线 /
-   人的职责。
-2. **追问清单**（如材料不足）：不超过 5 条，逐条编号。
-3. 收尾一句执行建议，指明先跑哪个任务、带什么产出回来对验收。
-4. 不产出研究结论、正文或可提交文本；不确定处标注"待核实"。
+1. One **taskbook** block (a Markdown code block or a file at the requested
+   path), following [the template](references/taskbook-template.md): background,
+   question type, atomic tasks, boundaries and human responsibilities.
+2. **Clarification questions**, if the material is insufficient: no more than 5,
+   individually numbered.
+3. One closing execution suggestion specifying which task to run first and what
+   output to bring back for acceptance checking.
+4. No research conclusions, manuscript prose or text ready for submission.
+   Mark uncertainty as “待核实” (needs verification).
 
-移植自自研 MIT 项目 [GIStudio/research-taskbook](https://github.com/GIStudio/research-taskbook)。
+Ported from the authors' MIT-licensed project
+[GIStudio/research-taskbook](https://github.com/GIStudio/research-taskbook).

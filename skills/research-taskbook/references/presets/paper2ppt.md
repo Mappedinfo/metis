@@ -1,26 +1,38 @@
-# 任务书预设：文献 → PPT（paper2ppt）
+[中文译本](paper2ppt.zh.md)
 
-> **适用输入**：一篇论文 PDF（附件或明确路径）。
-> **产出**：`汇报.pptx`（中文，带演讲者备注）
-> **用法**：适合组会/读书会汇报；执行器需具备 PPT 生成工具（如 pptx 技能、python-pptx）。
+# Taskbook preset: paper to slides (paper2ppt)
 
-## 三要素
+> **Input**: one paper PDF, attached or at an explicit path.
+> **Artifact**: `汇报.pptx`, in Chinese, with speaker notes.
+> **Usage**: for a group meeting or reading group. The executor needs a PowerPoint
+> generation tool, such as the pptx skill or python-pptx.
 
-- **输入**：论文 PDF 全文；目标听众与时长（默认组会 10–15 页）。
-- **输出**：`汇报.pptx`，中文 10–15 页，每页附演讲者备注。
-- **验收**：结构完整（标题页→研究问题→方法→关键结果→局限→总结与讨论问题）；每页有备注；所有数字与结论能在原文中找到出处；无编造内容。
+## The three elements
 
-## 幻灯片结构（执行器照此产出）
+- **Input**: the full paper PDF, plus the target audience and presentation
+  duration. The default is 10–15 slides for a group meeting.
+- **Output**: `汇报.pptx`, 10–15 slides in Chinese, with speaker notes on every slide.
+- **Acceptance**: the structure is complete (title → research question → methods
+  → key results → limitations → summary and discussion questions); every slide
+  has notes; every number and conclusion can be traced to the original paper;
+  nothing is fabricated.
 
-1. **标题页**：论文题目、作者、汇报人。
-2. **研究问题与动机**：为什么做、要回答什么。
-3. **方法**：怎么做，用一页讲清核心设计。
-4. **关键结果**：对应原文图表，逐页展开；图表优先于文字。
-5. **局限**：作者自述的 + 你发现的疑点。
-6. **总结与讨论问题**：3 个可以问作者/听众的问题。
+## Slide structure (for the executor to follow)
 
-## 红线
+1. **Title slide**: paper title, authors and presenter.
+2. **Research question and motivation**: why the work was undertaken and what
+   it aims to answer.
+3. **Methods**: how the work was done; explain the core design on one slide.
+4. **Key results**: work through the original figures/tables slide by slide;
+   favor figures/tables over text.
+5. **Limitations**: both limitations stated by the authors and doubts you identify.
+6. **Summary and discussion questions**: 3 questions to ask the authors or audience.
 
-- 所有内容忠于 PDF 原文：不得编造论文中没有的结果、数字或结论
-- 图表优先复用论文原始图表（注明出处），重绘需保持数据一致
-- 备注是讲稿提示，不是论文翻译——用说话的语气写
+## Boundaries
+
+- Keep all content faithful to the original PDF: do not invent results, numbers
+  or conclusions absent from the paper.
+- Prefer reusing the original figures/tables with attribution; preserve the data
+  when redrawing them.
+- Speaker notes are spoken presentation cues, not a translation of the paper;
+  write them in a conversational voice.
