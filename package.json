@@ -14,13 +14,15 @@
     "profiles:bundle": "node scripts/bundle-profiles.mjs",
     "profiles:check": "node scripts/bundle-profiles.mjs --check",
     "skills:check": "node scripts/check-skills.mjs",
-    "pretest": "npm run profiles:bundle && npm run skills:bundle",
+    "pretest": "npm run profiles:bundle && npm run skills:bundle && npm run workflows:bundle",
     "test": "node --test --test-concurrency=1 test/*.test.mjs packages/metis-os/test/*.test.js",
-    "check": "npm test && npm run profiles:check && npm run skills:bundle:check && npm run skills:check && npm run docs:build",
+    "check": "npm test && npm run profiles:check && npm run skills:bundle:check && npm run workflows:bundle:check && npm run skills:check && npm run docs:build",
     "skills:bundle": "node scripts/bundle-skills.mjs",
     "skills:bundle:check": "node scripts/bundle-skills.mjs --check",
     "table-chart:check": "uv run --with 'matplotlib>=3.7,<4' --with 'PyYAML>=6,<7' python -B -m unittest discover -s skills/table-chart/tests -p 'test_*.py'",
-    "prose-audit:check": "uv run --offline --no-project python -B -m unittest discover -s skills/prose-audit/tests -p 'test_*.py'"
+    "prose-audit:check": "uv run --offline --no-project python -B -m unittest discover -s skills/prose-audit/tests -p 'test_*.py'",
+    "workflows:bundle": "node scripts/bundle-workflows.mjs",
+    "workflows:bundle:check": "node scripts/bundle-workflows.mjs --check"
   },
   "devDependencies": {
     "markdown-it": "14.3.2",

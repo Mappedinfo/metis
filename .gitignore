@@ -14,3 +14,4 @@ __pycache__/
 # Generated from root profiles/ and skills/ by npm run *:bundle and npm pack.
 packages/metis-os/profiles/
 packages/metis-os/skills/
+packages/metis-os/workflows/

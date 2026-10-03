@@ -32,6 +32,7 @@ export default defineConfig({
         items: [
           { text: 'Skills Catalog', link: '/skills' },
           { text: '基础能力 / Minimal skills', link: '/minimal-skills' },
+          { text: '工作流接入 / Workflows', link: '/workflows' },
           { text: 'metis-os CLI', link: '/cli' },
           { text: 'skill-atlas', link: '/atlas' }
         ]

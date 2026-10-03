@@ -16,6 +16,45 @@ authoritative for bilingual skills: `SKILL.md` is the execution entry and
 synchronize workflow meaning in the same change. Output language remains
 independent of source language.
 
+## Writing workflow integration — 2026-10-03
+
+- Added the independent [workflow layer](workflows/README.md), with an English
+  execution entry and editable Chinese guides. The first `writing-review`
+  workflow injects the full bundled `prose-audit` skill, captures a draft,
+  records a contextual review, permits at most one revision, verifies the
+  current artifact and delivers the requested text. Public skills remain
+  standalone; no private writing rules or runtime paths enter their sources.
+- `metis-os workflows` installs or removes project-level Codex hooks and exports
+  a DSH `@deepseek-ai/dsh-hooks-codex` Cordis patch. Installation preserves other
+  hooks, refuses conflicting or edited managed configuration and supports
+  automatic Chinese/English matching or explicit request markers. Generated
+  machine paths and review history are ignored; `.metis/workflows.json` is the
+  portable opt-in. A new source bundle is checked and included by npm packing.
+- Private per-run snapshots and hashes bind the original draft, review,
+  optional revision and final verification. Chat-only writing uses a private
+  buffer. Stale receipts, changed final text, unsafe paths and repeated budget
+  consumption are rejected. Stop permits one recovery continuation, including
+  hosts that issue a new turn for it; repeated internal steps do not rearm it.
+  These records attest model checks, not their semantic correctness, and the
+  Stop hook cannot hide or retract text already streamed to the user.
+- Validated: all 99 collection tests, the 11-skill / 4-profile audit with no
+  errors or warnings, three source/bundle checks and the docs build. The 50
+  added tests cover state transitions, stale evidence, cross-process budgets,
+  hook replay/continuation, installed commands, configuration preservation and
+  uninstall/reinstall failure paths. A bounded independent installer review
+  found two issues; both have fixes and regression coverage.
+- An independent agent consumed the actual injected context from an isolated
+  installed package and completed a fictional Chinese release-note revision.
+  Readback confirmed `ready`, one revision, unchanged numerical facts,
+  citation marker and limitations, and final text identical to the verified
+  revision snapshot. This is bounded package/adapter use, not a live Codex or
+  DSH hook-delivery test or a general editorial-accuracy benchmark.
+- This checkout has both adapters prepared. Codex still requires hook review
+  and trust through `/hooks`; the DSH export has not been mounted in a live
+  host. No trust store, global runtime configuration or running service was
+  changed. Real host activation, npm publication and Pages deployment remain
+  separate. Validated source changes follow the existing daily push queue.
+
 ## Public prose review — 2026-10-03
 
 - Added [prose-audit](skills/prose-audit/SKILL.md), the eleventh public skill,

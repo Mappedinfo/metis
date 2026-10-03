@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "id": "writing-review",
+  "version": 1,
+  "skill": "prose-audit",
+  "max_revisions": 1,
+  "max_continuations": 1,
+  "activation": {
+    "mode": "auto",
+    "include": [
+      "(?:写|起草|撰写|改写|润色|编辑|修改|翻译)[^\\n]{0,40}(?:文章|文稿|文案|邮件|书信|段落|摘要|报告|说明|介绍|帖子|博客|推文|发言|文字|文本)",
+      "(?:这段|这篇|这封|以下|下面|上述)[^\\n]{0,40}(?:改写|润色|翻译|改稿)",
+      "\\b(?:write|draft|rewrite|polish|revise|edit|translate)\\b[^\\n]{0,80}\\b(?:article|draft|copy|email|letter|paragraph|abstract|report|description|introduction|post|blog|speech|text|prose)\\b"
+    ],
+    "exclude": [
+      "^\\s*(?:解释|介绍一下|什么是|是否有|如何配置|怎么安装|how does|what is|explain how|how to configure|how to install)",
+      "(?:不要|无需|不用)[^\\n]{0,8}(?:写|改写|润色|翻译|改稿)",
+      "\\b(?:do not|don't|without)\\s+(?:write|writing|rewrite|rewriting|edit|editing|translate|translating)\\b"
+    ]
+  }
+}

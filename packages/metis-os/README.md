@@ -58,6 +58,37 @@ and safe to re-run:
 | `metis-os skills uninstall [--dir <path>] [--skill <name> ...]` | Remove only the symlinks created by `skills install` |
 | `metis-os skills list [--dir <path>]` | Show each bundled skill's link state |
 
+## Writing workflow integration
+
+The source version also provides an independent `writing-review` workflow:
+enter a writing task, inject the complete `prose-audit` instructions, draft,
+review, revise at most once, verify the current text and deliver it.
+
+```bash
+metis-os workflows install writing-review --runtime codex
+metis-os workflows install writing-review --runtime dsh
+metis-os workflows status --session <session-id>
+metis-os workflows uninstall --runtime codex
+```
+
+Run installation in the consuming project, or pass `--project /path/to/project`.
+Use `--activation explicit` to require the standalone first-line marker
+`[metis:writing-review]`; the default uses configurable Chinese/English writing
+patterns. `[metis:skip-writing-review]` skips an activated task.
+
+Codex installation preserves other hooks in `.codex/hooks.json`; review and
+trust the generated hooks in Codex before expecting them to run. DSH installation
+exports hook JSON and a `cordis.patch.yml` under `.metis/adapters/dsh/`; load the
+patch in the intended DSH composition. It does not restart or reconfigure a
+running service. Generated machine paths and `.metis/state/` are locally ignored.
+
+The hook supplies the evidence commands (`capture`, `review`, `revise`, `verify`)
+with the current session identity. Records bind the captured text, review and
+verification by hash; their semantic checks are model attestations. One Stop
+continuation can recover a missed check, but cannot hide text already streamed.
+See the repository's [bilingual workflow guide](https://github.com/mappedinfo/metis/tree/main/workflows)
+for the complete protocol, supported text formats and recovery behavior.
+
 ## Shared skills
 
 `metis-os skills install` symlinks the skills bundled with the package

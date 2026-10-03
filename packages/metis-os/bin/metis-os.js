@@ -16,6 +16,7 @@ import { homedir } from "node:os";
 import { dirname, isAbsolute, parse, resolve, sep } from "node:path";
 import { cmdProfiles } from "../lib/profiles.js";
 import { cmdSkills } from "../lib/skills.js";
+import { cmdWorkflows } from "../lib/workflows.js";
 
 const VERSION = JSON.parse(
   readFileSync(new URL("../package.json", import.meta.url), "utf8")
@@ -87,6 +88,12 @@ Usage:
       Remove only the symlinks created by skills install
   metis-os skills list [--dir <path>]
       Show each bundled skill's link state in the target directory
+  metis-os workflows install writing-review --runtime codex|dsh [--project <path>]
+      Prepare project hooks for draft → review → revision → verification
+  metis-os workflows status --session <id> [--project <path>]
+      Inspect the current artifact and its review state
+  metis-os workflows uninstall --runtime codex|dsh [--project <path>]
+      Remove managed hooks, preserving other hooks and review history
   metis-os --help, -h              Show this help
   metis-os --version, -v           Show version
 
@@ -264,7 +271,7 @@ Convention: https://github.com/mappedinfo/metis/blob/main/CONVENTION.md
 `);
 }
 
-function main(argv) {
+async function main(argv) {
   const args = argv.slice(2);
 
   if (args.includes("--help") || args.includes("-h")) {
@@ -284,6 +291,12 @@ function main(argv) {
 
   if (args[0] === "skills") {
     try { cmdSkills(args.slice(1)); }
+    catch (error) { fail(error.message); }
+    return 0;
+  }
+
+  if (args[0] === "workflows") {
+    try { await cmdWorkflows(args.slice(1)); }
     catch (error) { fail(error.message); }
     return 0;
   }
@@ -314,7 +327,7 @@ function main(argv) {
 }
 
 try {
-  process.exit(main(process.argv));
+  process.exit(await main(process.argv));
 } catch (err) {
   if (err && err.code === "EPERM") {
     fail(

@@ -15,6 +15,7 @@ can share them.
 USER.md      — who you are          (personal, private, yours)
 AGENTS.md    — the service contract  (per project, generic)
 skills/      — what agents can do    (shared, public)
+workflows/   — when steps run        (shared rules, runtime adapters)
 ```
 
 ## Quick start
@@ -55,6 +56,7 @@ Release readiness and the currently published version are tracked in the
 | [CONVENTION.md](CONVENTION.md) | The USER.md convention — the core idea, stable and small |
 | [skills/](skills/) | Public, generic agent skills (admission criteria inside) |
 | [profiles/](profiles/) | Canonical shared style profiles, bundled by metis-os |
+| [workflows/](workflows/) | Bounded writing workflow with Codex and DSH hook adapters |
 | [packages/metis-os](packages/metis-os/) | `npx metis-os` — scaffolds USER.md + the AGENTS.md service clause |
 | [docs/](docs/) | The website: <https://mappedinfo.github.io/metis/> |
 
@@ -80,6 +82,12 @@ For an existing draft, [prose-audit](skills/prose-audit/SKILL.md) reviews
 Chinese and English jargon, repetitive phrasing and unsupported emphasis.
 It offers contextual findings or a minimal revision, with an optional local
 candidate scanner. Its findings assess expression, not who wrote the text.
+
+The optional [writing workflow](workflows/README.md) connects this review to
+writing requests: inject the skill → draft → review → at most one revision →
+verify → deliver. Project opt-in hooks and private, content-bound records handle
+activation and missed checks. Skills remain usable on their own. See
+[the integration guide](docs/workflows.md) for setup and runtime limitations.
 
 ## Companion tool
 

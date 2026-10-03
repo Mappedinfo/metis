@@ -1,7 +1,7 @@
 {
   "name": "metis-os",
   "version": "0.3.0",
-  "description": "Scaffold the USER.md convention, install shared metis style profiles, and link metis skills into agent skill directories.",
+  "description": "Scaffold the USER.md convention, install shared skills and styles, and connect bounded writing workflows to agent runtimes.",
   "keywords": [
     "agents",
     "skills",
@@ -26,11 +26,12 @@
     "lib",
     "profiles",
     "skills",
+    "workflows",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "prepack": "node ../../scripts/bundle-profiles.mjs && node ../../scripts/bundle-skills.mjs",
+    "prepack": "node ../../scripts/bundle-profiles.mjs && node ../../scripts/bundle-skills.mjs && node ../../scripts/bundle-workflows.mjs",
     "test": "node --test test/*.test.js"
   },
   "engines": {
