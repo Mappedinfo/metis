@@ -34,7 +34,8 @@ related artifacts consistent.
 
 ## Authoring a skill
 
-1. Copy the template below into `skills/<skill-name>/SKILL.md`.
+1. Copy the template below into `skills/<skill-name>/SKILL.md` in English,
+   then add `SKILL.zh.md` following the [language workflow](#skill-languages).
 2. Write the full craft — detail is the point. A skill that only says
    "write well" is not a skill.
 3. Keep it generic: no personal identity, private paths, private tools.
@@ -97,8 +98,8 @@ use it to waive a required user outcome.
 
 ## Requirements
 
-- [B] R1 Blocking requirement that must hold for done — 验证: how the agent checks it.
-- [A] R2 Advisory requirement that improves quality — 验证: how the agent checks it.
+- [B] R1 Blocking requirement that must hold for done — Verification: how the agent checks it.
+- [A] R2 Advisory requirement that improves quality — Verification: how the agent checks it.
 
 ## When to stop
 
@@ -114,6 +115,65 @@ use it to waive a required user outcome.
 What the agent must produce, and how the user can verify it.
 Include the requirements ledger, the stop condition and any unfinished work.
 ```
+
+## Skill languages
+
+English is the authoritative workflow language for bilingual metis skills.
+The source layout is:
+
+| File | Role |
+|---|---|
+| `SKILL.md` | English workflow and the sole runtime entry, including machine-readable frontmatter |
+| `SKILL.zh.md` | Editable Chinese translation of the same workflow, for reading and maintenance |
+
+Keep one skill identity. Do not add a competing `SKILL.en.md` entry or install
+translations as separate skills. Start the Chinese file with a link to
+`SKILL.md` stating that English governs execution; omit duplicate runtime
+frontmatter. Translate the meaning faithfully, including boundaries,
+requirements, verification and stopping rules. Preserve identifiers, field
+keys, commands, paths and provenance. Supporting references may use matching
+`<name>.md` / `<name>.zh.md` pairs; executable code and shared profiles remain
+single sources.
+
+### Editing and synchronization
+
+Both language files may be edited by a person or an agent. English authority
+does not restrict where an edit can begin:
+
+1. Read both versions and the relevant diff before synchronizing; preserve
+   intentional edits already present in either language.
+2. For a workflow change begun in English, update the existing translations.
+   For one begun in Chinese, first express the intended change in English,
+   then reconcile Chinese and any other existing translations with it.
+3. Review semantic equivalence: triggers, inputs, steps, constraints, outputs,
+   verification and stop conditions must agree. Update affected references
+   and examples in the same change. Commit the synchronized workflow together.
+   A language-only spelling or phrasing fix may stay in that language when
+   it leaves the workflow unchanged.
+4. If the files conflict, execute the English workflow. Git history helps
+   recover edit intent; commit time and file modification time do not choose
+   the execution language. Treat an unsynchronized Chinese workflow change
+   as pending, identify it in the handoff or change report, and preserve it
+   for reconciliation rather than silently overwriting it. Do not report
+   synchronization complete while the meaning remains unresolved.
+
+The skill's source language does not determine the response or artifact
+language: follow the user's request and the skill's output contract. These
+file conventions do not override the user's applicable instructions.
+
+### Migration and validation
+
+New skills ship the English entry and Chinese companion. Migrate existing
+skills as complete, reviewed pairs, preserving their full workflow and
+licenses. Until an existing skill is migrated, its current `SKILL.md` remains
+the execution entry, even when its prose is Chinese. Do not replace it with
+an incomplete English stub. The [handoff](HANDOFF.md) records migration status.
+
+Run `npm run skills:check` after edits and regenerate the skill bundle before
+installation. Discovery and lint inspect `SKILL.md`; the bundler includes
+companion files. These checks do not detect prose language or establish
+translation equivalence. Authors and reviewers check the pair; there is no
+automatic translation or Git-based language selection.
 
 ## The organizing loop (human writes, AI keeps the system honest)
 

@@ -10,6 +10,33 @@ The vocabulary is maintained in [skill-contract.json](skill-contract.json).
 Root [profiles/](profiles/) owns shared style data. Each artifact keeps its own
 export and sizing defaults, including in mixed figure-and-deck tasks.
 
+The [language workflow](CONTRIBUTING.md#skill-languages) makes English
+authoritative for bilingual skills: `SKILL.md` is the execution entry and
+`SKILL.zh.md` its editable translation. Changes may start in either language;
+synchronize workflow meaning in the same change. Output language remains
+independent of source language.
+
+## Language policy — 2026-10-03
+
+- Accepted: English governs conflicts; Git history supports reconciliation,
+  not execution-language selection. This replaces the earlier proposal to
+  choose whichever language was modified last. Chinese-origin workflow edits
+  remain pending until incorporated into English; retain their intent.
+- Migration has not been performed in this policy change. All 9 skills still
+  have only `SKILL.md`; the 5 research-taskbook / taskbook-family entries retain
+  Chinese method content. Their existing entries continue to run until each
+  is migrated as a complete English/Chinese pair. New skills use the pair now.
+- Acceptance for a migrated pair: equivalent triggers, inputs, workflow,
+  boundaries, outputs, checks and stop rules; preserved identifiers, commands,
+  references and licensing; a passing collection check and a regenerated
+  bundle. Existing lint checks the runtime entry, not translation equivalence.
+- Installation and discovery already use `SKILL.md`, and the bundler copies
+  supporting files. No loader changes, automatic translator or timestamp
+  arbitration were added. npm publication and Pages deployment remain separate.
+- Validated: scoped policy review, `git diff --check`, `npm run skills:check`
+  (9 skills, 4 profiles, 0 errors / 0 warnings) and `npm run docs:build` pass.
+  No skill workflow or executable implementation changed in this update.
+
 ## Chart expansion — 2026-10-02
 
 - `table-chart` now proposes chart, layout and profile alternatives from a
@@ -79,9 +106,9 @@ export and sizing defaults, including in mixed figure-and-deck tasks.
   CJK font variant supports it. An exported script was rerun successfully.
   These are bounded example checks, not general usability measurements.
 - Remaining work: the taskbook PDF/OCR routing and slides profile connection
-  still need repair and task-specific acceptance. Bilingual source files and
-  Git-based language selection remain a design proposal, not implemented
-  behavior. No npm publication or Pages deployment is part of this change.
+  still need repair and task-specific acceptance. Bilingual migration remains
+  pending under the English-authoritative language policy above.
+  No npm publication or Pages deployment is part of this change.
 
 ## Source changes — 2026-09-30
 
