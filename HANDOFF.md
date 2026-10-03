@@ -37,8 +37,8 @@ independent of source language.
   hosts that issue a new turn for it; repeated internal steps do not rearm it.
   These records attest model checks, not their semantic correctness, and the
   Stop hook cannot hide or retract text already streamed to the user.
-- Validated: all 99 collection tests, the 11-skill / 4-profile audit with no
-  errors or warnings, three source/bundle checks and the docs build. The 50
+- Validated: all 100 collection tests, the 11-skill / 4-profile audit with no
+  errors or warnings, three source/bundle checks and the docs build. The 51
   added tests cover state transitions, stale evidence, cross-process budgets,
   hook replay/continuation, installed commands, configuration preservation and
   uninstall/reinstall failure paths. A bounded independent installer review
@@ -49,11 +49,20 @@ independent of source language.
   citation marker and limitations, and final text identical to the verified
   revision snapshot. This is bounded package/adapter use, not a live Codex or
   DSH hook-delivery test or a general editorial-accuracy benchmark.
-- This checkout has both adapters prepared. Codex still requires hook review
-  and trust through `/hooks`; the DSH export has not been mounted in a live
-  host. No trust store, global runtime configuration or running service was
-  changed. Real host activation, npm publication and Pages deployment remain
-  separate. Validated source changes follow the existing daily push queue.
+- Codex configuration now sets `additionalContextLimit` only on
+  `UserPromptSubmit`; `Stop` cannot emit additional context. Reinstall upgrades
+  the earlier managed Stop entry and its installation record, preserving other
+  hooks. Regression coverage checks new installation and legacy upgrade.
+- This checkout has both adapters prepared. After user approval, a read-only
+  `hooks/list` check using the desktop's Codex 0.160.0 reports both hooks enabled
+  and trusted, with no loading warnings or errors. The separately installed
+  CLI 0.142.5 computes a different prompt-hook hash; diagnose trust using the
+  intended host version instead of treating that older CLI as desktop evidence.
+  This is configuration-loading validation; an actual writing turn remains the
+  runtime execution check. The DSH export has not been mounted in a live host.
+  This repair did not write the trust store or restart a service. npm publication
+  and Pages deployment remain separate; validated source changes follow the
+  existing daily push queue.
 
 ## Public prose review — 2026-10-03
 

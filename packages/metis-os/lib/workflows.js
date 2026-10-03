@@ -115,7 +115,8 @@ export function installWorkflow({ project = process.cwd(), runtime, activation }
   const groups = {};
   for (const event of EVENTS) {
     const handler = { type: 'command', command, timeout: 10, statusMessage: 'Checking the metis writing workflow' };
-    if (runtime === 'codex') handler.additionalContextLimit = 0;
+    // Only the prompt hook emits additionalContext; Stop emits a continuation.
+    if (runtime === 'codex' && event === 'UserPromptSubmit') handler.additionalContextLimit = 0;
     groups[event] = { hooks: [handler] };
     (hooks.hooks[event] ??= []).push(groups[event]);
   }

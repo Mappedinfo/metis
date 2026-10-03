@@ -24,9 +24,35 @@ test('workflow install preserves unrelated Codex hooks and is idempotent', () =>
   assert.equal(hooks.description, 'mine');
   assert.deepEqual(hooks.hooks.UserPromptSubmit[0], foreign);
   assert.deepEqual(hooks.hooks.OtherEvent, [foreign]);
-  assert.equal(hooks.hooks.Stop[0].hooks[0].additionalContextLimit, 0);
+  assert.equal(hooks.hooks.UserPromptSubmit.at(-1).hooks[0].additionalContextLimit, 0);
+  assert.equal(Object.hasOwn(hooks.hooks.Stop[0].hooks[0], 'additionalContextLimit'), false);
   assert.equal(installWorkflow({ project: root, runtime: 'codex' }).changed_files, 0);
   assert.match(readFileSync(join(root, '.metis/.gitignore'), 'utf8'), /\/state\//);
+});
+
+test('reinstall upgrades a legacy Stop hook without changing prompt or foreign hooks', () => {
+  const root = fixture();
+  const foreign = { hooks: [{ type: 'command', command: 'echo keep' }] };
+  put(root, '.codex/hooks.json', { hooks: { Stop: [foreign] } });
+  installWorkflow({ project: root, runtime: 'codex' });
+  const hookPath = join(root, '.codex/hooks.json');
+  const recordPath = join(root, '.metis/adapters/codex/installation.json');
+  const hooks = json(hookPath), record = json(recordPath);
+  const promptBefore = structuredClone(hooks.hooks.UserPromptSubmit);
+  // Reproduce the prior release's exact managed group and installation record.
+  hooks.hooks.Stop.at(-1).hooks[0].additionalContextLimit = 0;
+  record.groups.Stop.hooks[0].additionalContextLimit = 0;
+  writeFileSync(hookPath, JSON.stringify(hooks));
+  writeFileSync(recordPath, JSON.stringify(record));
+  installWorkflow({ project: root, runtime: 'codex' });
+  const upgraded = json(hookPath);
+  assert.deepEqual(upgraded.hooks.UserPromptSubmit, promptBefore);
+  assert.deepEqual(upgraded.hooks.Stop[0], foreign);
+  assert.equal(Object.hasOwn(upgraded.hooks.Stop.at(-1).hooks[0], 'additionalContextLimit'), false);
+  assert.deepEqual(json(recordPath).groups.Stop, upgraded.hooks.Stop.at(-1));
+  assert.equal(installWorkflow({ project: root, runtime: 'codex' }).changed_files, 0);
+  uninstallWorkflow({ project: root, runtime: 'codex' });
+  assert.deepEqual(json(hookPath).hooks.Stop, [foreign]);
 });
 
 test('generated command executes from paths containing spaces and quotes', () => {
