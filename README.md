@@ -76,6 +76,11 @@ existing objectives and evidence into a review, an authorized next action
 and a verifiable plan. Personal defaults and learning stores belong to the
 caller; the public workflow also works without them.
 
+For an existing draft, [prose-audit](skills/prose-audit/SKILL.md) reviews
+Chinese and English jargon, repetitive phrasing and unsupported emphasis.
+It offers contextual findings or a minimal revision, with an optional local
+candidate scanner. Its findings assess expression, not who wrote the text.
+
 ## Companion tool
 
 [metis-atlas](https://www.npmjs.com/package/metis-atlas) (`npx metis-atlas`) scans

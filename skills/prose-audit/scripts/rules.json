@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "description": "Original, finite prose-review candidate rules. A match is not an error, an authorship claim, or a recommendation to replace a term.",
+  "thresholds": {
+    "tier1_document": 1,
+    "tier2_document": 4,
+    "tier2_paragraph": 3,
+    "tier3_document": 3
+  },
+  "traditional_fold": {
+    "當": "当", "務": "务", "約": "约", "驗": "验", "釋": "释", "邊": "边", "證": "证", "論": "论", "報": "报", "執": "执", "錄": "录", "徑": "径", "蹤": "踪", "覺": "觉", "鏈": "链", "樹": "树", "樣": "样", "習": "习", "數": "数", "採": "采", "預": "预", "協": "协", "漸": "渐", "進": "进", "職": "职", "責": "责", "賦": "赋", "閉": "闭", "齊": "齐", "顆": "颗", "體": "体", "態": "态", "為": "为", "鍵": "键", "顯": "显", "實": "实", "來": "来", "質": "质", "無": "无", "問": "问", "疑": "疑", "義": "义", "標": "标", "誌": "志", "著": "着", "時": "时", "搖": "摇", "視": "视", "與": "与", "總": "总", "綜": "综", "彙": "汇", "復": "复", "優": "优", "勢": "势"
+  },
+  "vocabulary": [
+    {"id":"current_contract","tier":1,"forms":["当前合同","任务契约","验收契约"],"note":"Check whether the contractual metaphor identifies a real agreement or only renames ordinary requirements."},
+    {"id":"boundary_metaphor","tier":1,"forms":["解释边界","口径边界","验证边界","结论边界"],"note":"A precise scope or evidence limitation can be necessary; check what the phrase adds in this context."},
+    {"id":"receipt_metaphor","tier":1,"forms":["指标回执","失败回执","完整回执","任务回执","完整口径"],"note":"Check whether the reader can identify the actual result or record meant by this phrase."},
+    {"id":"technical_context","tier":1,"forms":["上下文窗口","链式思维","核采样","提示注入","代理编排","多代理协作","context window","chain of thought","prompt injection"],"note":"Context-sensitive technical terminology: retain it when it is the correct term for the subject; its presence is not a prose fault."},
+    {"id":"delve","tier":1,"forms":["delve","delves","delved","delving"],"note":"Check whether a concrete verb would tell the reader what the analysis does."},
+    {"id":"tapestry","tier":1,"forms":["tapestry","tapestries"],"note":"Check the purpose and precision of this metaphor; literal uses are ordinary."},
+    {"id":"nuanced","tier":1,"forms":["nuanced"],"note":"Check whether the distinctions are explained rather than only asserted."},
+    {"id":"multifaceted","tier":1,"forms":["multifaceted"],"note":"Check whether the relevant facets are named."},
+    {"id":"underscore","tier":1,"forms":["underscore","underscores","underscored","underscoring"],"note":"Check whether the sentence states an evidenced implication; technical and literal uses can be precise."},
+    {"id":"paramount","tier":1,"forms":["paramount"],"note":"Check the basis and scope of the importance claim."},
+    {"id":"pivotal","tier":1,"forms":["pivotal"],"note":"Check what changed and whether the claimed importance is supported."},
+    {"id":"meticulous","tier":1,"forms":["meticulous","meticulously"],"note":"Check whether the described care is relevant and demonstrated."},
+    {"id":"holistic","tier":1,"forms":["holistic"],"note":"Check which parts and relationships the claimed scope actually includes."},
+    {"id":"robust","tier":1,"forms":["robust","robustly"],"note":"Context-sensitive technical adjective: identify the tested conditions; robust is legitimate terminology in many fields."},
+    {"id":"intricate_interplay","tier":1,"forms":["intricate interplay"],"note":"Check whether the relationship is explained concretely."},
+    {"id":"structural_preface","tier":1,"forms":["at its core","without further ado","let me explain","let's unpack","the key takeaway is","here's the kicker","in today's fast-paced world"],"note":"Check whether this preface helps the intended reader or delays the point."},
+    {"id":"empower","tier":2,"forms":["赋能"],"note":"Check whether the enabling action and beneficiary are specific."},
+    {"id":"closed_loop","tier":2,"forms":["闭环"],"note":"Retain a real feedback-loop meaning; check repeated metaphorical use."},
+    {"id":"alignment","tier":2,"forms":["对齐"],"note":"Alignment can be technical or organizational; check whether repeated uses name the actual action."},
+    {"id":"reuse","tier":2,"forms":["复用"],"note":"Reuse can be precise; review repetition in context."},
+    {"id":"granularity","tier":2,"forms":["颗粒度"],"note":"Check the actual level of detail or unit being discussed."},
+    {"id":"coordination","tier":2,"forms":["协同"],"note":"Check who coordinates which actions and whether repetition adds information."},
+    {"id":"leverage","tier":2,"forms":["leverage","leverages","leveraged","leveraging"],"note":"Check whether the mechanism is clear; retain the technical financial or mechanical sense when relevant."},
+    {"id":"synergy","tier":2,"forms":["synergy","synergies"],"note":"Check whether the claimed joint benefit is explained."},
+    {"id":"paradigm_shift","tier":2,"forms":["paradigm shift","paradigm shifts"],"note":"Check the scale and evidence of the claimed change."},
+    {"id":"game_changer","tier":2,"forms":["game-changer","game changers","game-changers"],"note":"Check which practical outcome changed."},
+    {"id":"holistic_approach","tier":2,"forms":["holistic approach","holistic approaches"],"note":"Check the actual scope and relationships considered."},
+    {"id":"actionable_insights","tier":2,"forms":["actionable insight","actionable insights"],"note":"Check which decision or action the insight supports."},
+    {"id":"deep_dive","tier":2,"forms":["deep dive","deep dives"],"note":"Check whether the phrase is useful to this audience or can name the analysis more directly."},
+    {"id":"worth_noting","tier":2,"forms":["值得注意的是","it's important to note","it is important to note"],"note":"Check whether the preface adds something beyond the point that follows."},
+    {"id":"in_summary","tier":2,"forms":["综上所述","总而言之","in summary","in conclusion","to sum up"],"note":"Check whether the conclusion synthesizes evidence or merely repeats it; a match cannot decide that."},
+    {"id":"therefore","tier":2,"forms":["therefore","consequently","as a result"],"note":"Check that each stated consequence follows; frequent use may still be appropriate."},
+    {"id":"illustration","tier":2,"forms":["for example","for instance","to illustrate"],"note":"Examples are often useful; review only whether repeated signposting serves the reader."},
+    {"id":"truly","tier":3,"forms":["真正","truly"],"note":"Check what the emphasis distinguishes in each occurrence."},
+    {"id":"actually","tier":3,"forms":["其实","实际上","事实上","actually","in fact"],"note":"Check whether a real correction or contrast needs this emphasis."},
+    {"id":"often","tier":3,"forms":["往往"],"note":"Check whether the frequency claim is appropriate to the evidence."},
+    {"id":"seems","tier":3,"forms":["看起来"],"note":"Check whether this signals useful uncertainty or avoids a concrete description."},
+    {"id":"increasingly","tier":3,"forms":["越来越","increasingly"],"note":"Check the evidence and time frame for the trend."},
+    {"id":"essentially","tier":3,"forms":["本质上","essentially"],"note":"Check whether a precise explanation supports the claimed essence."},
+    {"id":"certainty","tier":3,"forms":["毫无疑问","毋庸置疑","undoubtedly"],"note":"Check whether this degree of certainty is necessary and justified."}
+  ],
+  "syntax": [
+    {"id":"negation_split_zh","pattern":"(?:这|這)?不是[^。！？.!?\\n\\x00]{1,160}[。.!?][ \\t\\r\\n]{0,12}(?:这|這)?(?:而)?是[^。！？.!?\\n\\x00]{1,160}","note":"Split negation and assertion: check whether the rejected alternative is relevant and whether the positive claim is informative."},
+    {"id":"negation_split_en","pattern":"(?<![\\w])(?:this|it)(?: is not| isn't)[^.!?。！？\\n\\x00]{1,160}[.!?][ \\t\\r\\n]{0,12}(?:this|it)(?: is|'s) [^.!?。！？\\n\\x00]{1,160}","note":"Split negation and assertion: check whether both parts are useful to the reader."},
+    {"id":"contrast_zh","pattern":"(?:不是|不在于|不在)[^。！？.!?\\n\\x00]{1,120}(?:而是|而在于|而在)[^。！？.!?\\n\\x00]{1,120}","note":"Contrast template: review the actual distinction; the structure can be warranted."},
+    {"id":"contrast_en","pattern":"(?<![\\w])(?:not|isn't)[^.!?。！？\\n\\x00]{1,120}(?:\\bbut\\b|[;—–] ?(?:it is|it's))[^.!?。！？\\n\\x00]{1,120}","note":"Contrast template: check whether the alternatives establish a meaningful distinction."},
+    {"id":"importance_zh","pattern":"(?:扮演着?至关重要的角色|标志着[^。！？.!?\\n\\x00]{0,100}关键时刻|凸显了?[^。！？.!?\\n\\x00]{0,100}重要性)","note":"Importance claim: check the scale, evidence, and concrete consequence in context."},
+    {"id":"importance_en","pattern":"(?<![\\w])(?:marking a pivotal moment(?: in history)?|play(?:s|ed|ing)? a crucial role(?: in)?|underscor(?:e|es|ed|ing) (?:its|their|the) importance)(?![\\w])","note":"Importance claim: check the evidence and consequence; the syntax alone cannot establish exaggeration."}
+  ],
+  "adjacent_repetition": [
+    {"id":"truly","forms":["真正","truly"]},
+    {"id":"very","forms":["非常","very"]},
+    {"id":"extremely","forms":["极其","extremely"]},
+    {"id":"highly","forms":["高度","highly"]},
+    {"id":"indeed","forms":["indeed"]},
+    {"id":"clearly","forms":["clearly"]},
+    {"id":"really","forms":["really"]},
+    {"id":"actually","forms":["其实","实际上","actually"]}
+  ],
+  "formatting": [
+    {"id":"bold_label_list","pattern":"(?m)^[ \\t]{0,3}(?:[-*+]|[0-9]+\\.)[ \\t]+\\*\\*[^*\\n\\x00]{1,80}\\*\\*[ \\t]*[:：]","note":"Bold label list item: check whether repeated labels improve scanning for this audience; formatting is not an authorship signal."}
+  ]
+}

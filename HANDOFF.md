@@ -16,6 +16,41 @@ authoritative for bilingual skills: `SKILL.md` is the execution entry and
 synchronize workflow meaning in the same change. Output language remains
 independent of source language.
 
+## Public prose review — 2026-10-03
+
+- Added [prose-audit](skills/prose-audit/SKILL.md), the eleventh public skill,
+  in `compose` with `writing` / `review-qa` domains. Four English/Chinese
+  document pairs cover the workflow, contextual signals, optional scanner
+  and fictional practice cases. English governs execution; audit, edit and
+  result-only modes support Chinese, English and mixed prose.
+- The workflow reads the supplied scope before judging wording. Keywords,
+  repetition and syntax identify candidates; actual findings need a source
+  location and an explanation of reader impact. Necessary technical terms,
+  evidence limits, quotations and author voice remain protected. There are
+  no authorship probabilities, automatic forbidden-word replacements or
+  invented details to make prose appear human. The public material is original;
+  existing personal writing skills and runtime exposures were not changed.
+- The optional Python standard-library scanner is local and read-only. It
+  reports original character/line locations, configurable frequency triggers
+  and descriptive lengths. Its finite vocabulary, limited traditional-character
+  mapping and Markdown/quotation protection are heuristics. A candidate-free
+  scan neither completes the semantic review nor proves prose quality.
+- Validated: 29 scanner tests, all 49 collection tests, the 11-skill / 4-profile
+  audit (0 errors / 0 warnings), source/bundle consistency and the docs build.
+  Focused tests include preserved source locations, LF/CRLF parity, quoted and
+  literal regions, invalid inputs/configuration, read-only behavior and a
+  malformed-delimiter hang regression. The 22 local Markdown links resolve;
+  an isolated single-skill installation matches source files and its scanner
+  runs without changing the supplied input.
+- An independent agent used the public workflow and signal guide in manual
+  mode on four fictional cases. Readback verified technical-term preservation,
+  a complete fact-preserving result-only revision, recognition of a semantic
+  loop, and retention of ordinary personal voice. All 11 frozen inputs stayed
+  unchanged. This is bounded simulated use, not a general accuracy benchmark.
+- Local bundles include the skill. Fresh-session runtime discovery, npm
+  publication and Pages deployment remain separate; the validated local commit
+  follows the existing daily push queue.
+
 ## Public retrospective workflow — 2026-10-03
 
 - Added [review-advance](skills/review-advance/SKILL.md), the tenth public skill,

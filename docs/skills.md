@@ -93,6 +93,7 @@ For concrete inputs, deliverables and verification boundaries, see
 | `research-taskbook` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/research-taskbook/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/research-taskbook/SKILL.zh.md) | meta | research-design, workflow-meta | 把模糊研究问题翻译成任务书：澄清追问 → 形态判定 → 三要素原子任务 → 红线；含 4 份预设 |
 | `metis-router` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/metis-router/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/metis-router/SKILL.zh.md) | meta | workflow-meta | Composes skills for multi-stage tasks: one primary + ≤2 supports per phase, profiles for shared style, artifacts per phase |
 | `review-advance` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/review-advance/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/review-advance/SKILL.zh.md) | meta | project-ops, workflow-meta | Evidence-based retrospective → substantive summary, one authorized next action and a verifiable plan; optional research and learning review |
+| `prose-audit` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/prose-audit/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/prose-audit/SKILL.zh.md) | compose | writing, review-qa | Contextual Chinese/English wording review and minimal revision, with a local candidate scanner; no AI-authorship verdict |
 
 Every skill is a bounded SOP: a `## When to stop` section names the
 budget and termination criteria, `## Requirements` lists [B]/[A]-labeled

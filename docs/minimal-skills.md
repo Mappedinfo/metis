@@ -95,6 +95,25 @@
 具体输入契约见
 [`review-advance`](https://github.com/mappedinfo/metis/blob/main/skills/review-advance/SKILL.md)。
 
+## prose-audit：已有文稿 → 表达审查或最小改稿
+
+示例请求：
+
+> 检查这段中英文说明里的黑话、空泛强调和机械重复。逐处说明原因，保留
+> 有实际含义的专业词和结论限制；最后给出最小改稿，不增加原文没有的事实。
+
+[`prose-audit`](https://github.com/mappedinfo/metis/blob/main/skills/prose-audit/SKILL.md)
+先通读全文，再核对词语、句式和结构。脚本只定位待检查片段，不能代替语义判断。
+“审查”模式给出位置、原文、问题及建议；“改稿”模式返回完整修订文本。
+技术术语、引文、有效对比和作者风格可以保留。报告不判断文本是不是由 AI 写成。
+
+本地辅助检查不需要第三方 Python 包：
+
+```bash
+uv run --offline --no-project python -B skills/prose-audit/scripts/detect.py draft.md --json
+npm run prose-audit:check
+```
+
 ## 什么才算 MVP 通过
 
 每个入口至少要完成一个有代表性的任务，并检查实际产物。声明齐全、安装成功和
