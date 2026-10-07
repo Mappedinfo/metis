@@ -4,11 +4,13 @@ The `skills/` directory holds public, generic agent skills. Each skill is a
 directory with a `SKILL.md` (frontmatter: `name`, `description`) following
 the [agentskills.io](https://agentskills.io) format.
 
-All current skills use `SKILL.md` for the authoritative English
-workflow and `SKILL.zh.md` for an editable Chinese translation. Either file
-may be edited first; synchronize workflow changes across the pair, and follow
-English when they conflict. Output language still follows the user and the
-skill's declared scope. See the
+Each skill uses `SKILL.md` as its sole discovery entry and declares the role
+of `SKILL.zh.md`. `prose-audit` has separately authored English and Chinese
+processing guides under one shared review framework; other skills retain
+their current language conventions. Shared requirements stay synchronized,
+while language-specific methods and examples may differ. The reviewed
+prose determines the processing method; output language follows the user
+and the skill's declared scope. See the
 [language workflow](https://github.com/mappedinfo/metis/blob/main/CONTRIBUTING.md#skill-languages)
 and [migration status](https://github.com/mappedinfo/metis/blob/main/HANDOFF.md).
 

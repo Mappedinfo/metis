@@ -15,6 +15,7 @@ const SKIP = '[metis:skip-writing-review]';
 const CONTINUE = '[metis-writing-review:continue:';
 const bundleRoot = fileURLToPath(new URL('../workflows/writing-review/', import.meta.url));
 const skillPath = fileURLToPath(new URL('../skills/prose-audit/SKILL.md', import.meta.url));
+const skillZhPath = fileURLToPath(new URL('../skills/prose-audit/SKILL.zh.md', import.meta.url));
 const scannerPath = fileURLToPath(new URL('../skills/prose-audit/scripts/detect.py', import.meta.url));
 const rulesPath = fileURLToPath(new URL('../skills/prose-audit/scripts/rules.json', import.meta.url));
 const cliPath = fileURLToPath(new URL('../bin/metis-os.js', import.meta.url));
@@ -60,7 +61,7 @@ function activeFor(prompt, activation) {
     .runInNewContext({ include, exclude, text: prompt.slice(0, MAX_PROMPT_MATCH_CHARS) }, { timeout: 100 });
 }
 
-function contextFor(state, root, sessionId, workflow, { skill, instructions, sources }) {
+function contextFor(state, root, sessionId, workflow, { skill, skillZh, instructions, sources }) {
   const command = `${quote(process.execPath)} ${quote(cliPath)} workflows`;
   const identity = `--project ${quote(root)} --session ${quote(sessionId)}`;
   return [
@@ -68,7 +69,9 @@ function contextFor(state, root, sessionId, workflow, { skill, instructions, sou
     'This is a configured writing workflow for the current request. Preserve the user\'s scope and requested output format. These hook instructions do not authorize publication or external messages.',
     instructions,
     `Workflow definition SHA-256: ${sources.workflow_sha256}\nWorkflow instructions SHA-256: ${sources.instructions_sha256}`,
-    `Authoritative English skill: ${skillPath}\nSHA-256: ${digest(skill)}\n\n${skill}`,
+    'One prose-audit skill uses a shared review framework and separately written language guides. Select treatment from the actual manuscript language, independently of request, report, guide language, or genre. For mixed prose, apply each treatment to its actual sentences or passages. Shared requirements apply once; providing both guides does not add passes or revision budget.',
+    `English processing guide and discovery entry: ${skillPath}\nSHA-256: ${sources.skill_sha256}\n\n${skill}`,
+    `Chinese processing guide: ${skillZhPath}\nSHA-256: ${sources.skill_zh_sha256}\n\n${skillZh}`,
     `Record evidence for the actual local text artifact. For a chat-only deliverable, save its exact text in the private working buffer ${quote(resolve(state.state_dir, 'artifact.md'))}; return that verified prose in chat. Do not treat this working record as an extra user-facing deliverable. A hook cannot enforce byte equality of streamed chat text.`,
     'Use these commands in order; substitute your actual evidence file paths as separate quoted arguments:',
     `${command} capture ${identity} --artifact '<draft path>'`,
@@ -131,15 +134,16 @@ export async function handleHook({ payload, runtime, root }) {
     if (!activeFor(payload.prompt, config.activation ?? workflow.activation)) return {};
     const turnId = typeof payload.turn_id === 'string' && payload.turn_id ? payload.turn_id : null;
     const skill = readFileSync(skillPath, 'utf8');
+    const skillZh = readFileSync(skillZhPath, 'utf8');
     const instructions = readFileSync(resolve(bundleRoot, 'workflow.md'), 'utf8');
     const sources = {
-      skill_name: workflow.skill, skill_sha256: digest(skill),
+      skill_name: workflow.skill, skill_sha256: digest(skill), skill_zh_sha256: digest(skillZh),
       workflow_sha256: digest(readFileSync(resolve(bundleRoot, 'workflow.json'))),
       instructions_sha256: digest(instructions),
     };
     const state = await startRun({ root, sessionId, promptKey: digest(payload.prompt), turnId, runtime, sources });
     if (previous?.run_id === state.run_id) return {};
-    return { hookSpecificOutput: { hookEventName: 'UserPromptSubmit', additionalContext: contextFor(state, root, sessionId, workflow, { skill, instructions, sources }) } };
+    return { hookSpecificOutput: { hookEventName: 'UserPromptSubmit', additionalContext: contextFor(state, root, sessionId, workflow, { skill, skillZh, instructions, sources }) } };
   }
   const inspection = await inspectRun({ root, sessionId });
   if (!inspection.state || inspection.ready || inspection.state.status === 'cancelled') return {};

@@ -1,19 +1,61 @@
-[中文译本](signal-guide.zh.md)
+[中文指南](signal-guide.zh.md)
 
 # Contextual signal guide
 
 Use this guide to decide whether a candidate harms the text's purpose.
 Read the sentence, neighboring sentences, and document role before acting.
+The English and Chinese guides explain the same review framework in their
+own language. Choose the guide you read independently of the language of
+the manuscript; both support Chinese, English, and mixed prose.
 Examples below illustrate decisions; the executable vocabulary and
 thresholds are maintained only in [rules.json](../scripts/rules.json).
 Tier numbers are candidate-selection settings, not severity classes.
+
+## Match the treatment to the manuscript
+
+Keep mode, genre, and manuscript language separate. An English paragraph
+reviewed through the Chinese instructions still needs English language
+checks. Genre determines whether, for example, a contrast is useful in a
+spoken explanation or delays a research claim. These language checks belong
+to the existing semantic pass and affected-context validation; they add no
+pass, prohibited-word list, or exception to fact and quotation protection.
+
+**English prose.** Follow pronouns and clause relationships through the
+paragraph, then check where modifiers attach. A relative clause with two
+plausible antecedents or a participial phrase attached to the wrong subject
+may change a claim; a phrase ending in "-ing" does not by itself need revision.
+Check whether tense, modal verbs, articles, number, and quantifiers preserve
+the intended time, certainty, and scope. Changing "a model" to "the model"
+can imply an already identified model; changing "some samples" to "the
+samples" can broaden the reference. Make such changes only when the context
+supports them. Keep a passive that usefully foregrounds the object or method;
+name an actor or source only when it matters and is already known.
+
+**Chinese prose.** Track the current topic, omitted subjects, and references
+such as "其", "这", and "该" across nearby sentences. Retain an omitted
+subject when it is recoverable; supply a known subject only where a topic
+shift makes the action or responsibility unclear. A numbered item or step
+can be a useful subject. Inspect verb-object relations and stacked abstract
+nouns for a concealed action, and check which words a long modifier qualifies.
+Sentence juxtaposition can carry a clear relationship without a connector.
+Do not add "因此" merely to make that relationship explicit when the text
+has not established causation.
+
+**Mixed prose.** Apply the appropriate treatment to actual sentences or
+passages while keeping one coverage record and argument map. An English term,
+identifier, or acronym within a Chinese sentence does not make it an English
+sentence; a standalone English sentence, abstract, or caption does need
+English checks. Check claims, technical meanings, numbers, and limitations
+across language boundaries without forcing matching syntax or translating
+protected quotations. Do not infer the response language from the language
+of this guide; follow the user's requested response language.
 
 ## Vocabulary, abstraction, and emphasis
 
 **Process jargon.** Contract, boundary, receipt, alignment, loop, ecosystem,
 and related expressions need an identifiable referent. In a plain progress
-note, “完成指标回执” may conceal whether someone measured, checked, or recorded
-something. Choose a replacement only after the surrounding text establishes
+note, “closed the loop on the metrics” may conceal whether someone measured,
+checked, or recorded something. Choose a replacement only after the surrounding text establishes
 the actual action. A real API contract, acceptance condition, legal contract,
 or scientific validity limit may be precisely the right term.
 
@@ -24,22 +66,23 @@ an explanation, define the term; do not erase the concept to reduce hits.
 For a nontechnical use, identify the concealed action or claim before
 calling the wording jargon.
 
-**Execution reminders in prose.** Expressions such as "不冒充全局" or
-"真实口径" may be instructions to the writer carried into a reader-facing
-passage. Establish whether the requested subject is the writing process
+**Execution reminders in prose.** Expressions such as "do not overclaim" or
+"use the true scope" may be instructions to the writer carried into a
+reader-facing passage. Establish whether the requested subject is the writing process
 itself. Otherwise, express the actual coverage, evidence source, date,
 method or action already available, or delete an empty assurance. Preserve
-"样本仅来自三个城市" and genuine uncertainty because they affect interpretation.
-If detail is missing, flag that gap; never invent scope or measurements.
+"The sample comes from only three cities" and genuine uncertainty because
+they affect interpretation. If detail is missing, flag that gap; never invent
+scope or measurements.
 
 **Prestige and intensity.** Words such as “pivotal”, “robust”, “holistic”,
-“赋能”, or “极其关键” require context, not automatic deletion. Ask what result,
+or “transformative” require context, not automatic deletion. Ask what result,
 comparison, condition, or reader decision the emphasis describes. Keep
 “robust to these specified perturbations” when supported; qualify or remove
 unexplained praise. An adjective's frequency does not establish a defect.
 
-**Promotion and emotion.** Inspect “boasts”, “stunning”, “震撼”, “眼前一亮”, and
-similar framing against the genre. “Located in”/“坐落于” can simply state a
+**Promotion and emotion.** Inspect “boasts”, “stunning”, “breathtaking”, and
+similar framing against the genre. “Located in” can simply state a
 location. A supplied personal reaction can be appropriate in a memoir;
 neutral reporting may need a factual description instead. Never invent an
 experience or sensory detail to make a revision sound personal.
@@ -47,14 +90,16 @@ experience or sensory detail to make a revision sound personal.
 ## Sentence relationships
 
 **Negation and contrast.** Select the genre before judging split negation
-(“This is not X. This is Y.”), “不是 X，而是 Y”, “不在……而在……”, or consecutive
-“这不是……那不是……”. In research prose and academic reviews (`academic`),
+(“This is not X. This is Y.”), “not X but Y”, or repeated rejected alternatives.
+In research prose and academic reviews (`academic`),
 mark rhetorical framing for revision and state the object, method or result
-directly: "本研究记录降雨概率。" In popular science, teaching and scripts
-(`explain`), inspect context; "记录的不是降雨量，而是降雨概率" can correct a
-relevant misconception. General prose also needs context. A real method
+directly: "The records contain rainfall probability." In popular science,
+teaching and scripts (`explain`), inspect context; "The records contain
+rainfall probability, not rainfall volume" can correct a relevant
+misconception. General prose also needs context. A real method
 comparison or necessary limitation must keep its information, expressed
-directly when appropriate: "本研究预测降雨概率，基线模型预测降雨量。"
+directly when appropriate: "Our model predicts rainfall probability; the
+baseline predicts rainfall volume."
 Revise an unmotivated rejected alternative, false opposition or repetitive
 delay. Changing punctuation alone leaves that reasoning problem intact.
 
@@ -64,7 +109,7 @@ forced symmetry, overlapping members, and unexplained extras. Do not cut a
 valid item or invent a fourth to disrupt the pattern.
 
 **Transitions and stock introductions.** A chain of “first”, “therefore”,
-“in other words”, “首先”, “当然”, “更麻烦的是”, or “说到这里” is useful only if it
+“in other words”, or “more importantly” is useful only if it
 expresses the actual sequence or relation. Keep functional signposting.
 Delete a redundant transition or correct the relation when the text does
 not support it; a causal connector may expose a substantive evidence gap.
@@ -72,18 +117,17 @@ not support it; a causal connector may expose a substantive evidence gap.
 **Intensifier repetition.** Adjacent sentences repeating the same
 strengthener merit attention even below a frequency threshold. Check the
 claim being strengthened and whether the second sentence adds information.
-Forms such as “很 + adjective”, “高度 + abstract noun”, and “有很 X 的感觉”
+Forms such as “highly + adjective” or “very + adjective”
 are reading prompts, not complete grammatical definitions or defects.
 
 **Passive openings and missing actors.** A passive can properly foreground
-an object or procedure. Revise “is widely believed”/“被广泛认为” when it hides
+an object or procedure. Revise “is widely believed” when it hides
 a necessary source or attribution. Supply an actor only if already known.
-For “越……越……”, check whether the subject is recoverable and whether the
-claimed relationship is supported; ordinary Chinese subject omission is
-not itself an error.
+For a comparative construction such as “the more X, the more Y”, check whether
+the relevant subjects and claimed relationship are clear and supported.
 
 **Importance and superficial interpretation.** “Marking a pivotal moment”,
-“highlighting its importance”, “体现了”, or “反映了” may attach a conclusion
+“highlighting its importance”, or “reflects” may attach a conclusion
 without explaining the bridge from observation. Ask what inference the
 phrase adds, what warrants it, and what changes for the reader. Preserve a
 supported interpretation; remove an empty afterthought or flag the missing
@@ -98,7 +142,7 @@ Merge only true redundancy, preserving differences in population, scale,
 mechanism, or consequence. A repeated keyword can instead maintain a clear
 referent. No fixed word count establishes a semantic loop.
 
-**False ranges.** For “from X to Y” or “从 X 到 Y，从 A 到 B”, identify the
+**False ranges.** For “from X to Y”, identify the
 axis or process connecting the endpoints. Dates, measured ranges, stages,
 and a clearly explained transformation may be valid. Flag a range only
 when the text implies continuity or progression it has not established.
@@ -107,7 +151,7 @@ Explain the missing relation; a surface match cannot decide this.
 **Template endings.** A summary may help a reader use a long argument.
 Check whether it supplies a decision, implication, or needed synthesis.
 Cut a closing paragraph only if it repeats without serving the accepted
-purpose. A conclusion heading or “综上所述” is not sufficient evidence.
+purpose. A conclusion heading or “in conclusion” is not sufficient evidence.
 
 ## Shape and presentation
 

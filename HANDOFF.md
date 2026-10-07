@@ -10,11 +10,26 @@ The vocabulary is maintained in [skill-contract.json](skill-contract.json).
 Root [profiles/](profiles/) owns shared style data. Each artifact keeps its own
 export and sizing defaults, including in mixed figure-and-deck tasks.
 
-The [language workflow](CONTRIBUTING.md#skill-languages) makes English
-authoritative for bilingual skills: `SKILL.md` is the execution entry and
-`SKILL.zh.md` its editable translation. Changes may start in either language;
-synchronize workflow meaning in the same change. Output language remains
-independent of source language.
+The [language workflow](CONTRIBUTING.md#skill-languages) keeps `SKILL.md` as
+the sole discovery entry. `prose-audit` now uses separately authored Chinese
+and English processing guides under a shared review framework. Synchronize
+shared requirements; language methods and examples may differ. Select the
+method from the actual prose, independently of request language, report
+language and genre. Other skills retain their current language conventions.
+
+## prose-audit 分语言处理 — 2026-10-07
+
+- 本轮接受范围为 `prose-audit` 的共享审校框架与分别编写的中文、英文处理指南。
+  `SKILL.md` 保留唯一发现入口和运行时元数据，`SKILL.zh.md` 不另建技能身份；入口文件名不赋予英文语义优先。
+- 模式、全文覆盖、保护要求、R1–R8、预算和交付条件共同维护。写作逻辑、语法判断、语序和案例按语言组织，
+  无须逐段翻译。共有要求冲突按已接受要求、依据和修改意图核对，标明受影响项；不默认英文或最新文件胜出。
+- 写作 hook 的集成契约改为同时提供两份完整处理指南并分别记录来源哈希。按实际稿件语言选择方法，
+  混合稿分段处理，仍使用同一覆盖记录和预算；请求、报告与文体分别确定。
+- 其他技能维持各自现有语言约定；下方双语迁移及英文优先记录保留为历史，不能据此覆盖本轮范围。
+- [done] 102 项 Node 检查、技能审计、三个生成包核对及文档构建通过。三个独立合成任务核对了稿件语言、
+  报告语言、中文省略与英文被动的处理，另发现只交付改稿时未解语义的披露要求不够明确。
+  两份指南同步澄清后，一个独立新案例保留未知指代、报告缺失输入并将必需修复标为 `blocked`。
+  这些检查验证本地集成与有限案例，不证明所有宿主已传递 hook 或长期写作质量提升；未发布 npm、未改项目启用配置。
 
 ## 写作说明自身审查 — 2026-10-07
 
@@ -284,7 +299,7 @@ independent of source language.
   These are bounded example checks, not general usability measurements.
 - Remaining work: the taskbook PDF/OCR routing and slides profile connection
   still need repair and task-specific acceptance. Bilingual migration was
-  subsequently completed under the English-authoritative language policy above.
+  subsequently completed under the then-current English-authoritative language policy.
   No npm publication or Pages deployment is part of this change.
 
 ## Source changes — 2026-09-30

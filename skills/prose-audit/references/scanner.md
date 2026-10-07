@@ -1,6 +1,11 @@
-[中文译本](scanner.zh.md)
+[中文工具说明](scanner.zh.md)
 
 # Local candidate scanner
+
+Both language guides use this same scanner. The program and `rules.json`
+define its behavior; this document and the Chinese tool notes explain that
+behavior independently and must keep commands, limits, and field meanings
+consistent.
 
 Read this reference when the local helper is available. Complete the
 semantic read required by [the skill](../SKILL.md) first. The helper is a

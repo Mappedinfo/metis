@@ -5,9 +5,13 @@ The opt-in `writing-review` workflow connects a writing request to
 verify the result, and deliver the requested text. It is a project
 integration, separate from installing the skill.
 
-The hook injects the full canonical English skill and the English workflow
-entry. Chinese translations remain available for reading and maintenance;
-the output language follows the user's request. See the complete
+The hook injects the workflow entry and both complete `prose-audit`
+processing guides, recording a source hash for each guide. The English and
+Chinese guides share review requirements and are authored for their
+respective languages. Select the method from the actual prose; request
+language, report language and genre remain separate choices. Mixed prose
+uses the relevant method by passage, with one coverage record and budget.
+See the complete
 [workflow guide](https://github.com/mappedinfo/metis/blob/main/workflows/README.md)
 or [中文说明](https://github.com/mappedinfo/metis/blob/main/workflows/README.zh.md).
 

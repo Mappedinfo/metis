@@ -3,10 +3,12 @@
 [中文说明](workflow.zh.md)
 
 This project has opted in to a bounded writing workflow. The runtime hook
-supplies this workflow, the full authoritative English `prose-audit` skill,
-the session identifier, and executable command instructions. Follow the
-skill's actual editorial method; this workflow adds sequencing and records,
-not another copy of that method. Output language follows the user's request.
+supplies this workflow, both complete `prose-audit` processing guides with
+their source hashes, the session identifier, and executable command
+instructions. The guides share a review framework and contain separately
+authored Chinese and English editorial methods. This workflow supplies the
+review sequence and records. Output language follows the user's
+request; the actual prose determines which processing method applies.
 
 ## Scope and authority
 
@@ -30,7 +32,11 @@ delivers the complete requested text after the checks below.
    escape a failed check.
    Resolve the writing convention once from the task: `academic` for research
    prose/reviews, `explain` for popular science/teaching/scripts, `general`
-   otherwise. Keep instructions and review records outside the delivery prose.
+   otherwise. Resolve the prose language and requested report language
+   separately; neither the request language nor an instruction file's
+   language selects the editorial method. Mixed prose uses the relevant
+   language method by passage, within one coverage record and pass budget.
+   Keep instructions and review records outside the delivery prose.
 2. **Prepare the draft.** Write the complete requested text using the
    available evidence and accepted constraints. For a user-requested project
    artifact, use its authorized `.md` or `.txt` path. For chat-only delivery,
@@ -42,10 +48,12 @@ delivers the complete requested text after the checks below.
    that will be reviewed, not a summary, sample, or review report. Read the
    returned run information and draft hash before preparing a review record.
 4. **Review the whole captured draft.** Follow the injected `prose-audit`
-   instructions: complete a semantic read, inspect candidate wording in
-   context, preserve facts and voice, and distinguish `keep`, `revise`, and
-   `unresolved`. When local Python is available, run the provided scanner on
-   the captured draft with the selected `--genre`; it loads fixed rules and
+   shared requirements and the processing method for the draft's actual
+   language: complete a semantic read, inspect candidate wording in context,
+   preserve facts and voice, and distinguish `keep`, `revise`, and
+   `unresolved`. Use each language's writing conventions for its passages.
+   When local Python is available, run the provided scanner on the captured
+   draft with the selected `--genre`; it loads fixed rules and
    returns original locations and policy actions. Process hits in nearby
    context, merging overlaps, rather than regenerating a word list or SOP.
    For `academic`, directly restate rhetorical negation/contrast and consecutive

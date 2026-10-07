@@ -64,10 +64,12 @@ Start with [基础能力 / Minimal skills](docs/minimal-skills.md) for a concret
 input, deliverable and acceptance check in each category. Category coverage
 does not establish that every workflow has passed an end-to-end task.
 
-All skills have an English execution entry (`SKILL.md`) and an editable
-Chinese translation (`SKILL.zh.md`); the [catalog](docs/skills.md#catalog)
-links both. Workflow changes stay synchronized under the
-[English-authoritative language policy](CONTRIBUTING.md#skill-languages).
+Each skill has one discovery entry (`SKILL.md`) and a Chinese companion
+(`SKILL.zh.md`); the [catalog](docs/skills.md#catalog) links both.
+`prose-audit` has separately authored English and Chinese processing guides
+with shared review requirements. Other skills retain their declared
+language conventions. See the
+[language maintenance policy](CONTRIBUTING.md#skill-languages).
 
 For prepared tables, [table-chart](skills/table-chart/SKILL.md) recommends and
 renders seven chart forms with single-panel or faceted layouts and shared
@@ -79,9 +81,10 @@ and a verifiable plan. Personal defaults and learning stores belong to the
 caller; the public workflow also works without them.
 
 For an existing draft, [prose-audit](skills/prose-audit/SKILL.md) reviews
-Chinese and English jargon, repetitive phrasing and unsupported emphasis.
-It offers contextual findings or a minimal revision, with an optional local
-candidate scanner. Its findings assess expression, not who wrote the text.
+Chinese and English jargon, repetitive phrasing and unsupported emphasis,
+using the writing conventions of each language. It offers
+contextual findings or a minimal revision, with an optional local candidate
+scanner. Its findings assess expression, not who wrote the text.
 
 The optional [writing workflow](workflows/README.md) connects this review to
 writing requests: inject the skill → draft → review → at most one revision →

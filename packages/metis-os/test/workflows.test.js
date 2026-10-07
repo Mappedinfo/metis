@@ -1,10 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, symlinkSync, existsSync, unlinkSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, symlinkSync, existsSync, unlinkSync, copyFileSync, rmSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { installWorkflow, uninstallWorkflow } from '../lib/workflows.js';
 
 const repo = fileURLToPath(new URL('../../../', import.meta.url));
@@ -13,6 +13,24 @@ const fixture = () => mkdtempSync(join(tmpdir(), "metis writing 'project-"));
 const json = path => JSON.parse(readFileSync(path, 'utf8'));
 const put = (root, path, value) => { mkdirSync(resolve(root, path, '..'), { recursive: true }); writeFileSync(join(root, path), JSON.stringify(value)); };
 const run = (root, args) => spawnSync(process.execPath, [cli, ...args], { cwd: root, encoding: 'utf8' });
+
+test('a missing Chinese guide prevents installation before project configuration is written', async (t) => {
+  const sandbox = fixture();
+  t.after(() => rmSync(sandbox, { recursive: true, force: true }));
+  const root = join(sandbox, 'project'), bundle = join(sandbox, 'bundle');
+  for (const dir of [root, join(bundle, 'lib'), join(bundle, 'bin'), join(bundle, 'workflows/writing-review'), join(bundle, 'skills/prose-audit')]) mkdirSync(dir, { recursive: true });
+  writeFileSync(join(bundle, 'package.json'), '{"type":"module"}');
+  for (const name of ['workflows.js', 'workflow-core.js']) copyFileSync(resolve(repo, 'packages/metis-os/lib', name), join(bundle, 'lib', name));
+  writeFileSync(join(bundle, 'bin/metis-hook.js'), '// fixture hook');
+  for (const name of ['workflow.json', 'workflow.md']) copyFileSync(resolve(repo, 'packages/metis-os/workflows/writing-review', name), join(bundle, 'workflows/writing-review', name));
+  copyFileSync(resolve(repo, 'packages/metis-os/skills/prose-audit/SKILL.md'), join(bundle, 'skills/prose-audit/SKILL.md'));
+  const isolated = await import(pathToFileURL(join(bundle, 'lib/workflows.js')).href);
+  assert.throws(() => isolated.installWorkflow({ project: root, runtime: 'codex' }), /Missing runtime asset:.*SKILL\.zh\.md/);
+  assert.equal(existsSync(join(root, '.metis')), false);
+  assert.equal(existsSync(join(root, '.codex')), false);
+  copyFileSync(resolve(repo, 'packages/metis-os/skills/prose-audit/SKILL.zh.md'), join(bundle, 'skills/prose-audit/SKILL.zh.md'));
+  assert.ok(isolated.installWorkflow({ project: root, runtime: 'codex' }).changed_files > 0);
+});
 
 test('workflow install preserves unrelated Codex hooks and is idempotent', () => {
   const root = fixture();

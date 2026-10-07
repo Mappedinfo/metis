@@ -2,10 +2,19 @@
 
 [中文说明](review-cases.zh.md)
 
-These requests and drafts are invented practice material. Keep each original
-draft unchanged and put the requested response in a separate destination. The
-English and Chinese instructions below use the same source passages so their
-facts and candidate locations can be compared. They contain no expected answer.
+These requests and drafts are fictional practice material, not answer keys.
+The English and Chinese instructions are written for their respective readers
+under the same review framework. Both retain identical original drafts so
+their claims and source locations can be compared. Keep each draft unchanged
+and put your response in a separate destination.
+
+Choose the manuscript treatment from the actual prose, independently of the
+language of these instructions. Follow the request for the response language,
+output mode, and scope. Chinese, English, and mixed passages need their own
+language checks within the existing reading and revision budget; see the
+[signal guide](../references/signal-guide.md). Preserve supplied facts,
+quotations, uncertainty, and the deliberately flawed wording in the inputs.
+Do not repair the practice source or turn an audit request into a rewrite.
 
 ## Case A: audit a technical explanation
 
@@ -23,6 +32,9 @@ Draft:
 The blockquote above delimits the entire supplied draft; review its prose as
 the target, while preserving the quotation inside it. If using the helper,
 save the draft body as plain text without the surrounding Markdown quote marks.
+Apply Chinese treatment to its Chinese sentences and English treatment to
+the standalone English sentences. Embedded terms such as `prompt` and `token`
+do not change the surrounding sentence's language. Answer in Chinese as requested.
 
 ## Case B: minimally revise a release note
 
@@ -82,6 +94,9 @@ scanner run; quotation protection remains enabled. Compare the fixed rule
 actions with the contextual editing decisions. A retained quotation or
 useful explanation can produce a legitimate candidate when quoted material
 is deliberately included; zero candidates is not the goal.
+The two outputs differ by genre while preserving the same facts. Selecting
+`academic` or `explain` does not change the manuscript's language or authorize
+deleting a real method comparison, limitation, or source quotation.
 
 ## Local checks
 

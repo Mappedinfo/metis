@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { mkdtempSync, mkdirSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -10,6 +11,8 @@ import { captureDraft, getRun, recordReview, recordVerification } from '../lib/w
 
 const cli = fileURLToPath(new URL('../bin/metis-hook.js', import.meta.url));
 const skill = readFileSync(new URL('../skills/prose-audit/SKILL.md', import.meta.url), 'utf8');
+const skillZh = readFileSync(new URL('../skills/prose-audit/SKILL.zh.md', import.meta.url), 'utf8');
+const digest = value => createHash('sha256').update(value).digest('hex');
 
 function fixture(t, changes = {}, configured = true) {
   const root = realpathSync(mkdtempSync(join(tmpdir(), "metis hook ' project-")));
@@ -39,11 +42,13 @@ test('unconfigured, disabled, and nonwriting requests do not create a workflow',
   }
 });
 
-test('writing entry injects full authoritative skill and concrete commands once', async (t) => {
+test('writing entry injects both complete language guides with exact hashes once', async (t) => {
   const context = fixture(t);
   const result = await handleHook(context);
   assert.equal(result.hookSpecificOutput.hookEventName, 'UserPromptSubmit');
   assert.ok(result.hookSpecificOutput.additionalContext.includes(skill));
+  assert.ok(result.hookSpecificOutput.additionalContext.includes(skillZh));
+  assert.doesNotMatch(result.hookSpecificOutput.additionalContext, /Authoritative English skill/);
   assert.match(result.hookSpecificOutput.additionalContext, /workflows capture/);
   assert.match(result.hookSpecificOutput.additionalContext, /detect\.py'.*draft\.txt'.*--genre/s);
   assert.match(result.hookSpecificOutput.additionalContext, /general\|academic\|explain/);
@@ -54,9 +59,28 @@ test('writing entry injects full authoritative skill and concrete commands once'
   assert.match(result.hookSpecificOutput.additionalContext, /artifact\.md/);
   assert.ok(result.hookSpecificOutput.additionalContext.includes("'\\''"), 'apostrophe-bearing project path is shell quoted');
   const first = await getRun({ root: context.root, sessionId: context.payload.session_id });
-  assert.match(first.sources.skill_sha256, /^[a-f0-9]{64}$/);
+  assert.equal(first.sources.skill_sha256, digest(skill));
+  assert.equal(first.sources.skill_zh_sha256, digest(skillZh));
   assert.deepEqual(await handleHook(context), {});
   assert.equal((await getRun({ root: context.root, sessionId: context.payload.session_id })).run_id, first.run_id);
+});
+
+test('request language does not filter out a manuscript language guide', async (t) => {
+  for (const prompt of [
+    '[metis:writing-review]\n请审校英文摘要，报告用中文。',
+    '[metis:writing-review]\nReview the Chinese passage and report in English.',
+    '[metis:writing-review]\nReview this mixed Chinese and English document.',
+  ]) {
+    const context = fixture(t);
+    context.payload.prompt = prompt;
+    const result = await handleHook(context);
+    const injected = result.hookSpecificOutput.additionalContext;
+    assert.ok(injected.includes(skill));
+    assert.ok(injected.includes(skillZh));
+    assert.match(injected, /Shared requirements apply once/);
+    assert.match(injected, /actual manuscript language/);
+    assert.equal((await getRun({ root: context.root, sessionId: context.payload.session_id })).revision_count, 0);
+  }
 });
 
 test('matching review evidence allows Stop; changed artifact invalidates that receipt', async (t) => {

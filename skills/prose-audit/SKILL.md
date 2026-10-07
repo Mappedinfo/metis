@@ -17,7 +17,16 @@ artifacts:
 
 # Prose audit
 
-[中文译本](SKILL.zh.md)
+[中文处理指南](SKILL.zh.md)
+
+This skill has one review framework and separately written English and Chinese
+guides. `SKILL.md` is the discovery entry; that filename gives English no
+priority over Chinese. Both guides preserve the same modes, coverage,
+protected material, acceptance requirements (R1–R8), pass budget, and delivery
+conditions. Language-specific methods, information order, and examples may
+differ. Keep changes to the shared requirements aligned. If those requirements
+conflict, resolve the affected item against the accepted task and its evidence;
+do not give one guide precedence because of its language or modification time.
 
 ## What it does
 
@@ -55,7 +64,7 @@ reference IDs, not steps.
 
 ### 1. Resolve the request and reading scope
 
-Identify the audience, genre, purpose, language, protected material, and
+Identify the audience, genre, purpose, manuscript language, protected material, and
 accepted length or format from the request and supplied context. Ask only
 when a missing choice materially changes the review. Use these modes:
 
@@ -82,6 +91,12 @@ manuscripts and academic reviews; `explain` for popular science, teaching,
 spoken explanations and scripts; `general` for other or unspecified prose.
 Genre is independent of language and output mode. A mixed document may need
 separate already-defined sections; preserve their locations and coverage.
+Choose language treatment from the actual prose, not the request language or
+the guide being read. The review report follows the requested output language.
+For mixed prose, apply the relevant treatment to each sentence or passage;
+an English technical term inside a Chinese sentence does not make it English
+prose. Read the other guide's language section when needed, within the same
+pass budget.
 Keep execution instructions, review records and reader-facing prose in
 separate fields or files. Only the requested prose belongs in its body.
 
@@ -92,6 +107,8 @@ author's voice. Identify what each paragraph adds. Mark quotations,
 citations, code, identifiers, legal provisions, and technical definitions
 whose exact form or distinction matters. A semantic read includes these
 regions even when the optional scanner skips them.
+Include the language checks described in step 3 during this reading; the
+candidate decisions use that context without starting a second full pass.
 
 For a long input, divide the supplied scope into a finite list of chunks
 and read them in order. Carry a short argument map across chunks to catch
@@ -108,9 +125,32 @@ Resolve a different budget from the task before using it.
 ### 3. Find candidates, then judge them in context
 
 Inspect word choice, sentence logic, transitions, emphasis, repetition, and
-document structure. Read the [signal guide](references/signal-guide.md)
-when a candidate needs a decision rule or a false-positive check. Its
+document structure. Apply the language treatment below during this semantic
+pass. Read the [English signal guide](references/signal-guide.md) or
+[Chinese signal guide](references/signal-guide.zh.md) when a candidate needs
+a decision rule or a false-positive check. Their
 families are prompts for reading, not an exhaustive prohibited-word list.
+
+#### Language treatment within the semantic pass
+
+For English prose, examine pronoun reference, clause and participle attachment,
+and grammatical choices that affect meaning. Tense, modality, articles,
+number, and quantifiers can change time, certainty, or scope; check them against
+the intended claim. Retain passive voice or nominalization when it usefully
+foregrounds the research object. Revise it when a necessary action, actor, or
+attribution becomes unclear, without inventing the missing information.
+
+For Chinese prose, check whether omitted subjects, topic shifts, and compact
+phrases remain clear in context. Do not require a subject in every sentence.
+Examine verb–object relations, modifier scope, and the referents of “其”, “这”,
+and “该”. Juxtaposed sentences need a supported relationship, but not always
+an explicit connector; do not add causality merely to smooth a transition.
+
+For mixed prose or parallel language versions, preserve one location map and
+compare claims, numbers, qualifications, and term meanings across passages.
+Use each language's treatment without demanding matching syntax. Preserve
+quoted source wording. These checks are part of the existing passes, not
+additional review rounds.
 
 After the semantic read, use the [local scanner](references/scanner.md) when
 a local Python runtime and a suitable text artifact are available. It loads
@@ -150,6 +190,14 @@ For each consequential candidate:
    identify the missing evidence or intent without guessing it.
 4. Merge overlapping hits with the same underlying defect. Group a repeated
    defect with its locations rather than counting keywords as separate faults.
+
+An audit can complete its requested report while identifying an unresolved
+meaning or factual question; that report does not verify the unresolved claim.
+In `edit` or `result-only`, if missing meaning or evidence prevents a required
+repair, preserve the affected wording and mark that repair `blocked`. Give a
+brief notice of the missing input outside the revised prose, including in
+`result-only`; an internal note alone cannot disclose an incomplete repair.
+Do not treat an optional stylistic preference as a required repair.
 
 Use impact levels: `high` changes a claim, responsibility, certainty, or
 decision; `medium` obscures the argument or imposes substantial repetition;
