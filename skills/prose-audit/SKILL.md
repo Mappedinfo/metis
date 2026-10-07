@@ -22,13 +22,13 @@ artifacts:
 ## What it does
 
 Read the supplied prose as a whole, identify wording that obstructs its
-purpose, and explain or make the smallest useful changes. A candidate phrase
-is a reason to inspect context, not a defect by itself. The review works
+purpose, and explain or make the smallest useful changes. Collect potentially
+problematic passages as candidates, then judge in context whether they need
+revision. The review works
 without scripts, network access, private services, or another skill.
 
-This is an editorial review. It has no calibrated authorship model. Do not
-label text as AI-written or human-written, or assign probabilities to either
-attribution.
+This skill reviews wording. It cannot determine whether text was written by
+an AI system or a person, and must not assign probabilities to either conclusion.
 When asked "was this written by AI?", state this limitation briefly and
 offer the supported assessment of the wording actually present.
 
@@ -45,7 +45,13 @@ external sources, or certify legal or scientific correctness. It does not
 optimize for evading a detector: improve clarity and accuracy without adding
 errors, artificial irregularity, or invented personal experience.
 
-## Method
+## Workflow
+
+Follow steps 1–5 in order. In `audit` mode, skip step 4 and continue to step 5.
+Both `edit` and `result-only` include step 4. Preservation of the input,
+coverage records, and the requirements ledger apply throughout the workflow.
+The requirements R1–R8 below also apply throughout; their numbers are
+reference IDs, not steps.
 
 ### 1. Resolve the request and reading scope
 
@@ -64,7 +70,8 @@ Preserve the original input for comparison. Assign stable locations:
 filename plus line or paragraph, or paragraph/sentence numbers for pasted
 text. State how paragraphs are counted when the layout makes this ambiguous.
 
-Keep a working requirements ledger for accepted user outcomes and R1–R8:
+Keep a working requirements ledger covering accepted user outcomes and the
+skill requirements (R1–R8, listed under Requirements below):
 `ID | level | requirement | verification | status | evidence or reason`.
 At close-out each item is `done`, `blocked`, or `n/a`; the last requires a
 scope-based reason and cannot waive a required user outcome. No separate
@@ -202,6 +209,16 @@ declared scope and pass budget. This check applies only to instruction
 maintenance.
 
 ## Requirements
+
+R1–R8 identify eight acceptance requirements, not an execution order.
+The level markers mean:
+
+| Marker | Meaning |
+|---|---|
+| `[B]` — Blocking | Each applicable item must be verified as complete before the review can be declared complete. |
+| `[A]` — Advisory | Apply when useful for the task; record relevant gaps without treating them as blockers. |
+
+An explicit user requirement remains mandatory regardless of this marker.
 
 - [B] R1 Mode, purpose, scope, and actual reading coverage match the request. Verification: compare the accepted constraints and inspected ranges with the delivered review or full revision; disclose missing or truncated text.
 - [B] R2 Findings follow a semantic read and have exact source spans, locations, contextual reasons, impact levels, and minimal remedies; overlapping defects are merged. Verification: revisit each reported passage and its surrounding context; distinguish scanner candidates from editorial findings.

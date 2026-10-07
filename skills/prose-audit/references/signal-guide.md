@@ -126,9 +126,9 @@ manual review remains responsible for the actual structure.
 
 ## Calibration and historical context
 
-The helper in this skill uses local rules and has no trained or calibrated
-model of authorship. Its counts support locating phrases only. Do not
-aggregate them into “AI likelihood”, invent confidence percentages, or use
+The helper applies local rules to locate wording. It cannot determine whether
+text was written by an AI system or a person. Do not
+convert its counts into “AI likelihood”, invent confidence percentages, or use
 colloquialness, spelling errors, emotional variability, or concrete details
 as evidence of authenticity or truth.
 
