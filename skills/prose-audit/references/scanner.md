@@ -13,11 +13,17 @@ input and configuration and writes a report to standard output.
 From the repository root, with a local Python runtime available:
 
 ```bash
+python3 skills/prose-audit/scripts/detect.py draft.md --json
+python3 skills/prose-audit/scripts/detect.py draft.md --json --genre academic
+python3 skills/prose-audit/scripts/detect.py draft.md --json --genre explain
+python3 skills/prose-audit/scripts/detect.py draft.md --json --config thresholds.json
+python3 skills/prose-audit/scripts/detect.py draft.md --json --include-quotes
+```
+
+If uv is already installed, the equivalent offline command is:
+
+```bash
 uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json
-uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --genre academic
-uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --genre explain
-uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --config thresholds.json
-uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --include-quotes
 ```
 
 For an installed skill, resolve `scripts/detect.py` relative to that skill's

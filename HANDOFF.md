@@ -16,6 +16,13 @@ authoritative for bilingual skills: `SKILL.md` is the execution entry and
 synchronize workflow meaning in the same change. Output language remains
 independent of source language.
 
+## 写作说明自身审查 — 2026-10-07
+
+- 根据直接维护请求，审查 `prose-audit` 及写作 workflow 的八份英中说明。案例、引文、必要术语和操作禁止条件按其用途判断，没有预设一定存在语病。
+- 修正英文作者标签与概率的并列、R6 的预算要求、中文省略与两处局部表达；扫描说明补充标准库 Python 入口并明确 uv 前提。英中技能同步增加有条件的说明自审要求，保持既有审校预算。
+- 100 项 collection 测试、三种来源／生成包核对、技能审计、文档构建和 22 个本地链接通过。最终一处同义句调整后仅复核 workflow 生成包和差异格式。
+- 未参与修补的代理按当前技能完成四个短中文合成案例：识别扫描器遗漏的语病，直接表述科研对象，保留研究限定和指令禁止条件；一次说明复查未发现影响执行的确定问题。该结果只支持这组有限案例，不证明总体语法准确率、真实用户表现或作者身份。原有工作区修改单独保留，下次真实任务再观察回归。
+
 ## Genre-aware fixed prose checks — 2026-10-07
 
 - `prose-audit` now selects `general`, `academic` or `explain` independently

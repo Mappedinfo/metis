@@ -26,8 +26,9 @@ purpose, and explain or make the smallest useful changes. A candidate phrase
 is a reason to inspect context, not a defect by itself. The review works
 without scripts, network access, private services, or another skill.
 
-This is an editorial review. It has no calibrated authorship model and must
-not label text as AI-written, human-written, or a probability of either.
+This is an editorial review. It has no calibrated authorship model. Do not
+label text as AI-written or human-written, or assign probabilities to either
+attribution.
 When asked "was this written by AI?", state this limitation briefly and
 offer the supported assessment of the wording actually present.
 
@@ -191,6 +192,15 @@ wording problems obstruct the argument", supported by the actual findings.
 Avoid "highly likely AI", "human score", or equivalent labels. Record the
 stopping condition, coverage, unresolved items, and ledger evidence.
 
+When reviewing a skill or rule document itself, use `general` for its
+instructions and assess grammar, clarity, and consistency of execution rules
+separately. Preserve deliberately flawed examples, source quotations,
+functional prohibitions, and technical terms. Scanner output cannot establish
+grammatical correctness. After a repair, use an independent case to check
+whether the instructions produce the intended behavior, then stop within the
+declared scope and pass budget. This check applies only to instruction
+maintenance.
+
 ## Requirements
 
 - [B] R1 Mode, purpose, scope, and actual reading coverage match the request. Verification: compare the accepted constraints and inspected ranges with the delivered review or full revision; disclose missing or truncated text.
@@ -198,7 +208,7 @@ stopping condition, coverage, unresolved items, and ledger evidence.
 - [B] R3 Facts, quotations, citations, technical meanings, genuine uncertainty, and useful author voice are preserved; missing evidence is not invented. Verification: compare affected passages with the original and inspect every changed claim or protected span.
 - [B] R4 Conclusions concern wording quality, without authorship probabilities, universal sentence-length rules, or detector-evasion tactics. Verification: inspect the assessment, rationale, and revision for these unsupported inferences.
 - [B] R5 The requested mode's deliverable is complete: audit findings or the full revised text, with accurate limitations. Verification: read back the output, check all requested sections, and confirm that result-only prose contains no review apparatus.
-- [B] R6 The declared pass budget and every accepted outcome and requirement have a final ledger status with evidence or a reason. Verification: reconcile completed and pending scope; unmet required work remains blocked at a budget stop.
+- [B] R6 The declared pass budget is respected, and every accepted outcome and requirement has a final ledger status with evidence or a reason. Verification: reconcile completed and pending scope; unmet required work remains blocked at a budget stop.
 - [B] R7 The fixed rules and selected genre guide the check; any scanner use stays local and read-only, with its configuration, exclusions, and candidate-only limits understood. Verification: inspect the actual rule version, genre, output and input/configuration; when no suitable runtime or artifact is available, record the bounded manual fallback. Do not build a new SOP or keyword list for each draft.
 - [A] R8 Consequential dismissed candidates and successful phrasing are retained where they help explain a decision. Verification: record a concise keep reason in the review or working record; do not add filler praise or a log of every harmless match.
 

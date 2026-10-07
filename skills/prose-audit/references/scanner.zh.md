@@ -11,11 +11,17 @@
 本地 Python 运行时可用时，从仓库根目录执行：
 
 ```bash
+python3 skills/prose-audit/scripts/detect.py draft.md --json
+python3 skills/prose-audit/scripts/detect.py draft.md --json --genre academic
+python3 skills/prose-audit/scripts/detect.py draft.md --json --genre explain
+python3 skills/prose-audit/scripts/detect.py draft.md --json --config thresholds.json
+python3 skills/prose-audit/scripts/detect.py draft.md --json --include-quotes
+```
+
+若已安装 uv，可使用等效的离线命令：
+
+```bash
 uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json
-uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --genre academic
-uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --genre explain
-uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --config thresholds.json
-uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --include-quotes
 ```
 
 已安装技能的 `scripts/detect.py` 路径相对于该技能目录解析。
