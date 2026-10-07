@@ -210,7 +210,8 @@ maintenance.
 
 ## Requirements
 
-R1–R8 identify eight acceptance requirements, not an execution order.
+The eight acceptance requirements below are labeled R1–R8. Use these labels
+for reference; they do not indicate execution order.
 The level markers mean:
 
 | Marker | Meaning |

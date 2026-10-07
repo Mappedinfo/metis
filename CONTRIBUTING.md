@@ -133,7 +133,11 @@ Keep one skill identity. Do not add a competing `SKILL.en.md` entry or install
 translations as separate skills. Start the Chinese file with a link to
 `SKILL.md` stating that English governs execution; omit duplicate runtime
 frontmatter. Translate the meaning faithfully, including boundaries,
-requirements, verification and stopping rules. Preserve identifiers, field
+requirements, verification and stopping rules. Use natural wording and
+information order in each language. Subjects, sentence structure and sentence
+boundaries may differ; faithful translation does not require copying the
+source syntax. These differences must not add or remove execution requirements.
+Preserve identifiers, field
 keys, commands, paths and provenance. Supporting references may use matching
 `<name>.md` / `<name>.zh.md` pairs; executable code and shared profiles remain
 single sources.
