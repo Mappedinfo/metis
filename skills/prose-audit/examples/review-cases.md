@@ -62,6 +62,27 @@ Draft:
 
 > 其实我昨天没弄懂。今天重读第二段，才发现自己把输入和输出看反了。笔记里还留着那个箭头，我先把它改过来。
 
+## Case E: apply the same facts in two genres
+
+Request: Prepare a research-manuscript sentence (`academic`) and a popular
+science spoken explanation (`explain`) from the same draft. Apply fixed rules
+without rebuilding an SOP. Keep the supplied scope, source quotation and
+method comparison; give both complete versions with a brief genre rationale.
+
+Supplied facts: The records contain rainfall probability. The sample comes
+from three cities. The baseline predicts rainfall volume. The log excerpt
+is a source quotation, not the author's claim.
+
+Draft:
+
+> 记录的不是降雨量，而是降雨概率。这里不冒充全局，采用真实口径。样本仅来自三个城市。本研究预测降雨概率，基线模型预测降雨量。日志原文是“真实口径”。
+
+Use the same original body and supply the appropriate `--genre` on each
+scanner run; quotation protection remains enabled. Compare the fixed rule
+actions with the contextual editing decisions. A retained quotation or
+useful explanation can produce a legitimate candidate when quoted material
+is deliberately included; zero candidates is not the goal.
+
 ## Local checks
 
 Run the helper on a saved draft to obtain candidates, then perform the contextual

@@ -28,6 +28,9 @@ delivers the complete requested text after the checks below.
    for this request. Use the provided executable prefix and project path;
    do not invent a session identifier or silently start another run to
    escape a failed check.
+   Resolve the writing convention once from the task: `academic` for research
+   prose/reviews, `explain` for popular science/teaching/scripts, `general`
+   otherwise. Keep instructions and review records outside the delivery prose.
 2. **Prepare the draft.** Write the complete requested text using the
    available evidence and accepted constraints. For a user-requested project
    artifact, use its authorized `.md` or `.txt` path. For chat-only delivery,
@@ -41,7 +44,17 @@ delivers the complete requested text after the checks below.
 4. **Review the whole captured draft.** Follow the injected `prose-audit`
    instructions: complete a semantic read, inspect candidate wording in
    context, preserve facts and voice, and distinguish `keep`, `revise`, and
-   `unresolved`. The optional keyword scanner supplies candidates only.
+   `unresolved`. When local Python is available, run the provided scanner on
+   the captured draft with the selected `--genre`; it loads fixed rules and
+   returns original locations and policy actions. Process hits in nearby
+   context, merging overlaps, rather than regenerating a word list or SOP.
+   For `academic`, directly restate rhetorical negation/contrast and consecutive
+   negatives; for `explain`, retain useful misconception correction when
+   warranted. Internal execution reminders need a contextual decision in all
+   genres. Preserve real comparisons, quotations and evidence/scope limits.
+   If Python is unavailable, read the bundled fixed rules once and record the
+   bounded manual fallback; installation is not a workflow prerequisite.
+   The scanner supplies candidates, not editorial findings or authorship scores.
    Record exact source quotes and locations with contextual reasons in the
    runtime review format, bound to this `run_id` and `draft_sha256`. Submit
    the record with `workflows review --session ID --file PATH`. The compact
@@ -56,6 +69,9 @@ delivers the complete requested text after the checks below.
 6. **Verify the actual delivery text.** Check the complete scope and compare
    affected passages with the captured draft and source context. Verify
    facts, quotations, and scope preservation as required by the skill.
+   If the draft was scanned and revised, scan the current delivery text once
+   with the same genre and record reasons for consequential retained hits.
+   A zero-match report is not an acceptance target or a semantic check.
    Use `workflows status --session ID` to obtain the current artifact and
    accepted review hashes. Submit a truthful verification record, bound to
    `run_id`, `artifact_sha256`, and `review_sha256`, with

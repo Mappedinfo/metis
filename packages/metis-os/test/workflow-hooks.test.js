@@ -45,6 +45,11 @@ test('writing entry injects full authoritative skill and concrete commands once'
   assert.equal(result.hookSpecificOutput.hookEventName, 'UserPromptSubmit');
   assert.ok(result.hookSpecificOutput.additionalContext.includes(skill));
   assert.match(result.hookSpecificOutput.additionalContext, /workflows capture/);
+  assert.match(result.hookSpecificOutput.additionalContext, /detect\.py'.*draft\.txt'.*--genre/s);
+  assert.match(result.hookSpecificOutput.additionalContext, /general\|academic\|explain/);
+  assert.match(result.hookSpecificOutput.additionalContext, /rules\.json/);
+  assert.match(result.hookSpecificOutput.additionalContext, /If Python is unavailable/);
+  assert.match(result.hookSpecificOutput.additionalContext, /receipts do not prove scanner execution/);
   assert.match(result.hookSpecificOutput.additionalContext, /Workflow definition SHA-256: [a-f0-9]{64}/);
   assert.match(result.hookSpecificOutput.additionalContext, /artifact\.md/);
   assert.ok(result.hookSpecificOutput.additionalContext.includes("'\\''"), 'apostrophe-bearing project path is shell quoted');

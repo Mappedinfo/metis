@@ -299,12 +299,15 @@ def sentence_spans(text: str, start: int, end: int):
             yield start + match.start(), start + match.end()
 
 
-def scan(text: str, config: dict | None = None, include_quotes: bool = False) -> dict:
+def scan(text: str, config: dict | None = None, include_quotes: bool = False,
+         genre: str = "general") -> dict:
     if "\x00" in text:
         raise ValueError("input contains a NUL character; provide a UTF-8 prose file")
     if len(text.encode("utf-8")) > MAX_INPUT_BYTES:
         raise ValueError(f"input exceeds {MAX_INPUT_BYTES} UTF-8 bytes")
     rules = load_rules()
+    if not isinstance(genre, str) or genre not in rules["genres"]:
+        raise ValueError("unknown genre; choose " + ", ".join(rules["genres"]))
     thresholds = validate_thresholds(rules["thresholds"], config)
     mask = protected_mask(text, include_quotes)
     normalized, mapping = normalized_source(text, mask, rules["traditional_fold"])
@@ -323,6 +326,12 @@ def scan(text: str, config: dict | None = None, include_quotes: bool = False) ->
                 "end_column": original_end - line_starts[end_line - 1] + 1}
 
     candidates = []
+
+    def policy(rule):
+        # These are selected writing conventions, never semantic error verdicts.
+        return {"policy_action": rule.get("genre_actions", {}).get(genre, "context"),
+                "message": rule.get("genre_notes", {}).get(genre, rule["note"])}
+
     occurrences = []
     for index, rule in enumerate(rules["vocabulary"]):
         for start, end in term_matches(normalized, rule["forms"], rules["traditional_fold"]):
@@ -349,7 +358,7 @@ def scan(text: str, config: dict | None = None, include_quotes: bool = False) ->
             eligible |= paragraph_max >= thresholds["tier2_paragraph"]
         if eligible:
             candidates.append({"kind": "vocabulary", "rule_id": rule["id"],
-                               "tier": tier, "message": rule["note"],
+                               "tier": tier, **policy(rule),
                                "counts": {"document": document_count, "paragraph_max": paragraph_max},
                                "locations": [location(s, e) for s, e in spans]})
 
@@ -358,7 +367,7 @@ def scan(text: str, config: dict | None = None, include_quotes: bool = False) ->
             spans = [m.span() for m in re.finditer(rule["pattern"], normalized)]
             if spans:
                 candidates.append({"kind": kind, "rule_id": rule["id"],
-                                   "message": rule["note"],
+                                   **policy(rule),
                                    "locations": [location(s, e) for s, e in spans]})
 
     sentences = []
@@ -383,6 +392,7 @@ def scan(text: str, config: dict | None = None, include_quotes: bool = False) ->
             previous = current
     for rule_id, spans in repetitions.items():
         candidates.append({"kind": "syntax", "rule_id": "adjacent_repetition:" + rule_id,
+                           "policy_action": "context",
                            "message": "Repeated emphasis in adjacent sentences: check whether each occurrence adds a necessary distinction.",
                            "locations": [location(s, e) for s, e in sorted(spans)]})
 
@@ -401,6 +411,8 @@ def scan(text: str, config: dict | None = None, include_quotes: bool = False) ->
         "review_status": "candidate_scan_only",
         "context_review_required": True,
         "input_status": "scanned" if paragraph_lengths else "insufficient_text",
+        "genre": genre,
+        "rules_version": rules["schema_version"],
         "thresholds": thresholds,
         "candidates": candidates,
         "statistics": stats,
@@ -412,15 +424,17 @@ def scan(text: str, config: dict | None = None, include_quotes: bool = False) ->
             "Markdown, literal and quote protection is heuristic; unclosed YAML/fences/comments are conservatively protected. --include-quotes restores quotation spans and blockquotes only.",
             "Lengths count unprotected Han characters and English tokens. Punctuation and line breaks approximate sentences; abbreviations, other languages and complex Markdown can distort statistics. No length threshold is used.",
             "Surface patterns cannot establish semantic loops, false ranges, relevance, evidence quality, warranted emphasis, or whether a technical term is appropriate. Read the full text in context.",
+            "Genre policy actions guide revision or contextual review. They do not authorize mechanical deletion, changes to protected quotes, invented facts, or removal of real comparisons and limitations.",
         ],
     }
 
 
 def render_text(result: dict) -> str:
     lines = ["review_status: candidate_scan_only", "context_review_required: true",
+             "genre: " + result["genre"], "rules_version: " + str(result["rules_version"]),
              "input_status: " + result["input_status"]]
     for candidate in result["candidates"]:
-        lines.append(f"\n[{candidate['kind']}] {candidate['rule_id']}: {candidate['message']}")
+        lines.append(f"\n[{candidate['kind']}/{candidate['policy_action']}] {candidate['rule_id']}: {candidate['message']}")
         for item in candidate["locations"]:
             lines.append(f"  {item['line']}:{item['column']} [{item['start']}:{item['end']}] {item['text']!r}")
     if not result["candidates"]:
@@ -436,12 +450,13 @@ def main(argv=None) -> int:
     parser.add_argument("--json", action="store_true", help="emit machine-readable candidate JSON")
     parser.add_argument("--config", type=Path, help="JSON object of positive frequency threshold overrides")
     parser.add_argument("--include-quotes", action="store_true", help="also scan quotation spans and source blockquotes")
+    parser.add_argument("--genre", default="general", help="writing convention: general, academic, or explain (default: general)")
     args = parser.parse_args(argv)
     try:
         config = read_json(args.config, MAX_CONFIG_BYTES) if args.config else None
         # Decode bytes directly: text-mode newline translation would corrupt offsets.
         source = read_limited(args.input, MAX_INPUT_BYTES).decode("utf-8")
-        result = scan(source, config, args.include_quotes)
+        result = scan(source, config, args.include_quotes, args.genre)
     except (OSError, ValueError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2

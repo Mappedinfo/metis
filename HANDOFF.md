@@ -16,6 +16,35 @@ authoritative for bilingual skills: `SKILL.md` is the execution entry and
 synchronize workflow meaning in the same change. Output language remains
 independent of source language.
 
+## Genre-aware fixed prose checks — 2026-10-07
+
+- `prose-audit` now selects `general`, `academic` or `explain` independently
+  of language and output mode. The read-only scanner loads finite rules from
+  its existing JSON source and reports the selected genre, rule-data version,
+  original spans and `policy_action`. Research prose marks rhetorical
+  negation/contrast and consecutive negatives for direct restatement;
+  explanatory prose reviews their teaching function in context. Internal
+  execution reminders are contextual candidates in every genre. Real scope,
+  evidence limits, method comparisons, quotations and rule examples remain
+  protected by semantic review and the existing literal-region handling.
+- Synchronized the English/Chinese skill, signal guide, scanner reference,
+  practice cases and writing workflow. Available local scanning is the default
+  check after the full read; missing Python or a suitable artifact retains a
+  bounded manual fallback using the existing rules. The hook supplies a
+  concrete command for the captured draft; receipts do not prove that this
+  command ran. Models process hits and nearby context rather than rebuilding
+  an SOP or searching prior conversations. Exported prose excludes checks.
+- Validated: 37 scanner tests, all 100 collection tests, the 11-skill /
+  4-profile audit with no errors or warnings, all three source/bundle checks
+  and the docs build. The eight new scanner tests cover genre-specific policy,
+  execution reminders, consecutive negatives, actual limitations/comparisons,
+  protected examples/quotes, rejected genres and read-only CLI behavior.
+  Hook coverage checks the concrete command and missing-Python fallback.
+- Source bundles were regenerated. This is local source/package validation;
+  it does not establish fresh-session host delivery or semantic correctness.
+  No installed project hook configuration, npm publication or deployment was
+  changed by this maintenance.
+
 ## Writing workflow integration — 2026-10-03
 
 - Added the independent [workflow layer](workflows/README.md), with an English

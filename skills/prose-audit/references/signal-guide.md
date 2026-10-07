@@ -24,6 +24,14 @@ an explanation, define the term; do not erase the concept to reduce hits.
 For a nontechnical use, identify the concealed action or claim before
 calling the wording jargon.
 
+**Execution reminders in prose.** Expressions such as "不冒充全局" or
+"真实口径" may be instructions to the writer carried into a reader-facing
+passage. Establish whether the requested subject is the writing process
+itself. Otherwise, express the actual coverage, evidence source, date,
+method or action already available, or delete an empty assurance. Preserve
+"样本仅来自三个城市" and genuine uncertainty because they affect interpretation.
+If detail is missing, flag that gap; never invent scope or measurements.
+
 **Prestige and intensity.** Words such as “pivotal”, “robust”, “holistic”,
 “赋能”, or “极其关键” require context, not automatic deletion. Ask what result,
 comparison, condition, or reader decision the emphasis describes. Keep
@@ -38,12 +46,17 @@ experience or sensory detail to make a revision sound personal.
 
 ## Sentence relationships
 
-**Negation and contrast.** Inspect split negation (“This is not X. This is
-Y.”), “不是 X，而是 Y”, “不在……而在……”, and negative parallelism. Retain an
-actual correction, mutually exclusive classification, or important
-limitation. Revise when the negated alternative is unmotivated, the claimed
-opposition is false, or repeated contrast delays the substantive claim.
-Changing punctuation alone leaves that reasoning problem intact.
+**Negation and contrast.** Select the genre before judging split negation
+(“This is not X. This is Y.”), “不是 X，而是 Y”, “不在……而在……”, or consecutive
+“这不是……那不是……”. In research prose and academic reviews (`academic`),
+mark rhetorical framing for revision and state the object, method or result
+directly: "本研究记录降雨概率。" In popular science, teaching and scripts
+(`explain`), inspect context; "记录的不是降雨量，而是降雨概率" can correct a
+relevant misconception. General prose also needs context. A real method
+comparison or necessary limitation must keep its information, expressed
+directly when appropriate: "本研究预测降雨概率，基线模型预测降雨量。"
+Revise an unmotivated rejected alternative, false opposition or repetitive
+delay. Changing punctuation alone leaves that reasoning problem intact.
 
 **Three-part lists.** A triad is useful when its three members are distinct
 and relevant, such as three specified experimental conditions. Inspect

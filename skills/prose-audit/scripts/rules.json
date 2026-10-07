@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "description": "Original, finite prose-review candidate rules. A match is not an error, an authorship claim, or a recommendation to replace a term.",
+  "schema_version": 2,
+  "description": "Fixed, finite genre-aware prose-review candidate rules. Policy actions prioritize contextual editorial work, not error verdicts or authorship claims.",
   "thresholds": {
     "tier1_document": 1,
     "tier2_document": 4,
@@ -8,12 +8,13 @@
     "tier3_document": 3
   },
   "traditional_fold": {
-    "當": "当", "務": "务", "約": "约", "驗": "验", "釋": "释", "邊": "边", "證": "证", "論": "论", "報": "报", "執": "执", "錄": "录", "徑": "径", "蹤": "踪", "覺": "觉", "鏈": "链", "樹": "树", "樣": "样", "習": "习", "數": "数", "採": "采", "預": "预", "協": "协", "漸": "渐", "進": "进", "職": "职", "責": "责", "賦": "赋", "閉": "闭", "齊": "齐", "顆": "颗", "體": "体", "態": "态", "為": "为", "鍵": "键", "顯": "显", "實": "实", "來": "来", "質": "质", "無": "无", "問": "问", "疑": "疑", "義": "义", "標": "标", "誌": "志", "著": "着", "時": "时", "搖": "摇", "視": "视", "與": "与", "總": "总", "綜": "综", "彙": "汇", "復": "复", "優": "优", "勢": "势"
+    "當": "当", "務": "务", "約": "约", "驗": "验", "釋": "释", "邊": "边", "證": "证", "論": "论", "報": "报", "執": "执", "錄": "录", "徑": "径", "蹤": "踪", "覺": "觉", "鏈": "链", "樹": "树", "樣": "样", "習": "习", "數": "数", "採": "采", "預": "预", "協": "协", "漸": "渐", "進": "进", "職": "职", "責": "责", "賦": "赋", "閉": "闭", "齊": "齐", "顆": "颗", "體": "体", "態": "态", "為": "为", "鍵": "键", "顯": "显", "實": "实", "來": "来", "質": "质", "無": "无", "問": "问", "疑": "疑", "義": "义", "標": "标", "誌": "志", "著": "着", "時": "时", "搖": "摇", "視": "视", "與": "与", "總": "总", "綜": "综", "彙": "汇", "復": "复", "優": "优", "勢": "势", "這": "这"
   },
   "vocabulary": [
     {"id":"current_contract","tier":1,"forms":["当前合同","任务契约","验收契约"],"note":"Check whether the contractual metaphor identifies a real agreement or only renames ordinary requirements."},
     {"id":"boundary_metaphor","tier":1,"forms":["解释边界","口径边界","验证边界","结论边界"],"note":"A precise scope or evidence limitation can be necessary; check what the phrase adds in this context."},
     {"id":"receipt_metaphor","tier":1,"forms":["指标回执","失败回执","完整回执","任务回执","完整口径"],"note":"Check whether the reader can identify the actual result or record meant by this phrase."},
+    {"id":"execution_reminder","tier":1,"forms":["不冒充全局","不把局部冒充全局","真实口径","不替用户作决定","不替用户做决定"],"note":"Possible internal execution reminder in reader-facing prose: identify the actual coverage, evidence, action or limitation. Keep wording when the process itself is the requested subject; never invent missing details."},
     {"id":"technical_context","tier":1,"forms":["上下文窗口","链式思维","核采样","提示注入","代理编排","多代理协作","context window","chain of thought","prompt injection"],"note":"Context-sensitive technical terminology: retain it when it is the correct term for the subject; its presence is not a prose fault."},
     {"id":"delve","tier":1,"forms":["delve","delves","delved","delving"],"note":"Check whether a concrete verb would tell the reader what the analysis does."},
     {"id":"tapestry","tier":1,"forms":["tapestry","tapestries"],"note":"Check the purpose and precision of this metaphor; literal uses are ordinary."},
@@ -53,10 +54,11 @@
     {"id":"certainty","tier":3,"forms":["毫无疑问","毋庸置疑","undoubtedly"],"note":"Check whether this degree of certainty is necessary and justified."}
   ],
   "syntax": [
-    {"id":"negation_split_zh","pattern":"(?:这|這)?不是[^。！？.!?\\n\\x00]{1,160}[。.!?][ \\t\\r\\n]{0,12}(?:这|這)?(?:而)?是[^。！？.!?\\n\\x00]{1,160}","note":"Split negation and assertion: check whether the rejected alternative is relevant and whether the positive claim is informative."},
-    {"id":"negation_split_en","pattern":"(?<![\\w])(?:this|it)(?: is not| isn't)[^.!?。！？\\n\\x00]{1,160}[.!?][ \\t\\r\\n]{0,12}(?:this|it)(?: is|'s) [^.!?。！？\\n\\x00]{1,160}","note":"Split negation and assertion: check whether both parts are useful to the reader."},
-    {"id":"contrast_zh","pattern":"(?:不是|不在于|不在)[^。！？.!?\\n\\x00]{1,120}(?:而是|而在于|而在)[^。！？.!?\\n\\x00]{1,120}","note":"Contrast template: review the actual distinction; the structure can be warranted."},
-    {"id":"contrast_en","pattern":"(?<![\\w])(?:not|isn't)[^.!?。！？\\n\\x00]{1,120}(?:\\bbut\\b|[;—–] ?(?:it is|it's))[^.!?。！？\\n\\x00]{1,120}","note":"Contrast template: check whether the alternatives establish a meaningful distinction."},
+    {"id":"negation_split_zh","pattern":"(?:这|這)?不是[^。！？.!?\\n\\x00]{1,160}[。.!?][ \\t\\r\\n]{0,12}(?:这|這)?(?:而)?是[^。！？.!?\\n\\x00]{1,160}","note":"Split negation and assertion: check whether the rejected alternative is relevant and whether the positive claim is informative.","genre_actions":{"academic":"revise","general":"context","explain":"context"},"genre_notes":{"academic":"Research prose: restate the supported object, method or result directly. If a real method comparison or evidence limitation matters, preserve it as an explicit factual relation. Review context before editing."}},
+    {"id":"negation_split_en","pattern":"(?<![\\w])(?:this|it)(?: is not| isn't)[^.!?。！？\\n\\x00]{1,160}[.!?][ \\t\\r\\n]{0,12}(?:this|it)(?: is|'s) [^.!?。！？\\n\\x00]{1,160}","note":"Split negation and assertion: check whether both parts are useful to the reader.","genre_actions":{"academic":"revise","general":"context","explain":"context"},"genre_notes":{"academic":"Research prose: restate the supported object, method or result directly. If a real method comparison or evidence limitation matters, preserve it as an explicit factual relation. Review context before editing."}},
+    {"id":"contrast_zh","pattern":"(?:不是|不在于|不在)[^。！？.!?\\n\\x00]{1,120}(?:而是|而在于|而在)[^。！？.!?\\n\\x00]{1,120}","note":"Contrast template: review the actual distinction; the structure can be warranted.","genre_actions":{"academic":"revise","general":"context","explain":"context"},"genre_notes":{"academic":"Research prose: restate the supported object, method or result directly. If a real method comparison or evidence limitation matters, preserve it as an explicit factual relation. Review context before editing."}},
+    {"id":"contrast_en","pattern":"(?<![\\w])(?:not|isn't)[^.!?。！？\\n\\x00]{1,120}(?:\\bbut\\b|[;—–] ?(?:it is|it's))[^.!?。！？\\n\\x00]{1,120}","note":"Contrast template: check whether the alternatives establish a meaningful distinction.","genre_actions":{"academic":"revise","general":"context","explain":"context"},"genre_notes":{"academic":"Research prose: restate the supported object, method or result directly. If a real method comparison or evidence limitation matters, preserve it as an explicit factual relation. Review context before editing."}},
+    {"id":"negative_listing_zh","pattern":"(?:这|那)?不是[^。！？.!?\\n\\x00]{1,120}[。.!?，,；;][ \\t\\r\\n]{0,12}(?:(?:这|那)?(?:也)?不是)[^。！？.!?\\n\\x00]{1,120}","note":"Consecutive negative framing: inspect whether the sequence teaches a necessary distinction or delays the positive statement; preserve actual scope and evidence limits.","genre_actions":{"academic":"revise","general":"context","explain":"context"},"genre_notes":{"academic":"Research prose: state the supported object, method or result directly, preserving necessary exclusions or comparisons as explicit factual relations."}},
     {"id":"importance_zh","pattern":"(?:扮演着?至关重要的角色|标志着[^。！？.!?\\n\\x00]{0,100}关键时刻|凸显了?[^。！？.!?\\n\\x00]{0,100}重要性)","note":"Importance claim: check the scale, evidence, and concrete consequence in context."},
     {"id":"importance_en","pattern":"(?<![\\w])(?:marking a pivotal moment(?: in history)?|play(?:s|ed|ing)? a crucial role(?: in)?|underscor(?:e|es|ed|ing) (?:its|their|the) importance)(?![\\w])","note":"Importance claim: check the evidence and consequence; the syntax alone cannot establish exaggeration."}
   ],
@@ -72,5 +74,16 @@
   ],
   "formatting": [
     {"id":"bold_label_list","pattern":"(?m)^[ \\t]{0,3}(?:[-*+]|[0-9]+\\.)[ \\t]+\\*\\*[^*\\n\\x00]{1,80}\\*\\*[ \\t]*[:：]","note":"Bold label list item: check whether repeated labels improve scanning for this audience; formatting is not an authorship signal."}
-  ]
+  ],
+  "genres": {
+    "general": {
+      "description": "General prose, technical documentation, personal voice and unspecified genres."
+    },
+    "academic": {
+      "description": "Research manuscript prose and academic literature reviews; state the object, method or result directly."
+    },
+    "explain": {
+      "description": "Popular science, teaching, spoken explanations and scripts; useful misconception correction can stay."
+    }
+  }
 }

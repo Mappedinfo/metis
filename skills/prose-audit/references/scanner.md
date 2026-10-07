@@ -2,7 +2,7 @@
 
 # Local candidate scanner
 
-Read this reference only when using the optional helper. Complete the
+Read this reference when the local helper is available. Complete the
 semantic read required by [the skill](../SKILL.md) first. The helper is a
 Python 3.10+ standard-library program: no network calls, package dependencies,
 automatic rewriting, external detector, or authorship score. It reads the
@@ -14,6 +14,8 @@ From the repository root, with a local Python runtime available:
 
 ```bash
 uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json
+uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --genre academic
+uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --genre explain
 uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --config thresholds.json
 uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --include-quotes
 ```
@@ -23,6 +25,19 @@ directory. `INPUT` is a regular UTF-8 plain-text or Markdown file, at most
 2,000,000 bytes. There is no stdin mode or PDF/Word extraction. The script
 does not truncate oversized files; it rejects them. Keep any extraction or
 chunking outside this helper and record its actual coverage and source map.
+
+Select `--genre` once from the actual writing task. `general` is the default
+for unspecified genres, technical documentation and personal prose;
+`academic` covers research manuscript prose and academic reviews; `explain`
+covers popular science, teaching and spoken/scripted explanations. Language
+does not select genre. Callers with separate language profiles can map their
+academic/review profiles to `academic` and popular/spoken profiles to `explain`.
+For mixed genres, scan already-defined sections separately and retain their
+original location map. An unknown genre is rejected.
+
+If local Python or a suitable artifact is unavailable, read the existing
+rules once and complete the bounded manual review; record the fallback.
+Do not install software, upload text or regenerate an SOP just to run a scan.
 
 Without `--json`, the helper prints a readable candidate report with the
 same limitations. Exit `0` means the input was processed, including an empty
@@ -36,6 +51,15 @@ the specific local problem; do not switch to uploading the text elsewhere.
 for the finite vocabulary, explicit forms, small traditional-character fold
 table, surface patterns, and default thresholds. The qualitative
 [signal guide](signal-guide.md) is not a duplicate machine-readable dictionary.
+
+The rule data is version `2`; report JSON stays at schema version `1` with
+additive metadata. Every candidate has `policy_action`: `context` asks for a
+contextual decision; `revise` marks a selected writing convention requiring
+direct restatement. In `academic`, rhetorical negation/contrast and repeated
+negative framing use `revise`; in `explain` and `general` they use `context`.
+This is a configured editorial policy, not an error or authorship verdict.
+Preserve actual comparisons, quotations and necessary scope/evidence limits.
+Internal execution reminders always use `context`. No action edits the input.
 
 These defaults implement a review-queue convention, not empirical cutoffs
 for quality or authorship:
@@ -80,7 +104,9 @@ thresholds reduces surfaced candidates, not the need for semantic review.
   passage uses the same rule collection. Multiword forms may span wrapping
   whitespace; uncommon forms and complex syntax can be missed.
 - Current surface patterns cover selected split negation, contrast, and
-  importance claims in Chinese and English. Listed strengtheners repeated
+  importance claims in Chinese and English, and consecutive Chinese negative
+  framing. The finite vocabulary also locates internal execution reminders.
+  Listed strengtheners repeated
   in adjacent approximate sentences within one paragraph generate
   `adjacent_repetition:<id>` candidates, independently of vocabulary
   thresholds. They do not join across a protected span.
@@ -123,8 +149,9 @@ The JSON contains:
 | `review_status` | Always `candidate_scan_only`. |
 | `context_review_required` | Always `true`, including zero-candidate results. |
 | `input_status` | `scanned` or `insufficient_text`; a processing status, not a grade. |
+| `genre` / `rules_version` | Selected writing convention and fixed rule-data version. |
 | `thresholds` | Effective values after validated overrides. |
-| `candidates` | `kind`, `rule_id`, `message`, and `locations`; vocabulary candidates also have `tier` and `counts`. |
+| `candidates` | `kind`, `rule_id`, `policy_action`, `message`, and `locations`; vocabulary candidates also have `tier` and `counts`. |
 | `statistics` | Descriptive sentence/paragraph lengths, counts, means, population standard deviations, and protected-character count. |
 | `limitations` | Interpretation and coverage limits returned with every scan. |
 
@@ -146,5 +173,8 @@ have `null` means and standard deviations. There is no length threshold,
 burstiness verdict, combined suspicion score, or textual quality grade.
 
 After scanning, confirm or dismiss candidates in context, merge duplicates,
-and record only justified findings in the editorial review. Preserve the
+and record only justified findings in the editorial review. Use original
+spans and nearby context for local revision, then check the changed passages
+once; do not rebuild a word list or reread unrelated instructions per hit.
+Keep execution checks outside the exported prose. Preserve the
 true distinction between scanner completion and completed semantic review.

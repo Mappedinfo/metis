@@ -69,6 +69,14 @@ At close-out each item is `done`, `blocked`, or `n/a`; the last requires a
 scope-based reason and cannot waive a required user outcome. No separate
 file is needed unless the task calls for one.
 
+Select the writing convention from the task once: `academic` for research
+manuscripts and academic reviews; `explain` for popular science, teaching,
+spoken explanations and scripts; `general` for other or unspecified prose.
+Genre is independent of language and output mode. A mixed document may need
+separate already-defined sections; preserve their locations and coverage.
+Keep execution instructions, review records and reader-facing prose in
+separate fields or files. Only the requested prose belongs in its body.
+
 ### 2. Read the entire available text before evaluating signals
 
 Read for the argument, factual content, referents, sequence, register, and
@@ -96,11 +104,29 @@ document structure. Read the [signal guide](references/signal-guide.md)
 when a candidate needs a decision rule or a false-positive check. Its
 families are prompts for reading, not an exhaustive prohibited-word list.
 
-The optional [local scanner](references/scanner.md) can locate lexical and
-surface-pattern candidates after the semantic read. Its keyword forms and
-thresholds live only in `scripts/rules.json`. Tier and count control which
-candidates it surfaces, not editorial severity or authorship confidence.
-An empty candidate list does not complete the review or establish quality.
+After the semantic read, use the [local scanner](references/scanner.md) when
+a local Python runtime and a suitable text artifact are available. It loads
+the fixed `scripts/rules.json`; supply the selected `--genre`. Do not
+regenerate a prohibited-word list, retrieve past conversations or reconstruct
+an SOP for each draft. Use the returned locations and nearby context as the
+revision queue, merging overlapping hits; preserve the one-pass budget.
+If the runtime or artifact is unavailable, inspect the existing rules once
+and apply them in a bounded manual pass, recording that fallback. Do not
+install a runtime or upload prose just to enable this check. Manual review
+remains supported. Tier and count control surfaced candidates, not editorial
+severity or authorship confidence. An empty list proves no prose quality.
+
+Genre-specific `policy_action` values prioritize the queue. `academic`
+marks rhetorical negation/contrast and consecutive negative framing for
+`revise`: state the supported object, method or result directly, for example
+"本研究记录降雨概率。" `explain` and `general` use `context`: a useful
+misconception correction can stay, for example "记录的不是降雨量，而是降雨概率。"
+Preserve a real method comparison or necessary exclusion as an explicit
+factual relation. Internal reminders such as "不冒充全局" or "真实口径"
+always require context: replace reader-facing self-instruction with available
+coverage, evidence or action details, or remove empty framing. If the process
+itself is the requested subject, the wording may be relevant. Never invent
+specificity or mechanically delete quotations, rule examples or limitations.
 
 For each consequential candidate:
 
@@ -173,7 +199,7 @@ stopping condition, coverage, unresolved items, and ledger evidence.
 - [B] R4 Conclusions concern wording quality, without authorship probabilities, universal sentence-length rules, or detector-evasion tactics. Verification: inspect the assessment, rationale, and revision for these unsupported inferences.
 - [B] R5 The requested mode's deliverable is complete: audit findings or the full revised text, with accurate limitations. Verification: read back the output, check all requested sections, and confirm that result-only prose contains no review apparatus.
 - [B] R6 The declared pass budget and every accepted outcome and requirement have a final ledger status with evidence or a reason. Verification: reconcile completed and pending scope; unmet required work remains blocked at a budget stop.
-- [B] R7 Any scanner use stays local and read-only, with its configuration, exclusions, and candidate-only limits understood. Verification: inspect its output and actual input/configuration; when unused, record n/a because semantic review did not need it.
+- [B] R7 The fixed rules and selected genre guide the check; any scanner use stays local and read-only, with its configuration, exclusions, and candidate-only limits understood. Verification: inspect the actual rule version, genre, output and input/configuration; when no suitable runtime or artifact is available, record the bounded manual fallback. Do not build a new SOP or keyword list for each draft.
 - [A] R8 Consequential dismissed candidates and successful phrasing are retained where they help explain a decision. Verification: record a concise keep reason in the review or working record; do not add filler praise or a log of every harmless match.
 
 ## When to stop

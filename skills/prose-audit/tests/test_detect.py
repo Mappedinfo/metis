@@ -206,6 +206,58 @@ class SyntaxAndStatisticsTests(unittest.TestCase):
         self.assertTrue(any("semantic loops" in note for note in result["limitations"]))
 
 
+class GenrePolicyTests(unittest.TestCase):
+    def test_same_rainfall_distinction_has_different_genre_actions(self):
+        source = "记录的不是降雨量，而是降雨概率。"
+        academic = detect.scan(source, genre="academic")
+        explain = detect.scan(source, genre="explain")
+        a = candidates(academic, "contrast_zh")[0]
+        e = candidates(explain, "contrast_zh")[0]
+        self.assertEqual(a["policy_action"], "revise")
+        self.assertEqual(e["policy_action"], "context")
+        self.assertEqual(a["locations"], e["locations"])
+        self.assertEqual(academic["review_status"], "candidate_scan_only")
+        self.assertTrue(academic["context_review_required"])
+        self.assertFalse(candidates(detect.scan("本研究记录降雨概率。", genre="academic"), "contrast_zh"))
+
+    def test_split_english_contrast_uses_same_selected_convention(self):
+        source = "This is not rainfall volume. It is rainfall probability."
+        for genre, action in (("academic", "revise"), ("explain", "context"), ("general", "context")):
+            with self.subTest(genre=genre):
+                self.assertEqual(candidates(detect.scan(source, genre=genre), "negation_split_en")[0]["policy_action"], action)
+
+    def test_execution_reminders_are_context_candidates_in_every_genre(self):
+        source = "这里不冒充全局。我们坚持真实口径。"
+        for genre in ("general", "academic", "explain"):
+            result = detect.scan(source, genre=genre)
+            self.assertEqual(candidates(result, "execution_reminder")[0]["policy_action"], "context")
+            self.assertEqual([p["text"] for p in locations(result, "execution_reminder")], ["不冒充全局", "真实口径"])
+
+    def test_consecutive_negative_framing_and_wrapped_source_locations(self):
+        source = "这不是降雨量。\r\n那不是累计降雨。"
+        academic = candidates(detect.scan(source, genre="academic"), "negative_listing_zh")[0]
+        self.assertEqual(academic["policy_action"], "revise")
+        self.assertEqual(academic["locations"][0]["text"], source[:-1])
+        self.assertEqual(academic["locations"][0]["end_line"], 2)
+        self.assertEqual(candidates(detect.scan(source, genre="explain"), "negative_listing_zh")[0]["policy_action"], "context")
+
+    def test_real_scope_evidence_and_explicit_comparison_stay_eligible_for_preservation(self):
+        source = "样本仅来自三个城市。该结果不能证明因果关系。本研究预测降雨概率，基线模型预测降雨量。"
+        self.assertFalse(detect.scan(source, genre="academic")["candidates"])
+
+    def test_rule_examples_and_source_quotations_remain_protected(self):
+        source = '`不冒充全局`\n“真实口径”\n> 记录的不是降雨量，而是降雨概率。\n'
+        self.assertFalse(detect.scan(source, genre="academic")["candidates"])
+        included = detect.scan(source, include_quotes=True, genre="academic")
+        self.assertEqual(locations(included, "execution_reminder")[0]["text"], "真实口径")
+        self.assertEqual(candidates(included, "contrast_zh")[0]["policy_action"], "revise")
+
+    def test_unknown_genre_is_rejected_without_reconstructing_rules(self):
+        for genre in ("science-ish", "", None, []):
+            with self.subTest(genre=genre), self.assertRaises(ValueError):
+                detect.scan("记录降雨概率。", genre=genre)
+
+
 class ConfigurationAndCliTests(unittest.TestCase):
     def test_invalid_overrides_rejected(self):
         for config in ({"unknown": 2}, {"tier1_document": True}, {"tier2_document": 0},
@@ -243,6 +295,20 @@ class ConfigurationAndCliTests(unittest.TestCase):
             text_output = self.run_cli(source)
             self.assertEqual(text_output.returncode, 0)
             self.assertIn("review_status: candidate_scan_only", text_output.stdout)
+
+    def test_cli_loads_genre_and_rules_version_without_changing_input(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "draft.md"
+            raw = "记录的不是降雨量，而是降雨概率。".encode("utf-8")
+            source.write_bytes(raw)
+            output = self.run_cli(source, "--genre", "academic", "--json")
+            self.assertEqual(output.returncode, 0, output.stderr)
+            result = json.loads(output.stdout)
+            self.assertEqual(result["genre"], "academic")
+            self.assertEqual(result["rules_version"], 2)
+            self.assertEqual(candidates(result, "contrast_zh")[0]["policy_action"], "revise")
+            self.assertEqual(source.read_bytes(), raw)
+            self.assertEqual(self.run_cli(source, "--genre", "unknown").returncode, 2)
 
     def test_cli_invalid_utf8_missing_input_nul_and_config_return_2(self):
         with tempfile.TemporaryDirectory() as directory:

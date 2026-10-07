@@ -2,7 +2,7 @@
 
 # 本地候选扫描器
 
-仅在使用可选辅助程序时阅读本参考。先完成[技能主流程](../SKILL.zh.md)要求的语义通读。
+本地辅助程序可用时阅读本参考。先完成[技能主流程](../SKILL.zh.md)要求的语义通读。
 辅助程序使用 Python 3.10+ 标准库，无网络请求、额外软件包依赖、自动改写、外部检测器或作者来源评分。
 它读取输入和配置，将报告写到标准输出。
 
@@ -12,6 +12,8 @@
 
 ```bash
 uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json
+uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --genre academic
+uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --genre explain
 uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --config thresholds.json
 uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.md --json --include-quotes
 ```
@@ -21,6 +23,14 @@ uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.
 不支持标准输入模式或 PDF/Word 提取。超大文件会被拒绝，不会被截断。
 若需提取或分块，在辅助程序外完成，并记录实际覆盖范围及来源位置映射。
 
+从实际任务中一次选定 `--genre`。`general` 是未指定体裁、技术说明与个人文字的默认值；
+`academic` 用于科研论文正文和学术综述；`explain` 用于科普、教学、口头解释与口播稿。
+语言不决定文体。使用语言配置的调用方可将 academic/review 类配置映射到 `academic`，
+popular/spoken 类映射到 `explain`。混合文体按既有章节分别扫描，保留原位置映射；未知文体被拒绝。
+
+缺少本地 Python 或适合的文本文件时，只读一遍既有规则，完成有界人工审校并记录退路。
+不要仅为运行扫描而安装软件、上传正文或重列 SOP。
+
 不加 `--json` 时，程序输出便于阅读的候选报告，限制相同。
 退出码 `0` 只表示输入已处理，包含空输入或零候选情况，不代表文字通过审校。
 退出码 `2` 表示输入、配置、参数无效或读取失败。只修复具体的本地问题，不转而把文字上传到其他服务。
@@ -29,6 +39,12 @@ uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.
 
 [scripts/rules.json](../scripts/rules.json) 是有限词表、明确词形、小型繁体字映射表、表层模式和默认阈值的
 唯一可执行来源。[信号判断指南](signal-guide.zh.md) 提供定性判断，不复制一份机器可读字典。
+
+规则数据版本为 `2`；报告 JSON 保持 schema version `1`，增加元数据。
+每项候选包含 `policy_action`：`context` 要求按语境判断，`revise` 表示所选写作约定要求直接重述。
+科研 `academic` 的修辞性否定转折与连续否定为 `revise`；`explain` 和 `general` 为 `context`。
+这是配置的编辑要求，不是错误或作者来源判定。真实比较、引文以及必要范围和证据限制仍需保留。
+内部执行提醒始终为 `context`。这些操作都不修改输入文件。
 
 这些默认值是一种候选复查约定，不是经过实证校准的质量或作者来源判据：
 
@@ -62,7 +78,8 @@ uv run --offline --no-project python skills/prose-audit/scripts/detect.py draft.
   这不是完整繁简转换、中文分词或英语词形还原。
 - 英文词汇使用明确词形及拉丁文字边界，不应在更长英文单词内部命中。
   混合语言文本使用同一规则集合。多词表达可跨换行空白匹配；罕见词形和复杂句式可能漏检。
-- 当前表层模式覆盖部分中英文分句否定、对比和重要性主张。
+- 当前表层模式覆盖部分中英文分句否定、对比和重要性主张，以及中文连续否定。
+  有限词表还定位内部执行提醒。
   同一段中，在相邻近似句子里重复出现的已列明强化词，会产生 `adjacent_repetition:<id>` 候选，
   不受词汇频次阈值限制；不会跨受保护片段连接。
 - 格式辅助仅覆盖 `bold_label_list`，并未覆盖指南中的每一种标题样式、emoji、三项并列、连接词链、
@@ -96,8 +113,9 @@ JSON 包含：
 | `review_status` | 始终为 `candidate_scan_only`。 |
 | `context_review_required` | 始终为 `true`，零候选时也一样。 |
 | `input_status` | `scanned` 或 `insufficient_text`；是处理状态，不是评级。 |
+| `genre` / `rules_version` | 已选写作约定和固定规则数据版本。 |
 | `thresholds` | 校验并应用覆盖后的实际阈值。 |
-| `candidates` | 包含 `kind`、`rule_id`、`message` 和 `locations`；词汇候选还包含 `tier` 和 `counts`。 |
+| `candidates` | 包含 `kind`、`rule_id`、`policy_action`、`message` 和 `locations`；词汇候选还包含 `tier` 和 `counts`。 |
 | `statistics` | 描述性句长、段长、数量、均值、总体标准差及受保护字符数。 |
 | `limitations` | 每次扫描均返回的解释及覆盖限制。 |
 
@@ -115,4 +133,6 @@ JSON 包含：
 没有句长阈值、突发性判定、综合疑似评分或文字质量等级。
 
 扫描后，在语境中确认或排除候选、合并重复，只将有依据的发现纳入编辑报告。
+用原片段及邻近上下文局部修改，再检查一遍修改处；每次命中不重建词表或重读无关指令。
+执行检查留在导出正文之外。
 准确区分“扫描器运行完成”与“语义审校完成”。
