@@ -78,6 +78,8 @@ research inference stays in an analysis phase. A personal style needs an
 applicable user/project requirement; Matplotlib or a project name alone does
 not select it. A single plotting task can load its matching skill directly.
 
+Select the next owner from the actual input: `data-preparation` resolves table units and transformations; `exploratory-analysis` diagnoses prepared data; `experiment-run` executes an explicit protocol; `run-review` audits its recorded artifacts. `taskbook-reproduce` prepares a reproduction rather than claiming a completed run. `taskbook-interpret` owns one paper, while `literature-synthesis` compares a fixed set. Adequate multi-source material goes to `source-slides`; a single-paper Chinese group-meeting deck goes to `taskbook-slides`. Method and mechanism diagrams go to `research-diagram`. Preserve effective user-named capabilities; if unavailable, identify the missing name instead of silently substituting another.
+
 When delegating, carry the chosen skill entry, project profile, input/analysis
 boundary, complete output requirements and relevant checks into the worker's
 task. The worker reads the required guide before execution; the coordinator

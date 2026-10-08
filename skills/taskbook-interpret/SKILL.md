@@ -1,103 +1,134 @@
 ---
 name: taskbook-interpret
 description: >
-  Closely read one paper PDF and produce structured notes: a one-sentence
-  summary, research question and motivation, core claims with evidence
-  locations, methods and data, limitations and questions, evidence level,
-  transferable insights, and references in three groups (main citations,
-  important field references, and AI suggestions awaiting verification).
-  Use when a user provides a paper PDF and asks to interpret, closely read,
-  analyze, break down, or take reading notes on it. Produce analysis notes
-  only, not manuscript prose. Not for PDF retrieval alone (use tools such
-  as scansci-pdf) or writing multi-paper literature reviews.
+  Analyze one paper or answer a scoped question about a supplied passage,
+  figure or table: contribution type, question, method, evidence and limitations.
+  Use for "interpret this paper", "explain Figure 2", "comment on this passage",
+  解读论文、局部提问 or 批注. Full reading produces structured notes; a local
+  question produces a focused answer with actual coverage. Not for retrieval
+  alone, multi-paper synthesis, manuscript drafting or formal experiment execution.
 license: MIT
 category: analyze
 domain: [paper, literature]
 action: [analyze, record]
 uses: [scansci-pdf]
 artifacts:
-  - "精读笔记.md — Structured close-reading notes in eight sections, including references in three groups"
+  - "Full-reading notes in eight sections, including contribution type and evidence locations"
+  - "Scoped answer or annotation with exact passage/page/figure locations and actual coverage"
 ---
 
 [中文译本](SKILL.zh.md)
 
-# Interpret a Paper (taskbook family)
+# Interpret a paper
 
-Closely read the attached paper PDF or the PDF at the specified path and
-write structured notes in `精读笔记.md`. For a large PDF or scanned document,
-first use `scansci-pdf` to extract structured text, then read it closely.
+Choose `full`, `question` or `annotation` from the accepted request. Preserve
+its scope and requested output language. A local question does not require an
+eight-section report; supplying one page does not establish full-text reading.
 
 ## When to use
 
-- The user provides a paper PDF and asks to interpret, closely read, analyze,
-  break down, or take reading notes on it.
+Use for a single paper's close reading, contribution/method explanation,
+figure/table question or passage annotation. `full` reads the complete supplied
+paper; `question` answers the named issue; `annotation` attaches focused notes
+to identifiable locations. Default to full notes for an unqualified request to
+closely read the paper, and to a focused answer for a named question.
 
-Do not use for PDF retrieval alone (an `acquire` task) or writing multi-paper
-literature reviews. Synthesis across papers exceeds this skill's scope of
-closely reading one paper.
+Do not use for acquisition alone, multi-paper synthesis, manuscript prose or
+formal reproduction. Hand a requested subsequent stage to its matching
+capability rather than treating its output as completed here.
 
 ## Method
 
-1. **Read the entire PDF**, including its reference list, without skipping
-   sections.
-2. Produce each item in the note structure below. Every core claim must cite
-   an evidence location (section/figure/table).
-3. State the evidence level honestly: “全文阅读” (full text read), “仅摘要”
-   (abstract only), or “仅元数据” (metadata only).
-4. Finish with a brief Chinese summary listing the output file path.
+1. Resolve mode, input and reader's question. Confirm the exact version and
+   available pages; distinguish the paper's statements, supporting observations
+   and the reader's interpretation. Preserve material limitations and unknowns.
+2. Check the actual PDF reader and page renderer. OCR is conditional on a
+   missing/defective text layer and an available tool; verify numbers, equations
+   and labels against original pages. `scansci-pdf` acquires papers, and its
+   download-time Markdown does not establish local-PDF reading, OCR or figure
+   extraction. Use it only if retrieval is needed. Record unreadable pages.
+3. Read the accepted scope. `full` covers all sections, figures, tables,
+   appendices and references. For a local question, inspect its passage/figure,
+   caption, definitions and the methods/results context needed to answer it;
+   read an additional section only to resolve a named dependency. If it is
+   unavailable, qualify the answer or keep the affected claim blocked. Record
+   actual page/section coverage, not an inferred "full text read" label.
+4. Select contribution type from evidence: method, empirical finding, theory,
+   dataset/benchmark, review or system; multiple types may coexist. Describe
+   the local problem, proposed change, evidence supporting it and the claim's
+   limits. These are analytical lenses, not a required novelty ranking. Do not
+   force an experimental comparison template onto theory or review papers, or
+   declare novelty against literature that was not examined.
+5. Produce the matching output below. Every material claim has an evidence
+   location. For annotations, retain the original passage and pair its exact
+   quote/location with explanation, question or suggested interpretation.
+   Use native comments only when available and authorized; otherwise provide
+   a location-indexed note. A note file does not prove the PDF was annotated.
+6. Check claims against the inspected pages once; repair only identified
+   defects within the budget. Keep a ledger for accepted outcomes and R1–R4:
+   `ID | requirement | done/blocked/n/a | evidence or reason`. A scope-based
+   `n/a` cannot waive a requested result. Record coverage and remaining inputs.
 
-### Note structure (use these output labels)
+### Full notes
 
-1. **一句话概括** (one-sentence summary): what the paper did and concluded.
-2. **研究问题与动机** (research question and motivation): the question it
-   attempts to answer and why it matters.
-3. **核心主张** (core claims): list each claim with its evidence location.
-4. **方法与数据** (methods and data): methods, data, and data sources.
-5. **局限与疑点** (limitations and questions): weaknesses in methods or
-   evidence, and unstated assumptions.
-6. **证据等级** (evidence level): “全文阅读” / “仅摘要” / “仅元数据”.
-7. **可借鉴之处** (transferable insights): implications for the reader's own
-   research; provide analysis and suggestions only.
-8. **参考文献整理** (reference organization): three groups, using the paper's
-   original reference list as the authority:
-   - **主要引用** (main citations): references central to the paper's
-     argument; identify which part of the paper each supports.
-   - **领域重要文献** (important field references): cited classic or
-     foundational works in the field; explain why they matter.
-   - **潜在相关（AI 补充，未被论文引用）** (potentially related: AI additions
-     not cited by the paper): potentially relevant directions or works that
-     the paper did not cite. Mark every item “AI 建议，待核实” (AI suggestion,
-     to be verified). Recommend only classic works known to exist, or give
-     specific search queries. Omit works whose existence cannot be confirmed.
+Use `精读笔记.md` or the requested format and filename:
+
+1. One-sentence summary: what the paper did and concluded.
+2. Research question and motivation, including supported contribution type.
+3. Core claims with section/page/figure/table evidence locations.
+4. Methods, data, sources and the assumptions required for the stated result.
+5. Limitations and questions, separating author-stated limits from reader doubts.
+6. Evidence level and precise reading coverage. Abstract/metadata-only notes
+   are partial for a full-reading request, not a completed substitute.
+7. Transferable insights, with their conditions of applicability.
+8. References in three groups: main citations with their argumentative role;
+   important cited field works with reasons; and AI additions not cited by the
+   paper, each labeled “AI 建议，待核实”. Use the original reference list as
+   authority. Omit unconfirmed works or provide search queries instead.
+
+### Local answer or annotations
+
+Answer the question first, then explain the necessary terms, evidence and
+limits using the inspected context. Supply locations and unresolved dependencies.
+For an annotation request, use `location | exact passage | note/question` or
+an authorized editor's comment objects. Only relevant contribution analysis is
+needed; do not append the full-notes structure or an invented literature review.
+
+For a fictional forward exercise, use [scoped-reading cases](examples/scoped-reading.md).
 
 ## Requirements
 
-- [B] R1 Read the entire PDF without skipping sections — Verification:
-  evidence locations in the notes cover methods, results, and references;
-  the evidence level is stated honestly.
-- [B] R2 Include all eight sections and an evidence location for every core
-  claim — Verification: the notes contain all 8 sections, and each claim
-  identifies a section/figure/table.
-- [B] R3 Separate AI additions from references actually cited by the paper;
-  mark each “AI 建议，待核实” — Verification: the three reference groups have
-  separate sections, and no AI addition lacks the label.
+- [B] R1 Reading coverage matches the mode and request — Verification: full
+  mode accounts for every section, figure/table, appendix and reference list;
+  local mode records the requested object and necessary context. Missing
+  required material stays blocked, even when useful partial notes exist.
+- [B] R2 The requested output and material claims are supported — Verification:
+  full notes contain the eight sections; a local answer/annotation addresses
+  the named issue without forced full reporting. Check each claim's original
+  location, contribution type where applicable, assumptions and limitations.
+- [B] R3 Sources and interpretation remain distinct — Verification: claims
+  absent from inspected material are unavailable, not invented. In full notes,
+  references stay in the three groups and every AI addition is labeled.
+- [B] R4 The ledger and checks describe actual work — Verification: reconcile
+  scope, delivered output, coverage, evidence and every applicable requirement;
+  a location-indexed note is not a claim of editing the source PDF.
 
 ## When to stop
 
-- Stop after delivering `精读笔记.md` with a path summary.
-- If the user subsequently asks for a literature review or manuscript prose,
-  state that this exceeds the skill's scope and do not produce it under this
-  skill.
+Use one scoped reading/analysis pass, at most one targeted repair round and
+one final affected-context check. Deliver when all applicable blocking items
+have evidence. At missing input/tool/context or budget exhaustion, deliver a
+useful partial answer with completed/blocked items, actual coverage, stop
+condition and the smallest unblock condition. Do not claim full acceptance
+or reopen passed checks; continue independent work within the accepted scope.
 
 ## Output contract
 
-1. One `精读笔记.md` file containing all eight sections.
-2. Mark information absent from the paper “论文未说明” (not specified in the
-   paper). Never invent references, data, or conclusions.
-3. Produce structured analysis notes only. Do not ghostwrite a paper,
-   literature review, or any academic prose ready for submission.
-4. Write outputs only in the current working directory; do not modify any
-   files outside it.
+Deliver the requested notes, focused answer or annotations in the requested
+language. Preserve the source; do not alter a PDF or write outside the
+requested/authorized location merely to store comments. Include a compact
+ledger and coverage in existing notes or the delivery summary. Keep analysis
+separate from manuscript drafting and formal experiment execution.
 
 Taskbook family: this skill is the independently triggerable version of the
 `interpret` preset in [research-taskbook](https://github.com/mappedinfo/metis),

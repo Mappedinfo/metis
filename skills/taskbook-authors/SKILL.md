@@ -23,8 +23,15 @@ artifacts:
 # Explore an Author Team (taskbook family)
 
 Organize information about the authors of the attached paper or the paper at
-the specified path. Produce `学者档案.md` and `works.bib`. For a large PDF or
-scanned document, first use `scansci-pdf` to extract the text.
+the specified path. Produce `学者档案.md` and `works.bib`.
+
+Check the available local PDF reader and page renderer first. Use OCR only
+when the text layer is absent or defective and an OCR tool is available;
+verify numbers, equations and figure/table labels against the original pages.
+Record unreadable pages and actual reading coverage. `scansci-pdf` retrieves
+papers by identifiers; its optional download-time Markdown is not a local-PDF
+reader, OCR service or guarantee of figure extraction. Use it only when
+retrieval is needed. Missing reading tools leave affected requirements blocked.
 
 ## When to use
 
@@ -41,7 +48,9 @@ it into slides (use `taskbook-slides`).
 2. **Search the web to fill in** each author's current affiliation, research
    interests, and representative works. Consult laboratory and academic
    homepages when needed. Without network access, use only information within
-   the paper and explicitly state this fallback.
+   the paper and explicitly state this fallback. Treat the paper's affiliation
+   as historical to that publication; do not relabel it current without a
+   dated public source. Keep requested current information blocked when unknown.
 3. **Produce two files**:
    - `学者档案.md`: author list with corresponding authors marked → each
      author's affiliation, interests, and 2–4 representative works with
@@ -51,6 +60,11 @@ it into slides (use `taskbook-slides`).
    link, DOI, or paper reference. Mark information that cannot be found as
    “未检索到” (not found); do not leave it blank or invent it.
 5. Finish with a brief Chinese summary of the output file paths.
+
+Maintain one ledger for the accepted task and the requirements below:
+`ID | requirement | done/blocked/n/a | evidence or reason`. `n/a` needs a
+scope-based reason and cannot waive a requested outcome. A file or an honest
+partial-coverage label does not establish completion of the accepted scope.
 
 ## Requirements
 
@@ -65,11 +79,22 @@ it into slides (use `taskbook-slides`).
 
 ## When to stop
 
-- Stop after delivering `学者档案.md` and `works.bib` with a path summary.
-- Do not extend the task into interpreting the paper or judging academic
-  standing; those are separate tasks.
+Use one scoped reading/creation pass, at most one targeted repair round and
+one final check of affected outputs. Deliver when every applicable blocking
+requirement has passing evidence in the ledger. Do not reopen passed checks.
+If input, tools or a required verification are unavailable, or the budget is
+exhausted, deliver a useful partial result only with completed and blocked
+items, the stop condition and the smallest unblock condition. Partial delivery
+is not full acceptance; mark unsupported content unavailable rather than
+inventing it. Continue independent work within the accepted scope.
+
+Do not extend this task into paper interpretation or ranking academic standing.
 
 ## Output contract
+
+Include the requirements ledger and actual coverage/check status in the
+existing notes or delivery summary, with remaining work and unblock conditions.
+Do not add a separate tracking system.
 
 1. Two files: `学者档案.md` and `works.bib`.
 2. Never invent author information, affiliations, references, or links.

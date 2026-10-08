@@ -1,43 +1,22 @@
 [中文译本](reproduce.zh.md)
 
-# Taskbook preset: reproduction data and code (reproduce)
+# Taskbook preset: reproduce
 
-> **Input**: one paper PDF, attached or at an explicit path, optionally with a
-> link to the authors' public code repository.
-> **Artifacts**: `复现计划.md` + `data_plan.md` + a code scaffold under `src/`.
-> **Usage**: this taskbook prepares for reproduction. Deliver a plan and scaffold,
-> not a claim that reproduction succeeded; a person draws that conclusion after
-> checking the results.
+This preset binds a taskbook to the single maintained execution method in
+[taskbook-reproduce](../../../taskbook-reproduce/SKILL.md). Read that guide before writing the
+atomic task. Preserve its input boundary, applicable Requirements, verification,
+profile/tool dependencies, ledger and stop budget. Do not infer capabilities
+from installing this preset.
 
-## The three elements
+- **Input**: one paper PDF and available data/code clues; preparation only.
+- **Output**: `复现计划.md + data_plan.md + src/`, or the requested output permitted by that guide.
+- **Acceptance**: use the execution guide's applicable checks with concrete
+  evidence locations/commands and status; creation alone does not pass them.
 
-- **Input**: the full paper PDF, including all figures, tables and appendices,
-  plus the authors' public code/data, if available.
-- **Output**: three artifacts: `复现计划.md`, `data_plan.md` and `src/` (a runnable
-  scaffold with a README).
-- **Acceptance**: the plan lists 100% of the paper's main tables and figures;
-  every dataset not provided is marked “缺失” (missing); `src/README.md` explains
-  how to run the code; uncertain implementation details are explicitly marked
-  in comments.
-
-## Artifact structure (for the executor to follow)
-
-1. **`复现计划.md`**: an inventory of experiments, tables and figures to reproduce
-   from the paper. Each item has inputs, steps, expected outputs and acceptance
-   criteria for comparison with the original.
-2. **`data_plan.md`**: an inventory of required data (name, source, access method,
-   license). Mark every dataset not supplied by the paper **“缺失” (missing)**;
-   suggest alternative acquisition routes, such as a public proxy dataset, or
-   explicitly mark it “无法获取” (unavailable).
-3. **`src/`**: a runnable code scaffold covering data loading, preprocessing and
-   the core algorithm entry point. Explain the directory structure and run
-   instructions in `src/README.md`.
-
-## Boundaries
-
-- Do not fabricate any data or results. Mark data not supplied by the paper
-  “缺失” (missing); do not generate it from nothing.
-- Mark uncertain implementation details explicitly in comments rather than
-  silently assuming them.
-- This step prepares for reproduction; it does not draw conclusions on behalf
-  of the paper's authors. A person checks whether the results are correct.
+Resolve the executor's available guide location. If the skill is not installed,
+use its [public source](https://github.com/mappedinfo/metis/blob/main/skills/taskbook-reproduce/SKILL.md)
+when accessible and authorized; carry its readable location into the taskbook.
+If neither location is readable, leave that dependency blocked rather than
+recreating an incomplete method from memory. For a portable taskbook, include
+the accepted inputs, outputs, applicable checks and guide location; do not
+repeat the full SOP here. Planning this task does not execute it.

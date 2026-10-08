@@ -3,8 +3,10 @@ name: source-brief
 description: >
   Drafts or revises a short brief from material the user supplies, with a
   source map for its key factual claims. Use for "summarize these notes for
-  my team", "write a short update", or "revise this brief" in Chinese or
-  English. Does not retrieve sources, choose a research direction, or write
+  my team", "write a short update/tutorial", or "revise this brief" in Chinese
+  or English. Fits the supplied material to the audience and requested genre.
+  Does not retrieve sources, invent personal experience, compose fiction,
+  choose a research direction, or write
   a full academic paper.
 license: MIT
 category: compose
@@ -41,6 +43,10 @@ as permission to browse, publish or send the brief.
 
 1. **Set the brief's job.** Identify what this audience needs to understand
    or decide, and record the accepted constraints in the acceptance ledger.
+   Choose the requested form from the reader's task: decision memo, progress
+   update, short explanation/tutorial or source-grounded narrative. Read the
+   [genre-fit guide](references/genre-fit.md) when changing form or voice;
+   format does not authorize adding facts or length beyond the material.
    Read the relevant supplied materials. Give each source a stable label
    and a usable location: filename plus heading, page, paragraph or line.
 2. **Select the evidence.** Distinguish reported observations, an author's
@@ -54,14 +60,22 @@ as permission to browse, publish or send the brief.
    the reader's judgment. Connect sentences in plain language; use lists or
    a table only when they make the information easier to use. In a revision,
    preserve supported meaning and the requested voice. Record any substantive
-   change separately from the audience-facing brief.
+   change separately from the audience-facing brief. Each paragraph adds
+   evidence, explanation, an implication or a necessary limitation. Follow
+   the reader's next question rather than filling an imposed list or repeating
+   one claim to meet length. Preserve purposeful voice; vividness cannot come
+   from invented experience, dialogue or precise details.
 4. **Audit evidence and fit once.** Map each key verifiable claim to its
    source location in `source-map.md`. A citation on every sentence is not
    required; the reader must be able to locate the evidence for material
    claims. Attribute opinions, label proposed actions, and remove or qualify
    unsupported claims. Check the requested language, audience, length and
    format. For a stated length limit, record the counting convention and
-   measured result in the ledger.
+   measured result in the ledger. In the same pass, inspect subject/action,
+   reference resolution, sentence links and terms for this audience. Retain
+   quantified comparisons' units, baseline, denominator and scope. Separate
+   a wording defect from a missing substantive contribution: polishing cannot
+   establish research value or repair absent evidence.
 5. **Repair only identified defects.** Use at most two repair rounds, each
    followed by a check of the affected claims and constraints. Update the
    ledger with the observed result rather than declaring success from file

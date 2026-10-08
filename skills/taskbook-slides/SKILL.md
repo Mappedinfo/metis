@@ -12,7 +12,7 @@ license: MIT
 category: present
 domain: [slides, paper]
 action: [transform, create]
-uses: [scansci-pdf]
+uses: [scansci-pdf, profiles/deck]
 artifacts:
   - "汇报.pptx — 10–15 Chinese group-meeting slides with speaker notes on every slide"
 ---
@@ -22,8 +22,15 @@ artifacts:
 # Paper → PPT (taskbook family)
 
 Turn the attached paper PDF or the PDF at the specified path into a Chinese
-presentation, `汇报.pptx`. For a large PDF or scanned document, first use
-`scansci-pdf` to extract the text and figure/table locations.
+presentation, `汇报.pptx`.
+
+Check the available local PDF reader and page renderer first. Use OCR only
+when the text layer is absent or defective and an OCR tool is available;
+verify numbers, equations and figure/table labels against the original pages.
+Record unreadable pages and actual reading coverage. `scansci-pdf` retrieves
+papers by identifiers; its optional download-time Markdown is not a local-PDF
+reader, OCR service or guarantee of figure extraction. Use it only when
+retrieval is needed. Missing reading tools leave affected requirements blocked.
 
 ## When to use
 
@@ -37,7 +44,14 @@ group-meeting style) or close-reading notes (use `taskbook-interpret`).
 
 1. **Read the entire paper PDF** and identify its research question, methods,
    key results with their original figures/tables, and limitations.
-2. **Generate `汇报.pptx`**: 10–15 slides in Chinese with speaker notes on
+2. Read `<project-root>/profiles/deck.yaml`, resolving the project root from
+   its instructions rather than the installed skill location. Apply its palette,
+   typography, aspect and layout defaults; record an explicit user override.
+   Install a missing profile through the [profile guide](https://github.com/mappedinfo/metis/blob/main/profiles/README.md)
+   within authorized scope, preserving existing styles. If it cannot be resolved,
+   keep the style requirement blocked. Deck headings follow slide layout; the
+   profile's `figure` fields govern figures embedded in slides.
+   **Generate `汇报.pptx`**: 10–15 slides in Chinese with speaker notes on
    every slide. Prefer generation tools such as the `pptx` skill or
    `python-pptx`.
 3. **Structure**: title → research question and motivation → methods (explain
@@ -65,6 +79,11 @@ group-meeting style) or close-reading notes (use `taskbook-interpret`).
    delivered, but do not claim its layout is verified or has passed
    acceptance.
 
+Maintain one ledger for the accepted task and the requirements below:
+`ID | requirement | done/blocked/n/a | evidence or reason`. `n/a` needs a
+scope-based reason and cannot waive a requested outcome. A file or an honest
+partial-coverage label does not establish completion of the accepted scope.
+
 ## Requirements
 
 - [B] R1 Include 10–15 slides, each with speaker notes — Verification: open
@@ -83,14 +102,26 @@ group-meeting style) or close-reading notes (use `taskbook-interpret`).
   explicitly mark the visuals as unverified and do not claim layout
   acceptance.
 
+- [B] R5 The project deck profile or explicit override is applied — Verification:
+  compare final slide typography, palette, aspect and figure placement with the
+  recorded profile/override; merely naming it is not application evidence.
+
 ## When to stop
 
-- Stop after delivering `汇报.pptx` with a summary of its path and slide
-  count.
-- Do not add discussion conclusions or evaluations absent from the paper.
-  State when a style customization request exceeds the preset's scope.
+Use one scoped reading/creation pass, at most one targeted repair round and
+one final check of affected outputs. Deliver when every applicable blocking
+requirement has passing evidence in the ledger. Do not reopen passed checks.
+If input, tools or a required verification are unavailable, or the budget is
+exhausted, deliver a useful partial result only with completed and blocked
+items, the stop condition and the smallest unblock condition. Partial delivery
+is not full acceptance; mark unsupported content unavailable rather than
+inventing it. Continue independent work within the accepted scope.
 
 ## Output contract
+
+Include the requirements ledger and actual coverage/check status in the
+existing notes or delivery summary, with remaining work and unblock conditions.
+Do not add a separate tracking system.
 
 1. One `汇报.pptx` file with 10–15 slides, each containing speaker notes.
 2. Prefer reusing the paper's original figures/tables with source attribution;

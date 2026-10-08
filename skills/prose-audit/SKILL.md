@@ -1,8 +1,9 @@
 ---
 name: prose-audit
 description: >
-  Reviews Chinese, English, or mixed prose for jargon, empty emphasis, and
-  formulaic wording when asked to "check AI slop", "去 AI 腔", or "检查黑话".
+  Reviews Chinese, English, or mixed prose for grammar, reference ambiguity,
+  cohesion, genre/voice fit, jargon and formulaic wording. Use for "proofread",
+  "polish this paragraph", "explain this wording", 检查语病、润色 or 去 AI 腔.
   Produces contextual findings with source locations and, when requested,
   a minimally revised full text. Does not determine who or what wrote a text.
 license: MIT
@@ -43,8 +44,9 @@ offer the supported assessment of the wording actually present.
 
 ## When to use / not use
 
-Use for an explicit audit or revision of prose described as mechanical,
-vague, inflated, overstructured, or full of jargon, including a relevant
+Use for an explicit wording audit, proofreading, minimal revision or explanation
+of a passage's grammar, reference ambiguity, cohesion, voice or genre fit,
+including mechanical, vague, inflated or jargon-heavy prose and a relevant
 final pass in an already authorized writing task. Do not impose this pass
 on every unrelated response or rewrite quoted material merely because it
 contains a listed phrase.
@@ -89,7 +91,12 @@ file is needed unless the task calls for one.
 Select the writing convention from the task once: `academic` for research
 manuscripts and academic reviews; `explain` for popular science, teaching,
 spoken explanations and scripts; `general` for other or unspecified prose.
-Genre is independent of language and output mode. A mixed document may need
+Genre is independent of language and output mode. Also identify the requested
+form (memo, tutorial, narrative, dialogue or other supplied form) and its reader
+job. Keep deliberate fragments, repetition or cadence where that form needs
+them; do not impose conversational narration on technical or scholarly prose.
+This is contextual judgment, not additional scanner genre names. A mixed
+document may need
 separate already-defined sections; preserve their locations and coverage.
 Choose language treatment from the actual prose, not the request language or
 the guide being read. The review report follows the requested output language.
@@ -105,7 +112,12 @@ separate fields or files. Only the requested prose belongs in its body.
 Read for the argument, factual content, referents, sequence, register, and
 author's voice. Identify what each paragraph adds. Mark quotations,
 citations, code, identifiers, legal provisions, and technical definitions
-whose exact form or distinction matters. A semantic read includes these
+whose exact form or distinction matters. Check comparison baselines, units,
+denominators and qualifiers where their loss changes the claim. Distinguish
+expression from substance: clear wording does not establish novelty or research
+value, and a value objection may require evidence beyond this language review.
+Do not turn polishing into an unauthorized investigation. A semantic read
+includes these
 regions even when the optional scanner skips them.
 Include the language checks described in step 3 during this reading; the
 candidate decisions use that context without starting a second full pass.
@@ -295,7 +307,10 @@ input report, never a clean bill of prose quality.
 
 - `audit`: scope and coverage, a supported editorial assessment, and findings
   with `location | exact quote | defect and reader impact | level | minimal remedy`.
-  Include consequential keep/unresolved decisions and a concise ledger and
+  For requested teaching, show original → minimal alternative → reason within
+  this same audit, using at most two alternatives per issue; do not invent a
+  missing scientific meaning. Include consequential keep/unresolved decisions,
+  a concise ledger and
   stop condition. Do not manufacture findings to fill a report.
 - `edit`: the same review plus the full minimally revised text, with review
   notes outside the reader-facing text. Distinguish changed wording from
@@ -308,3 +323,8 @@ input report, never a clean bill of prose quality.
 
 For a bounded practice run, use the bilingual
 [fictional review cases](examples/review-cases.md).
+
+Method provenance: owner-authorized genre/voice, evidence-expression and coaching
+methods were independently rewritten from `human-writing` and `writing-quality`.
+No personal defaults, private records, scanners or services are dependencies.
+Existing R1–R8, modes, language treatment and pass budgets remain shared.

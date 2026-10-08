@@ -4,8 +4,8 @@ description: >
   Prepare to reproduce one paper PDF: a figure/table checklist, a data
   availability plan marking every missing dataset without fabrication, and a
   runnable code scaffold (src/ + README). Use when a user provides a paper PDF
-  and asks to reproduce it, prepare a reproduction, get its experiments
-  running, or reproduce Table 3/Figure 2. Produce preparation materials, not
+  and asks for a reproduction plan, missing-data assessment, or runnable
+  scaffold to prepare Table 3/Figure 2. Produce preparation materials, not
   reproduction conclusions. Not for close reading (use taskbook-interpret) or
   executing the full experiment once complete data and code are available.
 license: MIT
@@ -26,14 +26,24 @@ artifacts:
 For the attached paper PDF or the PDF at the specified path, produce the
 plan, data strategy, and code scaffold needed for reproduction. **This step
 prepares reproduction; it does not draw conclusions on behalf of the paper's
-authors.** A person determines whether the results are correct. For a large
-PDF or scanned document, first use `scansci-pdf` to extract the text and a
-figure/table inventory.
+authors.** A person determines whether the results are correct.
+
+Check the available local PDF reader and page renderer first. Use OCR only
+when the text layer is absent or defective and an OCR tool is available;
+verify numbers, equations and figure/table labels against the original pages.
+Record unreadable pages and actual reading coverage. `scansci-pdf` retrieves
+papers by identifiers; its optional download-time Markdown is not a local-PDF
+reader, OCR service or guarantee of figure extraction. Use it only when
+retrieval is needed. Missing reading tools leave affected requirements blocked.
 
 ## When to use
 
-- The user provides a paper PDF and asks to reproduce it, prepare a
-  reproduction, get its experiments running, or reproduce Table 3/Figure 2.
+- The user provides a paper PDF and requests a reproduction plan, data
+  availability assessment or runnable scaffold. For “reproduce this paper” or
+  “run its experiments”, determine whether preparation is the unresolved stage;
+  do not substitute a plan for an explicitly requested formal execution.
+  When data and code are ready, route execution to an available experiment
+  capability and report any missing capability.
 
 Do not use for close reading (use `taskbook-interpret`) or executing the full
 experiment after complete data and code are available. Such execution belongs
@@ -55,8 +65,16 @@ to an experiment workflow outside this skill's scope.
      the core algorithm entry point. Include `src/README.md` explaining the
      directory structure and how to run it.
 3. **Explicitly mark** uncertain implementation details in code comments;
-   do not silently assume them.
+   do not silently assume them. Perform a finite entry-point smoke check in
+   a clean environment: validate syntax/imports and expected missing-data
+   handling. This is scaffold verification, not a formal training/evaluation
+   run; do not generate substitute results or claim reproduction success.
 4. Finish with a brief Chinese summary listing each output path.
+
+Maintain one ledger for the accepted task and the requirements below:
+`ID | requirement | done/blocked/n/a | evidence or reason`. `n/a` needs a
+scope-based reason and cannot waive a requested outcome. A file or an honest
+partial-coverage label does not establish completion of the accepted scope.
 
 ## Requirements
 
@@ -72,12 +90,20 @@ to an experiment workflow outside this skill's scope.
 
 ## When to stop
 
-- Stop after delivering the three outputs with a path summary.
-- Do not execute the full reproduction experiment or report a conclusion of
-  "reproduction succeeded/failed". Interpretation and judgment belong to
-  the researcher.
+Use one scoped reading/creation pass, at most one targeted repair round and
+one final check of affected outputs. Deliver when every applicable blocking
+requirement has passing evidence in the ledger. Do not reopen passed checks.
+If input, tools or a required verification are unavailable, or the budget is
+exhausted, deliver a useful partial result only with completed and blocked
+items, the stop condition and the smallest unblock condition. Partial delivery
+is not full acceptance; mark unsupported content unavailable rather than
+inventing it. Continue independent work within the accepted scope.
 
 ## Output contract
+
+Include the requirements ledger and actual coverage/check status in the
+existing notes or delivery summary, with remaining work and unblock conditions.
+Do not add a separate tracking system.
 
 1. `复现计划.md`, `data_plan.md`, and `src/` (including `src/README.md`).
 2. Never invent data or results, or draw conclusions on behalf of the paper's

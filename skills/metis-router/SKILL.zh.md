@@ -54,6 +54,8 @@ acquire → analyze → compose / visualize / present → build
 研究推断留在分析阶段。个人风格须有适用的用户／项目要求，不能仅凭 Matplotlib
 或项目名称选择。单一绘图任务可以直接读取对应技能。
 
+按实际输入选择下一阶段：`data-preparation` 解决数据单位与转换，`exploratory-analysis` 诊断准备后数据，`experiment-run` 执行明确协议，`run-review` 核验已记录的运行产物。`taskbook-reproduce` 负责复现准备，不能据此声称完成运行。单篇阅读由 `taskbook-interpret` 承接，已确定多篇集合的比较由 `literature-synthesis` 承接。已有充分多来源材料进入 `source-slides`；单篇论文中文组会汇报进入 `taskbook-slides`。方法和机制图进入 `research-diagram`。保留有效的用户点名；能力缺失时报告其名称，不静默替换。
+
 委派时把所选技能入口、项目 profile、输入／分析边界、完整输出要求和相关检查
 传给工作单元。工作单元执行前读取必需指南，协调者检查整合导出。写出技能名称
 或收到成功的进程结果，不能证明指南已加载或最终图件质量合格。

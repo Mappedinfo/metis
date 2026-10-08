@@ -31,7 +31,7 @@ read it when the task needs detailed tool routing or configuration guidance.
 
 ## Route by intent
 
-- Search or identify papers: `scansci_pdf_search`, `scansci_pdf_verify_identifiers`,
+- Search or identify papers: `scansci_pdf_search`, `scansci_pdf_prepare_queue(action="verify")`,
   and `scansci_pdf_parse_list` for list files.
 - Resolve open-access locations: `scansci_pdf_prepare_queue(action="resolve_oa")`.
 - Download one paper: `scansci_pdf_download` with an explicit strategy when the
@@ -97,6 +97,11 @@ not a waiver of a required user outcome. Declare completion only when every
 applicable blocking requirement is done with evidence; keep inaccessible
 required items blocked even when their diagnostics are complete.
 
+Before calling a named tool, inspect its actual exposure and input schema.
+Installing this guide does not install or connect the MCP server. If the server
+or required tool is unavailable, report that dependency and keep the affected
+retrieval blocked; do not invent an endpoint or quietly change source strategy.
+
 ## Provenance
 
 Vendored from [Rimagination/scansci-pdf](https://github.com/Rimagination/scansci-pdf)
@@ -113,3 +118,5 @@ exhaustion, and a status-and-evidence ledger in the Metis output contract
 into English while retaining its Chinese companion, and added language links
 and this modification notice (2026-10-03). Workflow meaning, commands and
 authorization boundaries are preserved; the Apache-2.0 license is unchanged.
+Corrected the identifier-verification route to `prepare_queue(action="verify")`
+and distinguished guide installation from actual tool exposure (2026-10-08).

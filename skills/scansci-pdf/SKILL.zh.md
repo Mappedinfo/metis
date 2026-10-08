@@ -16,7 +16,7 @@ Elsevier API 快速通道及 Tor 回退，见
 
 ## 按意图路由
 
-- 搜索或识别论文：使用 `scansci_pdf_search`、`scansci_pdf_verify_identifiers`；
+- 搜索或识别论文：使用 `scansci_pdf_search`、`scansci_pdf_prepare_queue(action="verify")`；
   列表文件使用 `scansci_pdf_parse_list`。
 - 解析开放获取位置：`scansci_pdf_prepare_queue(action="resolve_oa")`。
 - 下载单篇论文：使用 `scansci_pdf_download`；用户有来源偏好时显式指定策略。
@@ -71,6 +71,10 @@ Elsevier API 快速通道及 Tor 回退，见
 所有适用的阻断项都已完成且有证据时，才能宣布完成；无法访问的必需条目即使
 诊断已完成，也须保持 `blocked`。
 
+调用前核对工具是否实际暴露及其参数。安装指南不等于安装或连接 MCP 服务。
+服务或必要工具不可用时，说明依赖并将对应获取要求标为 `blocked`；不编造
+接口，也不静默改变来源策略。
+
 ## 来源与修改声明
 
 本技能引入自 [Rimagination/scansci-pdf](https://github.com/Rimagination/scansci-pdf)
@@ -83,3 +87,5 @@ When to stop 各节，明确预算耗尽时报告未完成项，并在 Metis 输
 状态与证据台账（2026-09-28）。新增中文入口，将完整工作流参考译为英文并保留
 中文对应文件，补充语言互链和本修改声明（2026-10-03）。工作流含义、命令和
 授权边界保持不变；Apache-2.0 许可证未修改。
+修正标识符验证为 `prepare_queue(action="verify")`，区分指南安装与实际工具
+暴露（2026-10-08）。
