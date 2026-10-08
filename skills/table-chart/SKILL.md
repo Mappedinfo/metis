@@ -34,6 +34,9 @@ Use the [chart and layout guide](references/chart-guide.md) when selecting a
 form, writing its specification or choosing a palette. Raw-data cleaning,
 imputation, inferred units, statistical tests, fitted models, maps and
 uncertainty estimation require a separate preparation or analysis task.
+For arrays, existing model outputs, requested teaching computations or custom
+panels outside this renderer, use `scientific-plot`; its wider input contract
+does not turn a new research experiment into a plotting task.
 Histograms and box plots provide descriptive summaries with recorded
 parameters; they do not establish significance or causal effects.
 

@@ -17,6 +17,23 @@ shared requirements; language methods and examples may differ. Select the
 method from the actual prose, independently of request language, report
 language and genre. Other skills retain their current language conventions.
 
+## 计算图能力与技能选择 — 2026-10-08
+
+- [done] 新增 `scientific-plot`，承接数组、缓存计算结果、明确要求的教学演示及
+  自定义数值面板。中文主稿与英文入口同步维护七项要求，保留一个发现身份；
+  `agents/openai.yaml` 允许隐式调用。准备好的 CSV 与受支持图型仍由 `table-chart` 处理。
+- [done] 更新两份 router 与 table-chart 指南，按输入、受众和实际风格要求选能力，
+  委派时传递技能入口、项目 profile、计算边界和验收要求。科研推断保持独立分析阶段，
+  项目名称或绘图库不自动指定个人风格。
+- [done] 12 技能／4 profiles 审计零错误、零警告；29 项技能契约和安装检查通过，
+  生成包核对与文档构建通过。虚构曲面样本的双面板坐标／PCA 示例完成 PNG、PDF
+  与灰度视图检查，旋转刻度后的逐面板图注位于轴下方，改图注重画保持计算缓存哈希不变。
+  示例仅验证这一布局、输入和重画流程，未测试中文字体覆盖或所有面板组合。
+- [done] 本机两个发现目录已安装该入口，安装器仅增加所选技能链接。
+- [plan] 下次实际新会话核对暴露列表、技能正文读取和项目 profile，再检查请求的实际
+  图件。隐式调用许可、安装成功和结构化路由案例均不证明宿主自动加载；当前没有新增
+  绘图 hook，也未发布 npm 或部署站点。
+
 ## prose-audit 分语言处理 — 2026-10-07
 
 - 本轮接受范围为 `prose-audit` 的共享审校框架与分别编写的中文、英文处理指南。

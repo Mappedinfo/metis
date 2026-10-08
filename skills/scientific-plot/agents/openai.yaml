@@ -1,0 +1,6 @@
+interface:
+  display_name: "Scientific Plot"
+  short_description: "Reproducible computational figures and custom panels"
+  default_prompt: "Use $scientific-plot to create reproducible figures from these computational outputs."
+policy:
+  allow_implicit_invocation: true

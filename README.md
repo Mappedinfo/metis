@@ -75,6 +75,10 @@ For prepared tables, [table-chart](skills/table-chart/SKILL.md) recommends and
 renders seven chart forms with single-panel or faceted layouts and shared
 color, grayscale and NPG-inspired profiles.
 
+数组、计算结果、算法演示及自定义面板可使用
+[scientific-plot](skills/scientific-plot/SKILL.md)。两种绘图能力按输入和产物选择，
+共用项目 profiles；安装或允许隐式调用不等于宿主已自动加载正文。
+
 For retrospectives, [review-advance](skills/review-advance/SKILL.md) turns
 existing objectives and evidence into a review, an authorized next action
 and a verifiable plan. Personal defaults and learning stores belong to the

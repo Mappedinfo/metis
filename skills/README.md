@@ -22,6 +22,10 @@ among comparison, trend, relationship, distribution and matrix charts. Its
 [chart guide](table-chart/references/chart-guide.md) explains the corresponding
 layouts and shared colorblind-oriented, grayscale and NPG-inspired profiles.
 
+数组、计算结果、教学演示和自定义面板使用
+[`scientific-plot`](scientific-plot/SKILL.md)。它负责图形制作、计算与渲染分离、
+逐面板标注和实际导出验收；研究推断仍由分析阶段负责，个人风格由调用方明确提供。
+
 ## The seven categories
 
 Every skill carries a `category` frontmatter field with exactly one of the

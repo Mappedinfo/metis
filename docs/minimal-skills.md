@@ -11,7 +11,7 @@
 | 获取 / acquire | `scansci-pdf` | 一个 DOI、arXiv 标识或明确检索条件 | 论文文件或检索结果、引用记录、逐项获取状态；核对标识、来源和文件可读性。受限来源如实报告。 |
 | 分析 / analyze | `taskbook-interpret` | 一篇可读论文全文 | 精读笔记；研究问题、主张、证据和局限能定位到原文，作者结论与读者推断分开。 |
 | 写作 / compose | `source-brief` | 已有材料、读者和写作目的 | 简报或修订稿、关键主张的来源对照；数值、时间、归属和不确定性保留。 |
-| 制图 / visualize | `table-chart` | 整理好的 CSV、列的含义、比较目的和单位 | 图型、排版和配色方案；按选择生成图与再生成材料，核对数值、轴、标签及灰度可辨性。 |
+| 制图 / visualize | `table-chart` / `scientific-plot` | 准备好的 CSV，或数组／计算结果／明确要求的教学演示；比较目的和单位 | 按输入选择能力，生成图与再生成材料，核对数值、轴、逐面板标注及灰度可辨性。 |
 | 呈现 / present | `taskbook-slides` | 一篇论文及汇报用途 | 10–15 页中文 PPTX，每页有备注；核心结论有原文依据，逐页渲染检查。 |
 | 构建 / build | `taskbook-reproduce` | 一篇论文及可获得的数据/代码线索 | 逐图表复现计划、数据方案和可运行脚手架；缺失条件列明，入口能运行。它交付复现准备，不证明论文结果已复现。 |
 | 编排 / meta | `metis-router` | 一个跨阶段目标及已有材料 | 每阶段主 skill、必要支持、产出和验收台账；先处理最早尚未完成的步骤。只请求计划时，计划就是交付。 |
@@ -77,6 +77,21 @@
 [`table-chart` 使用说明](https://github.com/mappedinfo/metis/blob/main/skills/table-chart/SKILL.md)
 和[图型与排版指南](https://github.com/mappedinfo/metis/blob/main/skills/table-chart/references/chart-guide.md)。
 仅要求方案时交付方案；要求绘图时，还须查看实际图和完成验收台账。
+
+### scientific-plot：计算结果与自定义面板 → 科研图
+
+示例请求：
+
+> 用固定种子生成标为虚构的三维弯曲样本，并排展示前两维坐标与 PCA 投影。
+> 按项目 profile 绘图，把说明放在对应面板下方，保留计算缓存和重画入口。
+
+[`scientific-plot`](https://github.com/mappedinfo/metis/blob/main/skills/scientific-plot/SKILL.md)
+接收数组、缓存模型结果和明确要求的教学计算。先确定解释边界，再选择编码，
+按 profile 制作、导出并查看最终文件。固定种子不证明结构稳定，教学演示不证明
+方法普遍优越。重画从缓存读取，新增研究实验另行处理。
+
+`table-chart` 继续负责准备好的 CSV 及其受支持图型。项目名称不会自动选择绘图技能，
+也不要求所有图形经过 router；输入与产物明确时直接加载匹配能力。
 
 ## review-advance：已有目标与证据 → 复盘和下一步
 

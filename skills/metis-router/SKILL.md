@@ -71,6 +71,19 @@ acquisition, not analysis. "Make slides from these ten papers" starts at
 - Re-classify at each phase boundary. A support in phase one may become the
   primary in phase two.
 
+For numerical figures, select by the input and requested work: `table-chart`
+owns prepared CSV charts within its renderer; `scientific-plot` owns arrays,
+computed outputs, teaching demonstrations and custom panels. Unresolved
+research inference stays in an analysis phase. A personal style needs an
+applicable user/project requirement; Matplotlib or a project name alone does
+not select it. A single plotting task can load its matching skill directly.
+
+When delegating, carry the chosen skill entry, project profile, input/analysis
+boundary, complete output requirements and relevant checks into the worker's
+task. The worker reads the required guide before execution; the coordinator
+inspects integrated exports. Naming a skill or receiving a successful worker
+process does not establish guide loading or final artifact quality.
+
 ### 3. Wire style through profiles, not through skills
 
 For each visual output, check its skill's `uses:` frontmatter and read
