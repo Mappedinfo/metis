@@ -80,14 +80,17 @@ provide these metis contract and profile dependency checks.
 
 ## Catalog
 
+当前源码包含 24 项公共技能。安装链接、宿主发现、指南读取和产物验收分别核对；
+实施范围与验证证据见[体系升级台账](skill-system-upgrade.md)。
+
 For concrete inputs, deliverables and verification boundaries, see
 [基础能力 / Minimal skills](minimal-skills.md).
 
 | Skill | Category | Domain | Description |
 |---|---|---|---|
-| `scansci-pdf` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/scansci-pdf/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/scansci-pdf/SKILL.zh.md) | acquire | literature | Academic paper acquisition via the scansci-pdf MCP server (17 tools): search, verify, cite, download (Apache-2.0, vendored with provenance) |
+| `scansci-pdf` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/scansci-pdf/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/scansci-pdf/SKILL.zh.md) | acquire | literature | Academic paper acquisition via the scansci-pdf MCP server（以实际工具发现为准）: search, verify, cite, download (Apache-2.0, vendored with provenance) |
 | `taskbook-authors` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/taskbook-authors/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/taskbook-authors/SKILL.zh.md) | acquire | literature, research-design | 学术圈探索：论文作者档案（机构/方向/代表作附来源）+ works.bib，来源纪律宁缺毋假 |
-| `taskbook-interpret` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/taskbook-interpret/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/taskbook-interpret/SKILL.zh.md) | analyze | paper, literature | 单篇论文结构化精读：八节精读笔记 + 参考文献三类整理（AI 补充逐条标待核实） |
+| `taskbook-interpret` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/taskbook-interpret/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/taskbook-interpret/SKILL.zh.md) | analyze | paper, literature | 单篇全文精读、局部问题或批注；贡献类型与证据对应，全文模式保留完整阅读验收 |
 | `source-brief` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/source-brief/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/source-brief/SKILL.zh.md) | compose | writing, knowledge | Given sources → a short brief or revised draft, with a claim-to-source map and evidence-preserving wording |
 | `table-chart` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/table-chart/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/table-chart/SKILL.zh.md) | visualize | figure, data-analysis | Prepared CSV → chart/layout/palette alternatives and reproducible bar, dot, line, scatter, histogram, box or heatmap exports |
 | `scientific-plot` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/scientific-plot/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/scientific-plot/SKILL.zh.md) | visualize | figure, data-analysis | 数组、计算结果、教学演示与自定义面板 → 可复现图件、项目 profile 与视觉验收 |
@@ -97,6 +100,19 @@ For concrete inputs, deliverables and verification boundaries, see
 | `metis-router` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/metis-router/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/metis-router/SKILL.zh.md) | meta | workflow-meta | Composes skills for multi-stage tasks: one primary + ≤2 supports per phase, profiles for shared style, artifacts per phase |
 | `review-advance` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/review-advance/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/review-advance/SKILL.zh.md) | meta | project-ops, workflow-meta | Evidence-based retrospective → substantive summary, one authorized next action and a verifiable plan; optional research and learning review |
 | `prose-audit` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/prose-audit/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/prose-audit/SKILL.zh.md) | compose | writing, review-qa | Contextual Chinese/English wording review and minimal revision, with a local candidate scanner; no AI-authorship verdict |
+
+| `concept-note` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/concept-note/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/concept-note/SKILL.zh.md) | compose | knowledge, writing | 问题驱动的概念／方法笔记、来源定位与理解边界 |
+| `literature-synthesis` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/literature-synthesis/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/literature-synthesis/SKILL.zh.md) | analyze | literature, paper | 已确定文献集合的证据矩阵、综合结论、冲突与空白 |
+| `research-question` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/research-question/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/research-question/SKILL.zh.md) | analyze | research-design, paper | 研究问题、竞争解释、可检验试验与否决条件 |
+| `research-diagram` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/research-diagram/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/research-diagram/SKILL.zh.md) | visualize | figure, research-design | 方法／机制语义；默认 Mermaid＋SVG，按请求提供 draw.io |
+| `data-preparation` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/data-preparation/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/data-preparation/SKILL.zh.md) | analyze | data-analysis | 观测单位、显式转换规则、准备后数据与逐记录变更审计 |
+| `exploratory-analysis` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/exploratory-analysis/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/exploratory-analysis/SKILL.zh.md) | analyze | data-analysis | 描述诊断、异常与分析限制；探索结果保留证据边界 |
+| `experiment-run` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/experiment-run/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/experiment-run/SKILL.zh.md) | build | experiment, research-design | 执行明确协议并保存配置、输入、环境、日志、指标及产物 |
+| `run-review` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/run-review/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/run-review/SKILL.zh.md) | analyze | experiment, review-qa | 只读核验运行；分别报告执行完整性与科学证据 |
+| `source-slides` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/source-slides/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/source-slides/SKILL.zh.md) | present | slides, writing | 多来源、进展或教学演示；默认 PPTX，按请求 Beamer，含备注及逐页验收 |
+| `research-story` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/research-story/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/research-story/SKILL.zh.md) | compose | paper, writing | 将已有结果组织为证据支持的贡献论证 |
+| `manuscript-review` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/manuscript-review/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/manuscript-review/SKILL.zh.md) | analyze | paper, review-qa | 审查主张、方法、证据、图表与限制；语言修订交 prose-audit |
+| `project-plan` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/project-plan/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/project-plan/SKILL.zh.md) | meta | project-ops, workflow-meta | 维护已有计划中的任务、依赖、状态和验收 |
 
 Every skill is a bounded SOP: a `## When to stop` section names the
 budget and termination criteria, `## Requirements` lists [B]/[A]-labeled

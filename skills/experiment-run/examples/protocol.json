@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "run_id": "fictional-smoke",
+  "objective": "Check a fictional arithmetic entry and saved outputs",
+  "kind": "smoke",
+  "argv": [
+    "python3",
+    "{project_root}/examples/synthetic_run.py"
+  ],
+  "timeout_seconds": 15,
+  "seed": 42,
+  "inputs": [
+    "examples/synthetic_run.py"
+  ],
+  "required_outputs": [
+    "metrics.json",
+    "result.md"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "unit": "one fictional site-day observation",
+  "keys": [
+    "site",
+    "date"
+  ],
+  "duplicates": "error",
+  "columns": {
+    "site": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "score": {
+      "type": "number",
+      "missing_values": [
+        "",
+        "NA"
+      ],
+      "missing": "preserve"
+    },
+    "cost": {
+      "type": "number"
+    }
+  }
+}

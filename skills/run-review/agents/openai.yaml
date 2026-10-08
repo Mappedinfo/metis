@@ -1,0 +1,6 @@
+interface:
+  display_name: "Run review"
+  short_description: "Integrity and scientific evidence checked separately"
+  default_prompt: "Use $run-review for this task."
+policy:
+  allow_implicit_invocation: true

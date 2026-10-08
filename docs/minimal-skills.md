@@ -146,9 +146,29 @@ npm run prose-audit:check
 `npm run table-chart:check` 检查绘图行为。后者需要 `uv`，会使用独立的
 Matplotlib/PyYAML 环境；它不增加 metis-os CLI 的运行依赖。
 
-现有 taskbook 的 PDF 前处理指引仍需修正：`scansci-pdf` 用于论文获取，不能据此
-假定它支持本地 PDF 文本提取或 OCR。使用这些入口时先确认实际可用的 PDF 阅读工具。
-幻灯入口的共享 deck profile 接入也仍需补齐。这些缺口不因新增两个类别而消失。
+四个 taskbook 已将论文获取与本地 PDF 阅读、渲染和 OCR 分开；具体工具以会话实际可用能力为准。
+幻灯入口及论文转幻灯预设均读取同一 deck profile，并按独立入口的产物与逐页验收执行。
+
+## 扩展能力与交接
+
+| 当前输入／目标 | 主入口 | 交付边界 |
+|---|---|---|
+| 问题驱动的概念／方法笔记、来源定位与理解边界 | [`concept-note`](https://github.com/mappedinfo/metis/blob/main/skills/concept-note/SKILL.md) | 见单项指南的产物、相邻边界与验收要求 |
+| 已确定文献集合的证据矩阵、综合结论、冲突与空白 | [`literature-synthesis`](https://github.com/mappedinfo/metis/blob/main/skills/literature-synthesis/SKILL.md) | 见单项指南的产物、相邻边界与验收要求 |
+| 研究问题、竞争解释、可检验试验与否决条件 | [`research-question`](https://github.com/mappedinfo/metis/blob/main/skills/research-question/SKILL.md) | 见单项指南的产物、相邻边界与验收要求 |
+| 方法／机制语义；默认 Mermaid＋SVG，按请求提供 draw.io | [`research-diagram`](https://github.com/mappedinfo/metis/blob/main/skills/research-diagram/SKILL.md) | 见单项指南的产物、相邻边界与验收要求 |
+| 观测单位、显式转换规则、准备后数据与逐记录变更审计 | [`data-preparation`](https://github.com/mappedinfo/metis/blob/main/skills/data-preparation/SKILL.md) | 见单项指南的产物、相邻边界与验收要求 |
+| 描述诊断、异常与分析限制；探索结果保留证据边界 | [`exploratory-analysis`](https://github.com/mappedinfo/metis/blob/main/skills/exploratory-analysis/SKILL.md) | 见单项指南的产物、相邻边界与验收要求 |
+| 执行明确协议并保存配置、输入、环境、日志、指标及产物 | [`experiment-run`](https://github.com/mappedinfo/metis/blob/main/skills/experiment-run/SKILL.md) | 见单项指南的产物、相邻边界与验收要求 |
+| 只读核验运行；分别报告执行完整性与科学证据 | [`run-review`](https://github.com/mappedinfo/metis/blob/main/skills/run-review/SKILL.md) | 见单项指南的产物、相邻边界与验收要求 |
+| 多来源、进展或教学演示；默认 PPTX，按请求 Beamer，含备注及逐页验收 | [`source-slides`](https://github.com/mappedinfo/metis/blob/main/skills/source-slides/SKILL.md) | 见单项指南的产物、相邻边界与验收要求 |
+| 将已有结果组织为证据支持的贡献论证 | [`research-story`](https://github.com/mappedinfo/metis/blob/main/skills/research-story/SKILL.md) | 见单项指南的产物、相邻边界与验收要求 |
+| 审查主张、方法、证据、图表与限制；语言修订交 prose-audit | [`manuscript-review`](https://github.com/mappedinfo/metis/blob/main/skills/manuscript-review/SKILL.md) | 见单项指南的产物、相邻边界与验收要求 |
+| 维护已有计划中的任务、依赖、状态和验收 | [`project-plan`](https://github.com/mappedinfo/metis/blob/main/skills/project-plan/SKILL.md) | 见单项指南的产物、相邻边界与验收要求 |
+
+数据准备 → 探索分析 → 明确协议运行 → 只读运行审查，按前一阶段产物进入下一阶段；
+已有充分综合材料才进入多来源幻灯片。单一请求直接读取对应入口。
+来源处理、实际调用证据及桌面观察边界见[升级台账](skill-system-upgrade.md)。
 
 ## 安装和语言边界
 

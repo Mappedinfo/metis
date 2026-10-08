@@ -26,6 +26,23 @@ layouts and shared colorblind-oriented, grayscale and NPG-inspired profiles.
 [`scientific-plot`](scientific-plot/SKILL.md)。它负责图形制作、计算与渲染分离、
 逐面板标注和实际导出验收；研究推断仍由分析阶段负责，个人风格由调用方明确提供。
 
+## 通用能力地图
+
+- [`concept-note`](concept-note/SKILL.md)：问题驱动的概念／方法笔记、来源定位与理解边界。
+- [`literature-synthesis`](literature-synthesis/SKILL.md)：已确定文献集合的证据矩阵、综合结论、冲突与空白。
+- [`research-question`](research-question/SKILL.md)：研究问题、竞争解释、可检验试验与否决条件。
+- [`research-diagram`](research-diagram/SKILL.md)：方法／机制语义；默认 Mermaid＋SVG，按请求提供 draw.io。
+- [`data-preparation`](data-preparation/SKILL.md)：观测单位、显式转换规则、准备后数据与逐记录变更审计。
+- [`exploratory-analysis`](exploratory-analysis/SKILL.md)：描述诊断、异常与分析限制；探索结果保留证据边界。
+- [`experiment-run`](experiment-run/SKILL.md)：执行明确协议并保存配置、输入、环境、日志、指标及产物。
+- [`run-review`](run-review/SKILL.md)：只读核验运行；分别报告执行完整性与科学证据。
+- [`source-slides`](source-slides/SKILL.md)：多来源、进展或教学演示；默认 PPTX，按请求 Beamer，含备注及逐页验收。
+- [`research-story`](research-story/SKILL.md)：将已有结果组织为证据支持的贡献论证。
+- [`manuscript-review`](manuscript-review/SKILL.md)：审查主张、方法、证据、图表与限制；语言修订交 prose-audit。
+- [`project-plan`](project-plan/SKILL.md)：维护已有计划中的任务、依赖、状态和验收。
+
+完整入口、来源与验证边界见[技能目录](../docs/skills.md)和[升级台账](../docs/skill-system-upgrade.md)。
+
 ## The seven categories
 
 Every skill carries a `category` frontmatter field with exactly one of the

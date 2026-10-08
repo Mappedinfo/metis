@@ -1,0 +1,6 @@
+interface:
+  display_name: "Experiment run"
+  short_description: "Bounded execution with actual run evidence"
+  default_prompt: "Use $experiment-run for this task."
+policy:
+  allow_implicit_invocation: true

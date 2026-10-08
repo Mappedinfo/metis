@@ -1,0 +1,6 @@
+interface:
+  display_name: "Data preparation"
+  short_description: "Traceable table preparation with explicit rules"
+  default_prompt: "Use $data-preparation for this task."
+policy:
+  allow_implicit_invocation: true

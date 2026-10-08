@@ -1,0 +1,5 @@
+site,date,score,cost
+alpha,2026-01-01,10,2
+alpha,2026-01-02,NA,3
+beta,2026-01-01,14,4
+beta,2026-01-02,18,6

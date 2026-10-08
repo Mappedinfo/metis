@@ -1,0 +1,6 @@
+interface:
+  display_name: "Source slides"
+  short_description: "Editable sourced decks with inspected exports"
+  default_prompt: "Use $source-slides for this task."
+policy:
+  allow_implicit_invocation: true
