@@ -1,13 +1,12 @@
 ---
 name: scansci-pdf
 description: >
-  Orchestrates the scansci-pdf MCP server (17 tools) for academic paper
-  acquisition: literature search, DOI/arXiv validation, citation export
-  (BibTeX/RIS/EndNote), single and batch PDF download, and access diagnostics
-  through open-access, publisher, or authorized institutional routes. Use when
-  the user wants to download papers, search literature, export citations, or
-  process a DOI/arXiv list. Do not use for conceptual discussion of papers
-  without retrieval intent, or for non-academic PDFs.
+  Download academic paper PDFs from a DOI, arXiv ID, URL, title or fixed paper
+  list; retrieve and verify paper files, export citations or diagnose access.
+  Use for single or batch paper acquisition, including 下载这篇论文 or obtain
+  this DOI PDF. Public acquisition workflow backed by the scansci-pdf MCP
+  server's actually available tools. Not for reading, rendering or OCR of an
+  existing local PDF, a conceptual explanation or synthesis of a fixed corpus.
 category: acquire
 domain: [literature]
 action: [retrieve, orchestrate]
@@ -103,6 +102,10 @@ or required tool is unavailable, report that dependency and keep the affected
 retrieval blocked; do not invent an endpoint or quietly change source strategy.
 
 ## Provenance
+
+2026-10-08: outcome-first acquisition discovery replaces backend-first wording;
+existing local-PDF reading/rendering/OCR stays outside this skill.
+
 
 Vendored from [Rimagination/scansci-pdf](https://github.com/Rimagination/scansci-pdf)
 (Apache-2.0, see LICENSE in this directory). Modifications: frontmatter extended

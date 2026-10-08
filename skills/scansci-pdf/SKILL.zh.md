@@ -2,17 +2,14 @@
 
 # ScanSci PDF
 
-编排 scansci-pdf MCP 服务器的 17 个工具，获取学术论文：检索文献、验证
-DOI/arXiv 标识符、导出引文（BibTeX/RIS/EndNote）、单篇及批量下载 PDF，
-以及通过开放获取、出版商或经授权的机构渠道诊断访问问题。适用于用户要求
-下载论文、搜索文献、导出引文或处理 DOI/arXiv 列表的情况。没有检索意图的
-论文概念讨论，以及非学术 PDF，不适用本技能。
+从 DOI、arXiv 标识、URL、题名或确定的论文列表获取并核验实际学术 PDF，
+支持单篇、批量、引用导出和访问诊断。普通“下载这篇论文／获取这个 DOI 的 PDF”
+即可选择此公共能力；后端以 scansci-pdf 当前实际可用工具为准。已有本地 PDF 的
+阅读、渲染和 OCR，以及概念解释或固定语料综合交给相应能力。
 
-使用随附的 `scansci-pdf` MCP 服务器完成论文发现、元数据处理、引文导出、
-下载队列、访问诊断和结果报告。完整工作流参考包含 17 个工具的路由、WebVPN、
-Elsevier API 快速通道及 Tor 回退，见
-[references/full-workflow.zh.md](references/full-workflow.zh.md)；任务需要
-详细工具路由或配置指导时再读取。
+使用当前实际连接的 scansci-pdf MCP 服务处理论文发现、元数据、下载队列和访问状态。
+详细工具路由和必要配置见 [完整工作流](references/full-workflow.zh.md)；
+工具数量与参数以会话实际发现为准，指南安装不代表服务器已连接。
 
 ## 按意图路由
 
