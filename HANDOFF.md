@@ -7,7 +7,7 @@ Read this entry before continuing implementation or preparing a release.
 - [done] F01–F12 源码与私人适配修复；按输入／产物选公共能力，个人方法有明确依据才应用；可选 intent 保留组合兼容。
 - [done] 十二项通用能力补齐，集合现有24项；中英文、来源、安装和实际读入分别核对。
 - [done] 120项Node与131项私人路由检查通过；十二项虚构正例／相邻反例、数据管线、实际图解和六页后端渲染已验收，失败与限定修复保留。
-- CLI临时参数与桌面子代理观察分别报告；既有父会话刷新及所有宿主行为未普遍验证。未发布npm或部署网站。
+- CLI临时参数与桌面子代理观察分别报告；父会话本轮后续实际刷新到24项，所有宿主行为未普遍验证。未发布npm或部署网站。
 - 完整来源、交付与验收范围见[体系升级台账](docs/skill-system-upgrade.md)；本机逐项证据保存在忽略的 `.metis/state/skill-system-upgrade/`。
 
 ## 集合合同
