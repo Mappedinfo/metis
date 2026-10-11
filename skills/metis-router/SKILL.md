@@ -147,6 +147,19 @@ The frozen ledger, not conversation momentum, decides what gets repaired.
 Link its findings to the requirements ledger; the finding list does not
 replace evidence that the accepted task requirements were met.
 
+### 6. Independent production, before allocation
+
+For heterogeneous batches or several independently verifiable outputs, read the
+shared [parallel-production guide](references/parallel-production.md) before
+allocating workers. Assess representative inputs, freeze the shared contract,
+then define units, exclusive writes, observed resource limits, isolated failures
+and stage-based incremental reruns. Retain the accepted scope and final coverage
+checks. With no authorized spare agent capacity, keep the same units serial.
+
+This conditional guide also serves a single-capability producer; reading it does
+not require invoking this router or re-planning an accepted task. `project-plan`
+references the same rules rather than maintaining another production policy.
+
 ## Requirements
 
 - [B] R1 Primary = the earliest unresolved stage with completion evidence,
@@ -167,6 +180,12 @@ replace evidence that the accepted task requirements were met.
   for — Verification: the requirements ledger records status and evidence or a
   reason for each item; every applicable blocking item is done before the
   task is declared complete.
+
+- [B] R8 Applicable batch production has a checked allocation boundary —
+  Verification: the unit table names independent outputs, shared contract,
+  actual write/resource evidence, failure isolation and rerun scope before
+  workers are allocated; final integration accounts for every accepted unit.
+  Single or tightly coupled work records why a production split is inapplicable.
 
 ## When to stop
 
@@ -199,6 +218,9 @@ A routing note the user can check in one reading:
    evidence or a reason for every item, plus the stop condition. Budget
    exhaustion also lists completed items, unfinished items and the smallest
    unblock condition.
+
+8. For applicable batch production, the shared contract and unit table from the
+   parallel-production guide, with allocation checks and unresolved units.
 
 For an execution request, carry out the plan and verify each phase's named
 artifact. For a planning request, the routing note and its requirements

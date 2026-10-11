@@ -2,6 +2,13 @@
 
 Read this entry before continuing implementation or preparing a release.
 
+## 并行生产指导 — 2026-10-11
+
+- [done] `metis-router` 新增按需读取的[共享生产指南](skills/metis-router/references/parallel-production.zh.md)：独立产物、共享契约、写入边界、资源预算、失败隔离和分阶段增量重跑；中英文同步，未改变既有审查轮次预算。
+- [done] `project-plan` 声明条件依赖并引用同一指南，不维护重复规则、不以计划授权执行。
+- [done] 24 项技能契约检查零错误／警告；隔离副本中 120 项 Node 测试通过；生成包与权威源逐字节一致。只更新两个相关生成技能，其他22项及暴露链接保留。
+- 新例为虚构输入。本轮验证说明、结构化调用和生成包，不证明所有宿主已读取新指南或真实批次的吞吐。未发布 npm、部署网站或改变在途任务。
+
 ## 完整技能体系升级 — 2026-10-08
 
 - [done] F01–F12 源码与私人适配修复；按输入／产物选公共能力，个人方法有明确依据才应用；可选 intent 保留组合兼容。

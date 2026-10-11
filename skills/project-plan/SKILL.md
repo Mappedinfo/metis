@@ -6,7 +6,7 @@ license: MIT
 category: meta
 domain: [project-ops, workflow-meta]
 action: [create, revise, review]
-uses: []
+uses: [metis-router]
 artifacts:
   - "Updated project plan with explicit states and dependencies"
   - "Evidence/change record for retained, completed or dropped items"
@@ -55,6 +55,11 @@ changing accepted research decisions.
    universal work-in-progress count. Planned steps depending on unknown results
    remain conditional; detail the immediate inspectable step and leave later
    choices as conditional milestones rather than fabricate a full execution path.
+   For heterogeneous batches or independent production outputs, use the shared
+   [parallel-production guide](../metis-router/references/parallel-production.md)
+   to define the contract, unit boundaries, capacity evidence and recovery in
+   the plan. This conditional reference does not invoke the router, allocate
+   agents or authorize execution; keep production rules in that guide.
 5. Compact without losing accepted work. Merge duplicates while retaining their
    source IDs; move reusable procedures into an existing reference if authorized.
    Keep evidence links for done/dropped work, and preserve protected notes and
