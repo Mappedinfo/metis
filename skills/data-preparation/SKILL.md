@@ -54,10 +54,19 @@ acquisition, uploading data or rewriting the source file.
 6. Deliver prepared data, a data dictionary, the rules, changes and source hashes.
    Maintain a requirements ledger; preserve pending semantic decisions.
 
-Read [CSV helper contract](references/csv-helper.md) when its limited type,
-missing-value and duplicate operations match the request. The standard-library
-helper is optional; other formats or joins use available public tools and the
-same audit requirements. [Fictional cases](examples/cases.md) cover both boundaries.
+For a table whose structure and column meanings are confirmed, compute over the
+whole table with mature libraries (Pandas/Polars/DuckDB; GeoPandas for spatial
+data); column operations take precedence over row-by-row loops. Chunked, streaming
+or per-record processing is for insufficient memory, unusual formats, or genuine
+record-level audit needs — a memory and audit decision, not the default posture.
+
+Read [CSV helper contract](references/csv-helper.md) only when the request falls
+within its supported operations, or when a dependency-free environment and
+per-record audit trail are genuinely required. It covers explicit types, missing
+values and duplicates; it does not stand in for general joins, complex formats or
+analysis design, and is not the default route for ordinary cleaning. Other
+operations use the available mature libraries under the same audit requirements.
+[Fictional cases](examples/cases.md) cover both boundaries.
 
 ## Requirements
 
