@@ -2,6 +2,13 @@
 
 Read this entry before continuing implementation or preparing a release.
 
+## 持续生产期间的结果浏览 — 2026-10-12
+
+- [done] [共享生产指南](skills/metis-router/references/parallel-production.zh.md)新增条件适用的持续浏览契约，单长任务也适用：生产／发布／读取分离，轻目录与单元入口，独立修订，增量通知或轮询，兼容与故障恢复。
+- [done] 路由入口英中同步新增 R9，可浏览路径不等待全量验收；最终覆盖、科学／来源核验及原审查预算保留，无持续浏览需求不新造工作台。
+- [done] 24技能契约零错误／警告，隔离副本120项Node测试通过，实际暴露生成包逐字节匹配；仅更新本技能，其他23项和链接保留。
+- 本轮是指导和安装核验，没有运行真实后台／UI可用性测试，没有操作在途项目、发布npm或部署网站。后续相关执行任务需实际验收指南列出的连续浏览与恢复路径。
+
 ## 并行生产指导 — 2026-10-11
 
 - [done] `metis-router` 新增按需读取的[共享生产指南](skills/metis-router/references/parallel-production.zh.md)：独立产物、共享契约、写入边界、资源预算、失败隔离和分阶段增量重跑；中英文同步，未改变既有审查轮次预算。

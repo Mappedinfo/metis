@@ -160,6 +160,12 @@ This conditional guide also serves a single-capability producer; reading it does
 not require invoking this router or re-planning an accepted task. `project-plan`
 references the same rules rather than maintaining another production policy.
 
+When results must stay browsable during production, also apply the guide's
+continuous-production contract, including for one long job. Establish a stable
+reading path and incremental unit publication before waiting for full coverage;
+keep ongoing producer edits outside the serving path. The original final scope
+and acceptance remain required.
+
 ## Requirements
 
 - [B] R1 Primary = the earliest unresolved stage with completion evidence,
@@ -186,6 +192,12 @@ references the same rules rather than maintaining another production policy.
   actual write/resource evidence, failure isolation and rerun scope before
   workers are allocated; final integration accounts for every accepted unit.
   Single or tightly coupled work records why a production split is inapplicable.
+
+- [B] R9 Concurrent result review remains available — Verification: when the
+  task requires it, execution exercises continued browsing and incremental
+  updates under the guide's failure/compatibility scenarios. A planning-only
+  note names those checks as unperformed; a task without concurrent browsing
+  records a scope-based n/a rather than adding a workbench.
 
 ## When to stop
 
@@ -221,6 +233,8 @@ A routing note the user can check in one reading:
 
 8. For applicable batch production, the shared contract and unit table from the
    parallel-production guide, with allocation checks and unresolved units.
+   Concurrent review also names the stable reading path, update mechanism and
+   actual availability checks, keeping planned checks distinct from execution.
 
 For an execution request, carry out the plan and verify each phase's named
 artifact. For a planning request, the routing note and its requirements
