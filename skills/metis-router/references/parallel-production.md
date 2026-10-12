@@ -52,6 +52,13 @@ router's map–freeze–reduce budget; production retries do not extend review r
    and total concurrency without a universal agent count. Unknown capacity calls
    for a small measurement or serial execution; tool visibility and theoretical
    limits do not prove spare capacity.
+   **Self-imposed caps are open to measurement and revision.** An existing
+   concurrency or resource limit is a historical setting, not a standing
+   constraint. When a user questions throughput, queueing time, or why something
+   is taking so long, measure current CPU, memory, disk and I/O first, then raise
+   the cap to what that measurement supports within the same reply and state the
+   basis, without re-requesting authorization. Step down only when the
+   measurement shows the work would crowd other people or shared resources.
 5. **Failure isolation.** Record failures by path, format, fields, semantics,
    joins, resources or another actual cause. Pause the failed unit and dependents;
    retain accepted independent results. Inspect a bounded failed sample, repair
