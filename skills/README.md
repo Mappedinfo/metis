@@ -39,6 +39,7 @@ layouts and shared colorblind-oriented, grayscale and NPG-inspired profiles.
 - [`source-slides`](source-slides/SKILL.md)：多来源、进展或教学演示；默认 PPTX，按请求 Beamer，含备注及逐页验收。
 - [`research-story`](research-story/SKILL.md)：将已有结果组织为证据支持的贡献论证。
 - [`manuscript-review`](manuscript-review/SKILL.md)：审查主张、方法、证据、图表与限制；语言修订交 prose-audit。
+- [`pdf-annotater-researcher`](pdf-annotater-researcher/SKILL.md)：论文 PDF 原位精读标注；逐段/关键句/图表/公式的原生高亮与页边弹注＋书签，副本应用、双验收、覆盖率报告。
 - [`project-plan`](project-plan/SKILL.md)：维护已有计划中的任务、依赖、状态和验收。
 
 完整入口、来源与验证边界见[技能目录](../docs/skills.md)和[升级台账](../docs/skill-system-upgrade.md)。
