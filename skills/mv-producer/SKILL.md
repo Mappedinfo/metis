@@ -1,15 +1,19 @@
 ---
 name: mv-producer
 description: >
-  Turn a finished song — an audio file plus its lyric sheet — into a music
-  video (MP4) in the requested aspect ratio, with burned-in lyrics,
+  Turn a theme or a finished song — an audio file plus its lyric sheet — into
+  a music video (MP4) in the requested aspect ratio, with burned-in lyrics,
   section/line-synced scenes and a deterministic HTML→frames→ffmpeg pipeline.
-  For generated/free-rhythm vocals, line cues come from vocal-stem word
-  timestamps; named material effects (black-to-colour, real alpha) are staged
-  as mechanisms, not labels.
-  Use when the user says "给这首歌做个 MV", "make an MV or lyric video for
-  this song", hands over an audio file with lyrics and a ratio such as
-  4:3 or 16:9, or wants a generated Suno track put on screen. A named
+  Stage A (optional) turns a theme into a Suno song package and, when an API
+  is configured, generates and downloads the audio; Stage B times the vocal
+  with API timestamped lyrics or vocal-stem ASR and renders. For
+  generated/free-rhythm vocals, line cues come from those timestamps; named
+  material effects (black-to-colour, real alpha) are staged as mechanisms,
+  not labels.
+  Use when the user says "给这首歌做个 MV", "用 Suno 做一首歌并做成 MV",
+  "主题做成 MV", "make an MV or lyric video for this song", hands over an
+  audio file with lyrics and a ratio such as 4:3 or 16:9, or wants a
+  generated Suno track put on screen. A named
   ratio (4:3, 16:9, 9:16) is the output frame size only — never a style
   direction; when the user names no style, the default is a modern,
   energetic, colorful, kaomoji-friendly edit, and for meme-chant or
@@ -27,8 +31,10 @@ artifacts:
   - "Finished MV: MP4 in the requested aspect ratio, lyrics burned in, the song's own audio carried, streams verified"
   - "Renderer source: deterministic HTML seek(t) renderer, frame-render script and ffmpeg assemble script, re-runnable after edits"
   - "Scene timing table: measured audio sections mapped to scenes and lyric cue windows"
-  - "Vocal-stem ASR timing table + per-second lyric/shot map"
+  - "Vocal-stem ASR or API timestamped-lyrics timing table + per-second lyric/shot map"
   - "Material-effect stills at start/mid/end (black-to-colour, real alpha)"
+  - "Song package when Stage A is used: Style brief, tagged lyrics, 62-bar budget, API task/audio IDs, chosen take; no API key"
+  - "API timestamped lyrics and/or separated vocal stem when the Suno API is used"
   - "Reference style card + beat/cut sheet + PPT/visual-center audit"
   - "When an energy edit is requested: original and hard-edit audio with key/loudness/peak evidence"
 ---
@@ -37,9 +43,11 @@ artifacts:
 
 ## What it does
 
-Takes one finished song (audio file + the lyric sheet it was sung from) and
-produces a music video: lyric typography burned into the frame, scenes cut to
-the song's measured sections, motion driven by the music's energy. The video
+Takes a finished song (audio file + the lyric sheet it was sung from) or a
+theme. From a theme it writes the song package and, when a Suno API is
+configured, generates the audio; from finished audio it starts at the MV
+stage. The MV burns lyric typography into the frame, cuts scenes to the
+song's measured sections and drives motion from the music's energy. The video
 is rendered by code, not filmed: a deterministic HTML renderer draws every
 frame from a time value, a headless browser screenshots it frame by frame,
 and ffmpeg assembles the MP4 with the original audio. Two decisions stay
@@ -48,21 +56,67 @@ separate by contract: the **aspect ratio** is the output frame size, and the
 
 ## When to use / not use
 
-Use for: putting a finished track on screen as an MV or lyric video; a
-generated Suno song that needs a visual form; re-rendering an existing MV
-after lyric, palette or timing edits from its renderer source.
+Use for: starting from a theme and generating the song, then the MV; putting
+a finished track on screen as an MV or lyric video; a generated Suno song
+that needs a visual form; re-rendering an existing MV after lyric, palette or
+timing edits from its renderer source.
+
+A song-only request is Stage A: deliver the package and stop before the MV.
 
 Hand off instead:
 
-- Producing the song itself (theme → Style brief + tagged lyrics + Custom
-  Mode settings) → suno-prompt-architect; this skill starts from finished
-  audio and never writes the song.
+- A quick platform visualizer is Stage 0b, not the custom MV; the custom MV
+  remains the default.
 - Filming or compositing camera footage, dancer shots, VFX plates → out of
   scope; this pipeline draws motion graphics and typography.
 - Subtitle files for arbitrary video (SRT/ASS delivery) → a subtitling
   capability, not a self-contained MV.
 
 ## Method
+
+### 0. Choose the stage: theme → song, or finished audio
+
+This skill covers the whole chain, but the two stages stay separate
+artifacts.
+
+- **Finished audio + lyric sheet** → skip to 2.
+- **Theme + a configured Suno API** → 0a: write the song package, generate,
+  download the chosen take, then continue to 2.
+- **Theme, no API** → deliver the song package (Style, tagged lyrics, 62-bar
+  budget) and stop before audio; do not pretend to generate.
+- **Quick platform video only** → 0b; it is not the custom MV.
+
+### 0a. Song stage (theme → audio)
+
+1. Lock the direction and the full-song length. A song for an MV defaults to
+   1:50–2:10; at 144 BPM the tested sheet is 62 bars (Intro 2, Verse 1 8,
+   Pre-Chorus 8, Chorus 8, Stutter 4, Verse 2 8, Pre-Chorus 2 8, Bridge 4,
+   Final Chorus 8, Outro 4); the first chorus lands around 0:30. A 30–55 s
+   hook is a named short-form deliverable, not a shortened full song.
+2. Write the Style brief (English, 4–7 items, 150–300 characters, main genre
+   first), the tagged lyrics (one rhyme family per section; the last line
+   lands on the title/hook; timbre in Style), and the title. Full craft:
+   references/song-stage.md.
+3. If an API is configured, read the key from the environment; never print,
+   log or commit it. Create the generation task, poll it with a bounded
+   timeout, download the chosen take and keep taskId/audioId. Endpoints and
+   request shapes: references/suno-api.md.
+4. Get timestamped lyrics and a vocal stem from the same API when available;
+   otherwise use the local separation + ASR in 2a. Keep the original mix for
+   the MV.
+5. Let the user choose the take. Do not remix it; only a level/true-peak
+   safety pass is allowed.
+
+A generated MP3 is a mix, not stems. The API may change BPM/key or produce
+free vocal timing; do not assume the 62-bar grid is the performance.
+
+### 0b. Fast platform video (optional)
+
+If the user explicitly wants a quick platform visualizer, call the provider's
+music-video endpoint with taskId + audioId, poll it, and download the MP4.
+Label it as the platform video, not the custom MV. The custom MV is the
+default because it owns the type, thread/face/dots and the audio-first edit.
+This path only works for a track generated in the same API task.
 
 ### 1. Split the two contracts: ratio is size, style is style
 
@@ -187,6 +241,11 @@ the flash grid.
 A Suno-style take is not a metronome. The vocal may enter late, rush a line,
 hold a word, or interleave chorus and stutter. Do not place lyric cues by
 equal division of a section, and do not use RMS peaks as line starts.
+
+For an API-generated track, use the API's timestamped lyrics (alignedWords:
+word/startS/endS/success) and separate_vocal stem first; fall back to the
+local separation + ASR below when those are unavailable or the track came
+from outside the API.
 
 1. Separate the mixed track into vocals and instrumental (Demucs `htdemucs`,
    or an equivalent two-stem separator). Keep the original mix for the MV;
@@ -427,12 +486,52 @@ belongs to the user).
   matches the song, or a requested short cut is named as a separate
   deliverable; audio is the supplied mix with only level/true-peak safety.
 
+## Song-stage requirements (S1–S11)
+
+Used only when Stage A is requested; mark n/a when starting from finished
+audio.
+
+- [B] S1 One musical center: the main genre is the first Style item and no
+  descriptor contradicts it — Verification: read the first item; scan the
+  rest.
+- [B] S2 The Style brief is English, 4–7 items, 150–300 characters, with a
+  concrete tempo and an explicit vocal direction — Verification: count
+  items/characters; check tempo and vocal.
+- [B] S3 No real artist names in either field — Verification: scan both
+  blocks.
+- [B] S4 The lyrics sheet carries at least Verse and Chorus tags; an
+  instrumental request carries no vocal lines — Verification: scan the tags.
+- [B] S5 The chorus contains one extractable hook phrase; a full-song request
+  is 1:50–2:10 with the first chorus around 0:30 — Verification: read the
+  chorus; walk the tag/bar order.
+- [B] S6 The delivery matches the song-stage deliverable — Verification:
+  compare the reply with references/song-stage.md.
+- [A] S7 Bar counts match between the Style narrative and the lyric tags when
+  a precise arrangement is requested — Verification: cross-check.
+- [A] S8 Up to three direction options were offered when the theme supports
+  distinct genres; the pick is recorded — Verification: conversation record.
+- [A] S9 In the meme-chant genre, chant lines are ≤7 syllables, the chorus is
+  the shortest catchphrase, and the stutter has its own tag with per-word
+  lines — Verification: count; scan.
+- [B] S10 A full-song request is 1:50–2:10 (or the user's stated length), not
+  a 30–55 s skeleton; a short-form request is explicitly named — Verification:
+  the budget totals 60–64 bars for the 2-minute default; the delivery names
+  the length.
+- [B] S11 API generation, when used, reads the key from the environment and
+  never prints/logs/commits it; creates a task, polls with a bounded timeout,
+  downloads and verifies the chosen take; no remix. A platform video is only
+  the explicit fast path — Verification: no key in transcript/commit; taskId/
+  audioId and ffprobe evidence recorded.
+
 ## When to stop
 
 - Done when: the MP4 at the requested ratio exists, streams verify, encoded
   stills passed, the full supplied song is covered (or a requested short cut
   is separately named), and the renderer source + timing table are delivered
-  with R1–R6 evidenced.
+  with R1–R6 evidenced. If Stage A was requested, the song package, chosen
+  take, taskId/audioId and timestamped lyrics/stems used are also delivered.
+  If only a theme is supplied and no API is configured, the song package is
+  the deliverable; do not fake generation.
 - Budgets: at most two visual-fix rounds per delivery; one style-direction
   question when the look is genuinely undecided. Exhausted → deliver what
   passed, name the remaining visual issue and the smallest unblock condition
@@ -440,19 +539,22 @@ belongs to the user).
 - The MV is rendered from the song as supplied. Re-mastering is out of
   scope; an explicitly requested energy edit is an arrangement (preserve the
   original, deliver both, measure key/loudness/peak) and is reported as
-  such. A new song is a handoff.
+  such. A new song is Stage A; without an API, stop at the song package.
 
 ## Output contract
 
-1. The finished MP4 (path, ratio, resolution, fps, duration, size).
-2. The renderer source: `seek(t)` HTML + frame-render script + assemble
+1. The finished MP4 (path, ratio, resolution, fps, duration, size), or the
+   explicitly requested platform fast video, labelled as such.
+2. The renderer source: seek(t) HTML + frame-render script + assemble
    script + scene timing table — re-runnable by anyone with the song file.
-3. A close-out mapping R1–R6 (and R7–R17 where claimed) to
+3. A close-out mapping R1–R6 (and R7–R17, and S1–S11 when Stage A) to
    done/blocked/n-a with evidence, the applied style profile, and any
    unfinished visual work.
 4. A reference style card and shot/motion sheet, a PPT/visual-center/
-   motion audit, and — if an energy edit was requested — the original and
-   hard-edit audio with key/loudness/peak evidence.
+   motion audit, and — when Stage A was used — the song package, chosen
+   take, taskId/audioId and the timestamped lyrics/stems used; if an energy
+   edit was requested, the original and hard-edit audio with key/loudness/
+   true-peak evidence.
 
 The user verifies by playing the MP4; the timing table lets them point at any
 moment ("the chorus hits at 23 s") and get a targeted fix instead of a

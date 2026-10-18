@@ -5,6 +5,12 @@ the vocal enters late, rushes a phrase, holds a word, or interleaves chorus
 and stutter. The original mix stays the MV audio; the vocal stem is timing
 evidence.
 
+**API first.** If the track was generated in the same Suno API task, prefer
+its timestamped lyrics (alignedWords: word/startS/endS/success) and its
+separate_vocal stem. Use the local Demucs + ASR below only when that data is
+unavailable or the track came from outside the API. See
+[suno-api.md](suno-api.md).
+
 ## 1. Separate the mix
 
     python -m demucs.separate -n htdemucs --two-stems vocals -o stems song.mp3

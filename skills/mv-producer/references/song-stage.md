@@ -1,27 +1,9 @@
----
-name: suno-prompt-architect
-description: >
-  Turn a user-given theme into two paste-ready inputs for Suno Custom Mode:
-  an English Style brief for the "Style of Music" field and structure-tagged
-  lyrics in the request language for the "Lyrics" field. Use when the user
-  says "用 Suno 做一首关于 X 的歌", "给我 Suno 提示词", "make a Suno prompt
-  for X", or hands over a theme, mood, meme or scene meant to become a song
-  (pop track, short-form-video hook, meme song, ambient piece). Delivers the
-  two input blocks plus generation advice — never the generated audio, and
-  not general music-production advice. A full song defaults to 1:50–2:10;
-  a 30–55 s skeleton is only for an explicitly requested short-form hook.
-license: MIT
-category: compose
-domain: [media, writing]
-action: [create, advise]
-uses: []
-artifacts:
-  - "Style brief: English, 4–7 descriptors with the main genre first, 150–300 characters, paste-ready for Suno's 'Style of Music' field"
-  - "Lyrics sheet: lyrics in the request language with [bracket] structure tags, paste-ready for Suno's Custom Mode 'Lyrics' field"
-  - "Time budget: a 62-bar / 1:50–2:10 section table for a full song, or a named 30–55 s short-form skeleton"
----
+# Song stage: theme → Suno song package
 
-# suno-prompt-architect
+This is Stage A of `mv-producer`. Use it when the user starts from a theme
+or asks for the song to be generated; the MV stage starts from the finished
+audio. API flow: [suno-api.md](suno-api.md).
+
 
 ## What it does
 
@@ -44,7 +26,7 @@ Hand off instead:
 
 - Generating the audio, or judging how the result sounds → Suno itself; this
   skill's deliverable is the input pair.
-- The visual MV from the finished take → mv-producer; it starts from the
+- The custom MV stage in this skill; it starts from the
   audio and the accepted lyric sheet.
 - Literary editing of lyrics as standalone writing → a prose-editing
   capability.
@@ -216,11 +198,11 @@ Field-tested behavior of the generator, kept instead of folklore:
   The MV measures the actual vocal (vocal separation + word-timestamp ASR)
   before cutting.
 
-### 5b. Handoff to mv-producer
+## Handoff to the MV stage
 
 The song prompt ends here. When the finished take becomes an MV, hand the
-audio file and the accepted lyric sheet to **mv-producer**; it starts after
-generation and does not write the song. The downloaded MP3 is a mixed stereo
+audio file and the accepted lyric sheet to the MV stage in this skill; it
+starts after generation and does not write the song. The downloaded MP3 is a mixed stereo
 track, not stems; the model may ignore the requested BPM/key; the vocal may
 be free-rhythm. The MV separates the vocal, runs word-timestamp ASR and
 re-times the shots. Do not pre-cut the lyric to a fixed bar grid and call it
@@ -254,7 +236,7 @@ song; there is no second topic. The measured grammar of the genre:
 
 ### 7. Self-check, then deliver
 
-Check the draft against R1–R6 (Requirements below) and fix what fails, then
+Check the draft against S1–S6 (Requirements below) and fix what fails, then
 deliver in the fixed four-part format (Output contract). Generation advice
 always names Custom Mode, the Suno version current at writing, and the
 repair rule: a weak chorus → keep the lyrics, change only the Style field's
@@ -269,37 +251,37 @@ field. When the budget is exhausted, report what was delivered, what is
 still not landing, and the smallest unblock condition (usually: pick a
 different genre direction). Do not keep regenerating in place.
 
-## Requirements
+## Song-stage requirements (S1–S10)
 
-- [B] R1 One musical center: the main genre is the first Style item and no
+- [B] S1 One musical center: the main genre is the first Style item and no
   descriptor contradicts it — Verification: read the first Style item; scan
   the remaining items for a competing genre label.
-- [B] R2 The Style brief is English, 4–7 items, 150–300 characters, with
+- [B] S2 The Style brief is English, 4–7 items, 150–300 characters, with
   concrete tempo and an explicit vocal direction (or `instrumental, no
   vocals`) — Verification: count items and characters; check the tempo and
   vocal entries.
-- [B] R3 No real artist names in either field — Verification: scan both
+- [B] S3 No real artist names in either field — Verification: scan both
   blocks for artist-name patterns; genre/feature descriptors stand in their
   place.
-- [B] R4 The lyrics sheet carries at least `[Verse]` and `[Chorus]` tags,
+- [B] S4 The lyrics sheet carries at least `[Verse]` and `[Chorus]` tags,
   and an instrumental request carries no vocal lines — Verification: scan
   the tags.
-- [B] R5 The chorus contains one extractable hook phrase; a full-song
+- [B] S5 The chorus contains one extractable hook phrase; a full-song
   request is 1:50–2:10 with the first chorus around 0:30, and a short-form
   request puts it within the opening 15–20 seconds — Verification: read the
   chorus; walk the tag and bar order.
-- [B] R6 The delivery matches the fixed four-part Output contract —
+- [B] S6 The delivery matches the fixed four-part Output contract —
   Verification: compare the reply against the contract before sending.
-- [A] R7 When the user asks for a precise arrangement, bar counts match
+- [A] S7 When the user asks for a precise arrangement, bar counts match
   between the Style narrative and the lyric tags — Verification: cross-check
   the counts field by field.
-- [A] R8 When the theme plausibly supports distinct genres, up to three
+- [A] S8 When the theme plausibly supports distinct genres, up to three
   direction options were offered and the user's pick is recorded —
   Verification: conversation record.
-- [A] R9 In the meme-chant genre, chant lines are ≤ 7 syllables, the chorus
+- [A] S9 In the meme-chant genre, chant lines are ≤ 7 syllables, the chorus
   is the shortest catchphrase, and the stutter section carries its own tag
   with per-word lines — Verification: count the syllables; scan the tags.
-- [B] R10 A full-song request is 1:50–2:10 (or the user's stated length),
+- [B] S10 A full-song request is 1:50–2:10 (or the user's stated length),
   not a 30–55 s short-form skeleton; a short-form request is explicitly
   named — Verification: the section budget totals 60–64 bars for the
   2-minute default; the delivery names the requested length.
@@ -307,16 +289,17 @@ different genre direction). Do not keep regenerating in place.
 ## When to stop
 
 - Done when: both blocks plus generation advice are delivered in the fixed
-  format and R1–R6 hold with evidence.
+  format and S1–S6 hold with evidence.
 - Budgets: one clarification round for the direction; at most three direction
   options; at most two revision rounds per direction (Method 8). Exhausted →
   report the delivered blocks, what is not landing, and the smallest unblock
   condition; blocked items stay blocked.
-- This skill delivers prompts, not audio. Whether the result sounds right is
-  verified inside Suno; state that plainly rather than promising sound
-  quality.
+- Stage A delivers the song package; with a configured API it also generates
+  and downloads the chosen audio. Without an API, do not pretend generation.
+  Whether the result sounds right is verified inside Suno; state that plainly
+  rather than promising sound quality.
 
-## Output contract
+## Song-stage deliverable
 
 1. **Theme understanding** — one line restating genre, emotion and scene,
    marking which parts were inferred.
