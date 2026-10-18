@@ -1,0 +1,220 @@
+---
+name: suno-prompt-architect
+description: >
+  Turn a user-given theme into two paste-ready inputs for Suno Custom Mode:
+  an English Style brief for the "Style of Music" field and structure-tagged
+  lyrics in the request language for the "Lyrics" field. Use when the user
+  says "用 Suno 做一首关于 X 的歌", "给我 Suno 提示词", "make a Suno prompt
+  for X", or hands over a theme, mood, meme or scene meant to become a song
+  (pop track, short-form-video hook, meme song, ambient piece). Delivers the
+  two input blocks plus generation advice — never the generated audio, and
+  not general music-production advice.
+license: MIT
+category: compose
+domain: [media, writing]
+action: [create, advise]
+uses: []
+artifacts:
+  - "Style brief: English, 4–7 descriptors with the main genre first, 150–300 characters, paste-ready for Suno's 'Style of Music' field"
+  - "Lyrics sheet: lyrics in the request language with [bracket] structure tags, paste-ready for Suno's Custom Mode 'Lyrics' field"
+---
+
+# suno-prompt-architect
+
+## What it does
+
+Takes a theme — one sentence, a mood, a meme, a scene — and translates it
+into the two inputs Suno Custom Mode actually reads: a Style field written
+as a production brief, and a Lyrics field that is a song skeleton carrying
+arrangement instructions as `[bracket]` tags. The craft is translation, not
+ideation: the direction belongs to the user; this skill executes the chosen
+direction to the point where both fields can be pasted and generated.
+
+## When to use / not use
+
+Use for: turning a stated theme into Suno prompts for pop songs,
+short-form-video tracks, meme songs or ambient pieces; revising a previous
+round's Style descriptors or lyric tags after a generation attempt; planning
+a precise arrangement (drop counts, section lengths) across both fields at
+once.
+
+Hand off instead:
+
+- Generating the audio, or judging how the result sounds → Suno itself; this
+  skill's deliverable is the input pair.
+- Literary editing of lyrics as standalone writing → a prose-editing
+  capability.
+- Music theory teaching, mixing engineering or DAW workflows → out of scope.
+
+## Method
+
+### 1. Lock one direction before writing
+
+Suno fails less from too little description than from descriptions that fight
+each other: EDM, rock, trap, ballad, female vocal and a festival drop in one
+song leave the model without a center. Before writing anything, fix three
+things: **the main genre, what the listener should feel, and where the song
+will be used**. Restate them to the user in one line, in the request
+language:
+
+> I'll make 「{theme}」 as **{main genre}**, feeling **{core emotion}**, for
+> **{usage scene}**.
+
+If the user named no scene, infer a reasonable default (e.g. "short-form
+video, 30–55 s", "personal listening", "podcast intro") and mark it as
+inferred. When the theme genuinely supports distinct genres, offer at most
+three direction options in the same round and record the user's pick; a
+direction the user has chosen is not re-opened.
+
+### 2. Build the Style brief
+
+The Style field is a production brief, not marketing copy. Stacked adjectives
+dilute one another into prompt fatigue, and earlier positions carry more
+weight — the first word holds roughly 60–70% of the output DNA, so **the
+main genre goes first**. Write it in **English** (Suno reads English style
+tags most stably), with **4–7 items** in a **150–300 character** budget:
+
+```
+[main genre/subgenre], [core emotion 1–2 words], [tempo: BPM or tempo feel],
+[2–3 core instruments], [vocal direction], [usage scene],
+[production texture / mix character]
+```
+
+- Tempo is a number or a named feel (`128 BPM`, `mid-tempo`, `slow burn`),
+  never just "rhythmic".
+- Vocal direction covers gender, timbre and delivery (`breathy female
+  vocal`, `raspy male vocal`, `spoken word`); an instrumental uses
+  `instrumental, no vocals`.
+- The usage scene tells the model the energy level and structural intent
+  (`for short-form video`, `for late-night listening`, `podcast intro`).
+- No real artist names — describe the genre and its features instead.
+- One musical center: no second genre that fights the first.
+
+### 3. Write lyrics with structure tags
+
+Write lyrics in the request language (Chinese request → Chinese lyrics)
+unless the user names another language. Always include `[bracket]` tags —
+they are arrangement instructions for the model, not decoration; wanting two
+choruses means writing `[Chorus]` twice. The default pop skeleton:
+
+```
+[Intro]
+
+[Verse 1]
+{verse lyrics}
+
+[Pre-Chorus]
+{pre-chorus}
+
+[Chorus]
+{the hook: short lines, repetition, singable, one phrase worth
+ quoting on its own}
+
+[Verse 2]
+{second verse}
+
+[Chorus]
+{same as, or nearly the same as, the first chorus}
+
+[Bridge]
+{optional — the emotional turn}
+
+[Outro]
+{closing}
+```
+
+- The chorus decides whether a song spreads. Keep lines short and spoken
+  natural, and plant one extractable hook phrase.
+- For short-form video, hold the total to **30–55 seconds**: compress to
+  `[Intro] → [Verse] → [Chorus] → [Outro]` so the chorus lands within the
+  first **15–20 seconds**.
+- Mark arrangement events with their own tags: `[Guitar Solo]`,
+  `[Beat Drop]`, `[Silence: 2s]`.
+- Lines need not be symmetric; serve the ear and the hook, not tidy form.
+- Instrumental request: no vocal lines at all; the lyrics field carries
+  structure tags only (or stays empty where the platform allows) and the
+  Style brief carries `instrumental, no vocals`.
+
+### 4. Optional: align both fields on one arrangement
+
+When the user wants precise control (exact drop counts, section lengths),
+append an arrangement narrative to the Style brief and mirror it in the
+tags:
+
+> `... arrangement: intro 4 bars, verse 8, chorus 8, drop 16, outro 4.`
+
+The lyrics then use bar-count suffixes — `[Drop 16]`, `[Outro 4]` — so both
+fields describe the same arrangement from two angles. Keep the counts equal
+on both sides.
+
+### 5. Self-check, then deliver
+
+Check the draft against R1–R6 (Requirements below) and fix what fails, then
+deliver in the fixed four-part format (Output contract). Generation advice
+always names Custom Mode, the Suno version current at writing, and the
+repair rule: a weak chorus → keep the lyrics, change only the Style field's
+emotion/instrument descriptors and regenerate; a wrong structure → fix the
+lyric tags, keep the Style field.
+
+### 6. Bounded revision loop
+
+Per song direction, at most two revision rounds after the first delivery. A
+round = the user reports one generation attempt, this skill adjusts one
+field. When the budget is exhausted, report what was delivered, what is
+still not landing, and the smallest unblock condition (usually: pick a
+different genre direction). Do not keep regenerating in place.
+
+## Requirements
+
+- [B] R1 One musical center: the main genre is the first Style item and no
+  descriptor contradicts it — Verification: read the first Style item; scan
+  the remaining items for a competing genre label.
+- [B] R2 The Style brief is English, 4–7 items, 150–300 characters, with
+  concrete tempo and an explicit vocal direction (or `instrumental, no
+  vocals`) — Verification: count items and characters; check the tempo and
+  vocal entries.
+- [B] R3 No real artist names in either field — Verification: scan both
+  blocks for artist-name patterns; genre/feature descriptors stand in their
+  place.
+- [B] R4 The lyrics sheet carries at least `[Verse]` and `[Chorus]` tags,
+  and an instrumental request carries no vocal lines — Verification: scan
+  the tags.
+- [B] R5 The chorus contains one extractable hook phrase, and a
+  short-form-video scene puts the first chorus within the opening 15–20
+  seconds of the stated structure — Verification: read the chorus; walk the
+  tag order.
+- [B] R6 The delivery matches the fixed four-part Output contract —
+  Verification: compare the reply against the contract before sending.
+- [A] R7 When the user asks for a precise arrangement, bar counts match
+  between the Style narrative and the lyric tags — Verification: cross-check
+  the counts field by field.
+- [A] R8 When the theme plausibly supports distinct genres, up to three
+  direction options were offered and the user's pick is recorded —
+  Verification: conversation record.
+
+## When to stop
+
+- Done when: both blocks plus generation advice are delivered in the fixed
+  format and R1–R6 hold with evidence.
+- Budgets: one clarification round for the direction; at most three direction
+  options; at most two revision rounds per direction (Method 6). Exhausted →
+  report the delivered blocks, what is not landing, and the smallest unblock
+  condition; blocked items stay blocked.
+- This skill delivers prompts, not audio. Whether the result sounds right is
+  verified inside Suno; state that plainly rather than promising sound
+  quality.
+
+## Output contract
+
+1. **Theme understanding** — one line restating genre, emotion and scene,
+   marking which parts were inferred.
+2. **Style brief** — a code block labeled for Suno's "Style of Music" field.
+3. **Lyrics sheet** — a code block labeled for Suno's Custom Mode "Lyrics"
+   field, structure tags included.
+4. **Generation advice** — Custom Mode on; the Suno version current at
+   writing; the repair rule from Method 5 (keep lyrics + change Style, or
+   keep Style + fix tags).
+
+The user verifies by pasting both blocks into Suno Custom Mode and
+generating. The close-out maps each Requirement to done/blocked/n-a with
+evidence and names any unfinished work.

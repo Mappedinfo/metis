@@ -80,7 +80,7 @@ provide these metis contract and profile dependency checks.
 
 ## Catalog
 
-当前源码包含 24 项公共技能。安装链接、宿主发现、指南读取和产物验收分别核对；
+当前源码包含 25 项公共技能。安装链接、宿主发现、指南读取和产物验收分别核对；
 实施范围与验证证据见[体系升级台账](skill-system-upgrade.md)。
 
 For concrete inputs, deliverables and verification boundaries, see
@@ -93,6 +93,7 @@ For concrete inputs, deliverables and verification boundaries, see
 | `taskbook-interpret` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/taskbook-interpret/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/taskbook-interpret/SKILL.zh.md) | analyze | paper, literature | 单篇全文精读、局部问题或批注；贡献类型与证据对应，全文模式保留完整阅读验收 |
 | `pdf-annotater-researcher` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/pdf-annotater-researcher/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/pdf-annotater-researcher/SKILL.zh.md) | analyze | paper, literature | 论文 PDF 原位精读标注：逐段/关键句/图表/公式的原生高亮＋页边弹注＋书签写入 PDF 本身；先读后注、图表看图后描述，副本应用＋双验收＋覆盖率报告 |
 | `source-brief` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/source-brief/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/source-brief/SKILL.zh.md) | compose | writing, knowledge | Given sources → a short brief or revised draft, with a claim-to-source map and evidence-preserving wording |
+| `suno-prompt-architect` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/suno-prompt-architect/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/suno-prompt-architect/SKILL.zh.md) | compose | media, writing | 主题 → Suno Custom Mode 双输入：英文 Style 制作 brief（4–7 项、主风格居首）＋带结构标签歌词；副歌钩子、短视频 30–55 秒结构、有界修改循环 |
 | `table-chart` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/table-chart/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/table-chart/SKILL.zh.md) | visualize | figure, data-analysis | Prepared CSV → chart/layout/palette alternatives and reproducible bar, dot, line, scatter, histogram, box or heatmap exports |
 | `scientific-plot` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/scientific-plot/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/scientific-plot/SKILL.zh.md) | visualize | figure, data-analysis | 数组、计算结果、教学演示与自定义面板 → 可复现图件、项目 profile 与视觉验收 |
 | `taskbook-slides` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/taskbook-slides/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/taskbook-slides/SKILL.zh.md) | present | slides, paper | 论文转中文组会汇报 PPT（10–15 页带演讲者备注，内容忠于原文） |
