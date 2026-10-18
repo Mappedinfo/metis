@@ -5,8 +5,9 @@ description: >
   a music video (MP4) in the requested aspect ratio, with burned-in lyrics,
   section/line-synced scenes and a deterministic HTML→frames→ffmpeg pipeline.
   Stage A (optional) turns a theme into a Suno song package and, when an API
-  is configured, generates and downloads the audio; Stage B times the vocal
-  with API timestamped lyrics or vocal-stem ASR and renders. For
+  is configured, generates and downloads the audio; Stage B first reviews
+  the actual sung words/order, retains usable audio, then times the vocal
+  with checked API lyrics or vocal-stem ASR and renders. For
   generated/free-rhythm vocals, line cues come from those timestamps; named
   material effects (black-to-colour, real alpha) are staged as mechanisms,
   not labels.
@@ -176,10 +177,10 @@ to the timing table and audit the render against it.
 
 These refine the kinetic-zine profile; a stronger explicit brief still wins.
 
-- **Audio before picture.** For a generated/free-rhythm vocal, line timing
-  comes from a vocal-stem word-timestamp ASR; RMS sections place scenes, never
-  individual lyric lines. A picture that moves before the voice is wrong even
-  if every still is good.
+- **Audio before picture.** Review the actual performance in 2 before
+  planning scenes; use checked API or vocal-stem word timestamps in 2a for
+  lyric timing. RMS sections place scenes, never individual lyric lines.
+  A picture that moves before the voice is wrong even if every still is good.
 - **The song as supplied is the unit.** A two-minute song gets a two-minute
   MV. A 60–75 s short is a separate deliverable, never a silent truncation of
   the full lyric. Do not remix the chosen take; a level/true-peak safety pass
@@ -212,7 +213,22 @@ These refine the kinetic-zine profile; a stronger explicit brief still wins.
 See [references/semantic-effects.md](references/semantic-effects.md) for the
 black-to-colour and real-alpha recipes and their start/mid/end still tests.
 
-### 2. Measure the audio before designing anything
+### 2. Review the actual take before designing anything
+
+Listen through the selected audio and compare it with the lyric sheet before
+building the cue plan. Record its real duration, sung words and their order,
+omitted/repeated/changed lines, vocal entrances and pauses. Keep the original
+sheet; record performance differences and uncertain words in the timing table.
+The scene order follows the reviewed performance, including an early chorus
+or a missing verse. Neither the draft's section tags nor a requested/fixed
+BPM establishes what was sung or when it was sung.
+
+When existing audio meets the accepted song brief, reuse that take and adjust
+the animation and cues. Timing drift or a different arrangement alone is not
+a reason for another paid generation. Consider regeneration only when the
+audio itself fails the accepted goal, within the existing generation
+authorization and budget. Record the selected take's ID or file hash with the
+timing evidence; changing the audio invalidates that alignment.
 
 Get the real numbers instead of guessing: duration via ffprobe; a silence map
 (`silencedetect`) for hard gaps; a 0.25 s RMS energy envelope (decode to mono
@@ -233,10 +249,12 @@ A Suno-style take is not a metronome. The vocal may enter late, rush a line,
 hold a word, or interleave chorus and stutter. Do not place lyric cues by
 equal division of a section, and do not use RMS peaks as line starts.
 
-For an API-generated track, use the API's timestamped lyrics (alignedWords:
-word/startS/endS/success) and separate_vocal stem first; fall back to the
-local separation + ASR below when those are unavailable or the track came
-from outside the API.
+For an API-generated track, inspect the API's timestamped lyrics (alignedWords:
+word/startS/endS/success) and separate_vocal stem first. API success alone
+does not establish alignment quality: check invalid/zero-duration entries,
+overlaps and implausibly short tokens against the audio. Use local separation
+and ASR when evidence is missing or unreliable, or the track came from outside
+the API; keep unresolved intervals explicit.
 
 1. Separate the mixed track into vocals and instrumental (Demucs `htdemucs`,
    or an equivalent two-stem separator). Keep the original mix for the MV;
@@ -244,8 +262,10 @@ from outside the API.
 2. Run a local word-timestamp ASR (Whisper / faster-whisper) on the vocal
    stem. The accepted lyric sheet is the text; ASR is timing evidence, never
    a lyric source.
-3. Align the known lyric to the word timestamps. A line starts at its first
-   sung word; it ends at the next line's start or at the end of its sung
+3. Align confirmed performed lines, in their actual order, to the word
+   timestamps; never force an omitted verse into an available gap.
+   A line starts at its first sung word; it ends at the next line's start
+   or at the end of its sung
    phrase. Do not average the section.
 4. Write a per-second table: second, section, shot, active lyric line, vocal
    dBFS, ASR word. This is the audit trail the user can point at.
@@ -274,16 +294,18 @@ loudness and crest; check true peak and clipping. Deliver both the original
 and the hard edit with band/loudness evidence. If the user wants a
 different song, stop at the handoff.
 
-### 3. Parse the lyric sheet into a cue plan
+### 3. Build the cue plan from the reviewed performance
 
-The lyrics carry `[bracket]` structure tags ([Intro]/[Verse]/[Chorus]/[Outro]
-…): one tag block = one scene. Every lyric line becomes a subtitle cue with a
-start and end window from the timing table; for a generated/free-rhythm track
-those windows come from 2a, never from equal division of a section. Hook
-lines get hero-typography
-moments (falling text, full-screen emphasis) instead of more bubbles. Burn
-the lyrics in verbatim — the lyric sheet is the accepted text, not a draft to
-improve. Lines with no lyric (instrumental intro, break) get UI-flavor or
+The lyric sheet's `[bracket]` tags ([Intro]/[Verse]/[Chorus]/[Outro] …) are
+draft section labels. Group scenes by the actual performance reviewed in 2,
+then give each confirmed sung line a cue in that order, including repeats.
+Every cue has a start and end window from the timing table; for a
+generated/free-rhythm track those windows come from 2a, never from equal
+division of a section. Hook lines get hero-typography moments (falling text,
+full-screen emphasis) instead of more bubbles. Burn
+the accepted wording verbatim for known lines; document verified performance
+changes separately and never rewrite lyrics from noisy ASR. Lines with no
+lyric (instrumental intro, break) get UI-flavor or
 deliberate stillness, never invented words.
 
 **Edit profile — meme-chant flash (梗曲闪烁).** For AI-catchphrase chant
@@ -388,7 +410,12 @@ Do not judge source frames alone: extract stills from the encoded MP4 at the
 key scenes (intro, verse, chorus hit, break, outro, end card) and look at
 them; ffprobe the streams (codec, width, height, fps, duration) against the
 requested ratio and the measured song length; check the audio actually
-carried (loudness scan). Check geometry numerically before the full render:
+carried (loudness scan). Before the full render, review a low-cost audiovisual
+preview at vocal entrances, changed section order, stutters and uncertain
+intervals; check words, dialogue and transitions against the voice. Repeat
+those checks on the encoded MP4 and verify that muxing adds no audio offset.
+Stills and timestamp arithmetic alone cannot establish perceptual sync.
+Check geometry numerically before the full render:
 probe each scene's midpoint, and in the DOM assert bounding boxes stay
 inside the safe margins and clear of the chrome — a numeric assertion is
 cheaper and stricter than eyeballing frames. Fix what fails in the renderer,
@@ -417,15 +444,18 @@ belongs to the user).
   short-form this is the kinetic-zine profile, with no persistent bottom
   caption strip — Verification: the delivery names the active profile or
   the user's override, and the render has no default subtitle strip.
-- [B] R3 Burned-in lyrics match the accepted lyric sheet verbatim; the
-  lyric is the frame's hero, and a separate bottom caption is opt-in, not a
-  default — Verification: diff the cue list against the lyric sheet and
-  inspect the full-frame stills.
+- [B] R3 Burned-in lyrics preserve accepted wording for known lines and
+  follow the confirmed sung order; omissions, repeats and verified wording
+  changes are recorded. The lyric is the frame's hero, and a separate bottom
+  caption is opt-in — Verification: compare the cue list with the sheet and
+  actual audio; inspect full-frame stills; disclose uncertain text.
 - [B] R4 Scene boundaries come from measured audio; lyric cue windows come
-  from vocal-stem word timestamps (or a declared section-level fallback) —
-  Verification: for generated/free-rhythm vocals the per-second table maps
-  each line to an ASR word start; no cue is an equal division of a section;
-  the fallback is stated when used.
+  from checked API or vocal-stem word timestamps (or a declared section-level
+  fallback) — Verification: the timing table records the selected take and
+  performance review, and maps each line to its evidence; cues do not use
+  draft order, fixed BPM or equal division as a substitute. Audiovisual
+  preview and encoded-file sync checks are recorded; disclose unresolved
+  intervals and any fallback rather than claiming unmeasured accuracy.
 - [B] R5 The MP4 is the requested ratio and length, carries the song's
   audio, and is a standard playable stream (H.264 yuv420p + AAC, faststart)
   — Verification: ffprobe fields and a loudness scan on the encoded file.

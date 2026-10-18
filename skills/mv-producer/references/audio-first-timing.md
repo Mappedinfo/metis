@@ -5,10 +5,30 @@ the vocal enters late, rushes a phrase, holds a word, or interleaves chorus
 and stutter. The original mix stays the MV audio; the vocal stem is timing
 evidence.
 
-**API first.** If the track was generated in the same Suno API task, prefer
-its timestamped lyrics (alignedWords: word/startS/endS/success) and its
-separate_vocal stem. Use the local Demucs + ASR below only when that data is
-unavailable or the track came from outside the API. See
+## 0. Review and retain the actual take
+
+Listen through the selected mix before planning animation. Compare the real
+duration, words, section order, repetitions, omissions and pauses with the
+sheet. Record these differences in the timing table, marking uncertain words
+explicitly; retain the original sheet. A missing verse or an early chorus
+changes the cue/scene plan. Draft tags and requested BPM cannot supply the
+missing performance evidence.
+
+If the existing audio meets the accepted song goal, keep it and change the
+animation. Do not incur another generation merely to recover the draft's
+order or beat grid. Regeneration addresses an unsuitable song, within the
+existing authorization and budget. Bind the timing table to the selected
+take's ID or file hash; a different take needs a new review and alignment.
+
+**API evidence first, then check it.** If the track was generated in the same
+Suno API task, inspect its timestamped lyrics
+(alignedWords: word/startS/endS/success) and its separate_vocal stem.
+Check finite, in-range starts/ends, positive durations, ordering, overlaps and
+implausibly short tokens. Overlapping/chopped vocals may be real: check the
+sound before accepting or rejecting them. A success flag is not a quality
+verdict. Use local Demucs + ASR for missing or unreliable evidence, or an
+external track. Keep ambiguous intervals explicit rather than forcing an
+alignment. See
 [suno-api.md](suno-api.md).
 
 ## 1. Separate the mix
@@ -44,19 +64,26 @@ example:
 
 Keep the segments and words as JSON. The small model is enough for timing;
 a larger model helps when the vocal is dense, but the accepted lyric sheet
-remains the text.
+remains the text for known lines. ASR confidence does not replace checking
+unclear words against the audio.
 
 ## 3. Align the known lyric
 
-Normalize punctuation and whitespace in both the known lyric and the ASR
+First map the confirmed performed lines in their actual order, including
+repeats; exclude omitted lines and retain a record of omissions or verified
+word changes. Normalize punctuation and whitespace in these lines and the ASR
 words. Match characters with a sequence aligner; a known line starts at the
 first ASR word that covers its first character and ends at the next line's
-start, or at the last sung word when it is the final line.
+start, or at the end of its sung phrase. Preserve vocal pauses rather than
+stretching a cue through an instrumental gap.
 
 If a word is misheard (对 -> 歹, ERROR 404 -> "her sir"), ignore the ASR text
 and keep the known lyric. Only the time is taken from ASR.
 
-Do not divide a section evenly. A 4-line section is not 4 equal windows.
+Do not divide a section evenly or force the full draft onto partial audio.
+A 4-line section is not 4 equal windows. Retain the evidence source and any
+uncertainty for each cue; API/ASR disagreement needs a targeted audio check,
+not an automatic lyric rewrite.
 
 ## 4. Write the per-second table
 
@@ -84,11 +111,19 @@ than eleven flashes covering the next phrase.
 
 ## 7. Checks
 
-- Every line start is within the ASR word window; no line is an equal split.
+- The selected take, actual sung order and deviations from the sheet are
+  recorded before the scene plan; cues contain no unsung draft sections.
+- Every line start has checked API/ASR word evidence; no cue uses a fixed BPM
+  or an equal split in place of measured vocal time.
 - The first lyric appears with the voice, not at the section start.
 - A stutter does not hide the next line.
-- The per-second table has 120/120 rows (or the song length); no gaps.
+- The per-second table covers the full song, including instrumental gaps and
+  the final partial second; blank lyric cells are valid during silence.
 - The original mix is the MV audio; only a level/true-peak safety pass.
+- A low-cost audiovisual preview is checked before the full render at vocal
+  entrances, reordered sections, stutters and uncertain spans. Check these
+  again in the encoded MP4, including audio offset from muxing. Record what
+  was actually checked; stills alone do not prove perceptual sync.
 - If ASR is unavailable, declare section-level fallback; do not claim line
   accuracy.
 
@@ -96,7 +131,10 @@ than eleven flashes covering the next phrase.
 
 - RMS envelope peaks treated as line starts.
 - Equal division of a section.
+- Draft order or a requested/fixed BPM treated as the actual performance.
+- API success, zero-duration words or noisy ASR accepted without checking.
 - ASR transcript used as the displayed lyric.
 - Chorus and stutter interleaved but forced into separate tag blocks.
 - Stutter covering the next line.
 - Remixing the chosen take to force an old cut.
+- Regenerating usable audio to fix an animation timing problem.
