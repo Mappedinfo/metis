@@ -3,7 +3,10 @@ name: mv-producer
 description: >
   Turn a finished song — an audio file plus its lyric sheet — into a music
   video (MP4) in the requested aspect ratio, with burned-in lyrics,
-  section-synced scenes and a deterministic HTML→frames→ffmpeg pipeline.
+  section/line-synced scenes and a deterministic HTML→frames→ffmpeg pipeline.
+  For generated/free-rhythm vocals, line cues come from vocal-stem word
+  timestamps; named material effects (black-to-colour, real alpha) are staged
+  as mechanisms, not labels.
   Use when the user says "给这首歌做个 MV", "make an MV or lyric video for
   this song", hands over an audio file with lyrics and a ratio such as
   4:3 or 16:9, or wants a generated Suno track put on screen. A named
@@ -24,6 +27,8 @@ artifacts:
   - "Finished MV: MP4 in the requested aspect ratio, lyrics burned in, the song's own audio carried, streams verified"
   - "Renderer source: deterministic HTML seek(t) renderer, frame-render script and ffmpeg assemble script, re-runnable after edits"
   - "Scene timing table: measured audio sections mapped to scenes and lyric cue windows"
+  - "Vocal-stem ASR timing table + per-second lyric/shot map"
+  - "Material-effect stills at start/mid/end (black-to-colour, real alpha)"
   - "Reference style card + beat/cut sheet + PPT/visual-center audit"
   - "When an energy edit is requested: original and hard-edit audio with key/loudness/peak evidence"
 ---
@@ -49,8 +54,9 @@ after lyric, palette or timing edits from its renderer source.
 
 Hand off instead:
 
-- Producing the song itself (lyrics, style prompt, audio) → a
-  song-prompt/generation capability; this skill starts from finished audio.
+- Producing the song itself (theme → Style brief + tagged lyrics + Custom
+  Mode settings) → suno-prompt-architect; this skill starts from finished
+  audio and never writes the song.
 - Filming or compositing camera footage, dancer shots, VFX plates → out of
   scope; this pipeline draws motion graphics and typography.
 - Subtitle files for arbitrary video (SRT/ASS delivery) → a subtitling
@@ -96,8 +102,8 @@ secondary doodles/emoji/ASCII ≤20%. Stack, crop, split, outline, halftone
 and sticker the lyric; hand-drawn marks and emoji are punctuation. A shot
 has an in, an idle and an out: build the type on in 0.15–0.25 s steps, let
 it breathe and drift, then hand it to the next shot through a transition.
-Cut rate is an outcome, not a target: 0.8–3.0 s shots and roughly 0.3–1.2
-changes/s are all valid; there is no minimum; reserve hard cuts and
+Cut rate is an outcome, not a target: 0.8–6 s shots (2–6 s is normal for long-form narrative) and roughly
+0.2–1.2 changes/s are all valid; there is no minimum; reserve hard cuts and
 full-frame flashes for drops and chop bursts. A 9:16 reference is designed natively vertical, never
 cropped from 16:9.
 
@@ -121,23 +127,88 @@ three anti-rules. Recreate the grammar with original assets; never copy the
 reference's frames, drawings, typefaces or audio. Keep the style card next
 to the timing table and audit the render against it.
 
+### 1c. Accepted design preferences
+
+These refine the kinetic-zine profile; a stronger explicit brief still wins.
+
+- **Audio before picture.** For a generated/free-rhythm vocal, line timing
+  comes from a vocal-stem word-timestamp ASR; RMS sections place scenes, never
+  individual lyric lines. A picture that moves before the voice is wrong even
+  if every still is good.
+- **The song as supplied is the unit.** A two-minute song gets a two-minute
+  MV. A 60–75 s short is a separate deliverable, never a silent truncation of
+  the full lyric. Do not remix the chosen take; a level/true-peak safety pass
+  is not a remix.
+- **Long-form kinetic zine.** 20–30 shots for a two-minute song; 2–6 s shots
+  are valid; 0.2–0.35 changes/s; four to six hard cuts at real drops; the rest
+  are thread/wipe/morph. Do not raise the cut rate to look energetic.
+- **The lyric is the image, held at the voice.** One dominant type mass; the
+  full line visible; no bottom caption; no clipped last character; one line
+  per card when the line is long. A face, thread or prop never covers the
+  type; the face stays behind the type at large sizes.
+- **Semantic material effects.** When the lyric names a material or optical
+  condition — 五彩斑斓的黑, 透明一点的灰, 便宜还要贵, 今天上线明天再回 — stage
+  the named mechanism, not a colour swap or an explanatory label. Black-to-
+  colour: a black base with a spectrum physically entering by clip-path; the
+  black stays black until the reveal. Transparency: real rgba/opacity over a
+  checkerboard or known backdrop with the layer showing through, plus an
+  alpha readout if useful. A light-gray fill is not transparency; a
+  pre-coloured card is not black-to-colour.
+- **Stutter is a short chant, not a section-wide overlay.** End it before the
+  next lyric line; six flashes on a 1.4 s chant is better than eleven covering
+  “我这就改”. The chop word is the lyric; do not hide the next line.
+- **Continuity.** A thread, face, dot field, palette or word carries across
+  cuts; the final lands on one giant word/receipt, not another poster. The end
+  card is part of the cut.
+- **Readability before cleverness.** A full line the viewer can read beats a
+  clever crop. Run numeric type/geometry checks before the render; no type
+  under the face/thread/prop.
+
+See [references/semantic-effects.md](references/semantic-effects.md) for the
+black-to-colour and real-alpha recipes and their start/mid/end still tests.
+
 ### 2. Measure the audio before designing anything
 
 Get the real numbers instead of guessing: duration via ffprobe; a silence map
 (`silencedetect`) for hard gaps; a 0.25 s RMS energy envelope (decode to mono
 PCM, window 0.5 s) to find where sections actually start — intro, verse
-onsets, chorus hits, the break, the outro. Vocal line onsets are the peaks in
-the envelope. Write the scene timing table from these measurements: every
-scene boundary and every lyric cue window cites a measured time. Where the
-structure is ambiguous, sync to coarse sections and keep line-level reveals
-robust rather than pretending sample-accurate sync. Confirm the reading
-with ASR where available (a local whisper-class model, word timestamps):
-segments give the lyric-line cue windows, but chanting, stutter chops and
-heavy FX garble transcription — treat ASR as timing evidence checked against
-the accepted lyric sheet, never as a lyric source. Locate chop sections by
+onsets, chorus hits, the break, the outro. The envelope measures section
+energy; it is not a reliable lyric-line clock. Write the scene timing table
+from these measurements: every scene boundary cites a measured time. For a
+generated/free-rhythm vocal, line cue windows come from 2a, not from envelope
+peaks or equal division. Where ASR is unavailable, sync to coarse sections
+and say so; do not pretend line-level sync. Locate chop sections by
 an onset-density spike and quantize their inter-onset intervals (a real grid
 reads ≈0.21 s / 0.42 s); that quantized grid — not the nominal tempo — is
 the flash grid.
+
+### 2a. Audio-first line timing for generated/free-rhythm vocals
+
+A Suno-style take is not a metronome. The vocal may enter late, rush a line,
+hold a word, or interleave chorus and stutter. Do not place lyric cues by
+equal division of a section, and do not use RMS peaks as line starts.
+
+1. Separate the mixed track into vocals and instrumental (Demucs `htdemucs`,
+   or an equivalent two-stem separator). Keep the original mix for the MV;
+   the vocal stem is timing evidence.
+2. Run a local word-timestamp ASR (Whisper / faster-whisper) on the vocal
+   stem. The accepted lyric sheet is the text; ASR is timing evidence, never
+   a lyric source.
+3. Align the known lyric to the word timestamps. A line starts at its first
+   sung word; it ends at the next line's start or at the end of its sung
+   phrase. Do not average the section.
+4. Write a per-second table: second, section, shot, active lyric line, vocal
+   dBFS, ASR word. This is the audit trail the user can point at.
+5. Build shot windows from the line starts. The picture must not run ahead of
+   the voice; hold a line for its actual duration. Long intros, post-choruses
+   and instrumental breaks are holds, not invented lyric scenes.
+6. For stutter/chop, use the sung chant interval; end the stutter before the
+   next lyric line. A stutter overlay that covers the next line is a defect.
+7. If ASR is unavailable, declare the fallback and keep cues section-level;
+   never claim line accuracy you did not measure.
+
+See [references/audio-first-timing.md](references/audio-first-timing.md) for
+the concrete separation, ASR, alignment and per-second table workflow.
 
 ### 2b. Audio energy edit — opt-in arrangement, not a silent re-master
 
@@ -157,7 +228,9 @@ different song, stop at the handoff.
 
 The lyrics carry `[bracket]` structure tags ([Intro]/[Verse]/[Chorus]/[Outro]
 …): one tag block = one scene. Every lyric line becomes a subtitle cue with a
-start and end window from the timing table; hook lines get hero-typography
+start and end window from the timing table; for a generated/free-rhythm track
+those windows come from 2a, never from equal division of a section. Hook
+lines get hero-typography
 moments (falling text, full-screen emphasis) instead of more bubbles. Burn
 the lyrics in verbatim — the lyric sheet is the accepted text, not a draft to
 improve. Lines with no lyric (instrumental intro, break) get UI-flavor or
@@ -190,6 +263,13 @@ match cut, wipe, mask, morph or thread, or make a deliberate hard cut at a
 drop. Build a shot table with in/idle/out and the transition to the next
 shot.
 
+**Semantic material effects.** A lyric that names a material/optical state
+gets the named mechanism, not a colour swap. Animate the reveal from `t`:
+black-to-colour via a black base and a spectrum clip-path; transparency via
+real rgba/opacity over a checkerboard or known backdrop. See
+[references/semantic-effects.md](references/semantic-effects.md); verify the
+encoded start/mid/end stills, not just the source.
+
 **Foreground/background interaction is mandatory.** Each shot needs at
 least one causal relationship between layers: parallax (foreground and
 background move at different rates), occlusion (a prop passes in front of
@@ -207,6 +287,15 @@ Do not animate/flash every element at once. At most one full-frame flash or
 inversion per section; no constant strobe. Give the eye rest: at least some
 shots move slowly or hold while a single element travels. Reserve rapid
 chop flashes for the stutter section, where the chop is the lyric.
+
+**Long-form narrative.** A two-minute story song is not a 60-second edit
+stretched. Use 20–30 shots, 2–6 s shots, 0.2–0.35 changes/s and four to six
+hard cuts at real drops; the rest are thread/wipe/morph. A long intro or
+post-chorus is a hold, not a lyric scene.
+
+**Stutter boundary.** End the stutter before the next lyric line and keep the
+next line uncovered; six flashes on a 1.4 s chant can be better than eleven
+covering the next phrase.
 
 **Visual-pollution failure modes.** Every beat a new full-frame poster;
 constant full-frame flashes; all layers moving at once; effects without
@@ -234,8 +323,8 @@ data, not to layout code.
 
 ### 5. Render frames, assemble, and pad for the end card
 
-Screenshot the renderer frame by frame with a headless browser at 24 fps
-(JPEG quality ≈92 is enough after H.264), then assemble with ffmpeg:
+Screenshot the renderer frame by frame with a headless browser at 24–30 fps
+(30 for 9:16 type clarity; JPEG quality ≈92 is enough after H.264), then assemble with ffmpeg:
 `libx264 / crf 18 / yuv420p`, AAC 192k, `+faststart`. When the edit ends on
 an end card, extend the container past the song with silent padding
 (`apad`) and trim with `-shortest` so the card holds on black instead of
@@ -282,9 +371,11 @@ belongs to the user).
   lyric is the frame's hero, and a separate bottom caption is opt-in, not a
   default — Verification: diff the cue list against the lyric sheet and
   inspect the full-frame stills.
-- [B] R4 Scene boundaries and cue windows come from measured audio sections
-  — Verification: the scene timing table cites detected times, not
-  estimates.
+- [B] R4 Scene boundaries come from measured audio; lyric cue windows come
+  from vocal-stem word timestamps (or a declared section-level fallback) —
+  Verification: for generated/free-rhythm vocals the per-second table maps
+  each line to an ASR word start; no cue is an equal division of a section;
+  the fallback is stated when used.
 - [B] R5 The MP4 is the requested ratio and length, carries the song's
   audio, and is a standard playable stream (H.264 yuv420p + AAC, faststart)
   — Verification: ffprobe fields and a loudness scan on the encoded file.
@@ -297,13 +388,22 @@ belongs to the user).
   — Verification: re-render one timestamp twice and compare.
 - [A] R9 In the meme-chant profile, flash times follow the measured chop
   grid rather than a fixed interval — Verification: sampled flash times
-  match the timing table's grid entries.
+  match the timing table's grid entries; the stutter ends before the next
+  lyric line and no line is covered.
 - [A] R10 In a high-energy or reference-driven edit, the motion and
   visual-center targets are met — Verification: each shot has enter/idle/
   exit and at least one foreground/background interaction; the cut rate is
-  recorded as an outcome (roughly 0.3–1.2/s; no minimum) and hard cuts/
+  recorded as an outcome (roughly 0.2–1.2/s; 0.2–0.35/s is valid for long-form;
+  no minimum) and hard cuts/
   flashes are reserved for drops and chop bursts; each shot has one focal
   type mass ≥35% of the frame with ≤3 type sizes.
+- [A] R11 No persistent bottom caption or side panel appears unless
+  explicitly requested — Verification: no subtitle strip in the DOM; the
+  encoded stills are full-frame compositions.
+- [A] R12 If an energy edit is made, the original audio is preserved and
+  both versions are delivered with key/loudness/true-peak evidence —
+  Verification: both paths, the detected key, integrated loudness and true
+  peak are reported.
 - [A] R13 No static-poster sequence: every shot animates and carries
   continuity — Verification: 5 s sequences at 10 fps show within-shot
   motion and a transition or shared motif; no shot is a finished poster
@@ -312,19 +412,27 @@ belongs to the user).
   section, ≤3 simultaneous moving elements, and at least some slow/breath
   shots — Verification: the motion audit's counts and a 5 s sequence
   review.
-- [A] R11 No persistent bottom caption or side panel appears unless
-  explicitly requested — Verification: no subtitle strip in the DOM; the
-  encoded stills are full-frame compositions.
-- [A] R12 If an energy edit is made, the original audio is preserved and
-  both versions are delivered with key/loudness/true-peak evidence —
-  Verification: both paths, the detected key, integrated loudness and true
-  peak are reported.
+- [B] R15 A lyric that names a material/optical state is staged as that
+  mechanism, not a colour swap or explanatory label — Verification:
+  black-to-colour starts on a black base and reveals a spectrum (start/mid/
+  end stills show black remaining); transparency uses rgba/opacity over a
+  checkerboard with the layer visible; a light-gray fill or pre-coloured
+  card fails.
+- [B] R16 Full lyric lines stay readable: no clipped character, no
+  face/thread/prop over the type, and one line per card for long lines —
+  Verification: type/geometry probe 0 issues; encoded still at each V2/
+  long-line scene.
+- [B] R17 The MV covers the supplied song and the chosen take; no
+  truncation or remix unless explicitly requested — Verification: duration
+  matches the song, or a requested short cut is named as a separate
+  deliverable; audio is the supplied mix with only level/true-peak safety.
 
 ## When to stop
 
 - Done when: the MP4 at the requested ratio exists, streams verify, encoded
-  stills passed, and the renderer source + timing table are delivered with
-  R1–R6 evidenced.
+  stills passed, the full supplied song is covered (or a requested short cut
+  is separately named), and the renderer source + timing table are delivered
+  with R1–R6 evidenced.
 - Budgets: at most two visual-fix rounds per delivery; one style-direction
   question when the look is genuinely undecided. Exhausted → deliver what
   passed, name the remaining visual issue and the smallest unblock condition
@@ -339,7 +447,7 @@ belongs to the user).
 1. The finished MP4 (path, ratio, resolution, fps, duration, size).
 2. The renderer source: `seek(t)` HTML + frame-render script + assemble
    script + scene timing table — re-runnable by anyone with the song file.
-3. A close-out mapping R1–R6 (and R7–R12 where claimed) to
+3. A close-out mapping R1–R6 (and R7–R17 where claimed) to
    done/blocked/n-a with evidence, the applied style profile, and any
    unfinished visual work.
 4. A reference style card and shot/motion sheet, a PPT/visual-center/

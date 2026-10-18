@@ -8,7 +8,8 @@ description: >
   for X", or hands over a theme, mood, meme or scene meant to become a song
   (pop track, short-form-video hook, meme song, ambient piece). Delivers the
   two input blocks plus generation advice — never the generated audio, and
-  not general music-production advice.
+  not general music-production advice. A full song defaults to 1:50–2:10;
+  a 30–55 s skeleton is only for an explicitly requested short-form hook.
 license: MIT
 category: compose
 domain: [media, writing]
@@ -17,6 +18,7 @@ uses: []
 artifacts:
   - "Style brief: English, 4–7 descriptors with the main genre first, 150–300 characters, paste-ready for Suno's 'Style of Music' field"
   - "Lyrics sheet: lyrics in the request language with [bracket] structure tags, paste-ready for Suno's Custom Mode 'Lyrics' field"
+  - "Time budget: a 62-bar / 1:50–2:10 section table for a full song, or a named 30–55 s short-form skeleton"
 ---
 
 # suno-prompt-architect
@@ -42,6 +44,8 @@ Hand off instead:
 
 - Generating the audio, or judging how the result sounds → Suno itself; this
   skill's deliverable is the input pair.
+- The visual MV from the finished take → mv-producer; it starts from the
+  audio and the accepted lyric sheet.
 - Literary editing of lyrics as standalone writing → a prose-editing
   capability.
 - Music theory teaching, mixing engineering or DAW workflows → out of scope.
@@ -60,9 +64,10 @@ language:
 > I'll make 「{theme}」 as **{main genre}**, feeling **{core emotion}**, for
 > **{usage scene}**.
 
-If the user named no scene, infer a reasonable default (e.g. "short-form
-video, 30–55 s", "personal listening", "podcast intro") and mark it as
-inferred. When the theme genuinely supports distinct genres, offer at most
+If the user named no scene, infer a reasonable default — **a full song for
+an MV or personal listening, 1:50–2:10** — and mark it inferred. A 30–55 s
+short-form video is a default only when the user explicitly asks for a
+short hook; never infer a short song for an MV. When the theme genuinely supports distinct genres, offer at most
 three direction options in the same round and record the user's pick; a
 direction the user has chosen is not re-opened.
 
@@ -124,10 +129,40 @@ choruses means writing `[Chorus]` twice. The default pop skeleton:
 ```
 
 - The chorus decides whether a song spreads. Keep lines short and spoken
-  natural, and plant one extractable hook phrase.
-- For short-form video, hold the total to **30–55 seconds**: compress to
-  `[Intro] → [Verse] → [Chorus] → [Outro]` so the chorus lands within the
-  first **15–20 seconds**.
+  natural, and plant one extractable hook phrase. Give each section one
+  rhyme family (for example -ui for the hook, -an for the verse); the last
+  line lands on the title or the hook. Put the vocal timbre in Style —
+  deadpan close-mic, robotic doubles, whispered ad-libs, a spoken bridge —
+  not in a stage direction. A narrative arc beats a list: greeting →
+  requests → internal monologue → hook wall → absurd second verse → system
+  error → resignation → receipt; each section should change the argument,
+  not just the adjectives.
+- **Full-song default.** A song for an MV or listening is **1:50–2:10**. At
+  144 BPM the tested full-song sheet is 62 bars:
+
+  | Section | Bars |
+  |---|---:|
+  | Intro | 2 |
+  | Verse 1 | 8 |
+  | Pre-Chorus | 8 |
+  | Chorus | 8 |
+  | Stutter | 4 |
+  | Verse 2 | 8 |
+  | Pre-Chorus 2 | 8 |
+  | Bridge | 4 |
+  | Final Chorus | 8 |
+  | Outro | 4 |
+  | **Total** | **62** |
+
+  62 bars at 144 BPM is about 103 s of bars; the model's intro/outro and
+  transitions often bring the render to ~2:00. Do not cut the bar count to
+  fit a 60 s video. Put the first chorus around **0:30** on the full-song
+  sheet.
+- For an explicitly requested short-form hook, hold the total to **30–55
+  seconds**: compress to `[Intro] → [Verse] → [Chorus] → [Outro]` so the
+  chorus lands within the first **15–20 seconds**. This is a separate
+  deliverable, not a shortened full song; a 60–75 s MV edit is also a
+  separate cut.
 - Mark arrangement events with their own tags: `[Guitar Solo]`,
   `[Beat Drop]`, `[Silence: 2s]`.
 - Lines need not be symmetric; serve the ear and the hook, not tidy form.
@@ -156,9 +191,10 @@ Field-tested behavior of the generator, kept instead of folklore:
   yields an instrumental lead-in; parentheses are ad-libs and shouts
   (`（大喊）`, `（机械音）` both render), brackets are structure. Never write
   stage directions as lyric lines.
-- **Song length tracks lyric mass.** One verse + one chorus skeleton lands
-  around 35–55 s; each extra chorus block adds roughly 10–15 s. Add or
-  remove whole blocks to hit a target duration.
+- **Song length tracks lyric mass.** One verse + one chorus is a 35–55 s
+  short-form hook; a full song is a different object. At 144 BPM the 62-bar
+  sheet above is the full-song default. Add or remove whole blocks to hit a
+  target duration; do not squeeze a full lyric into a 60 s skeleton.
 - **What transfers from the Style field:** genre/texture vocabulary, tempo
   region (a "71 BPM half-time" request renders happily at ~143 double-time —
   the grid matters, the number does not), vocal timbre, mix character
@@ -175,7 +211,20 @@ Field-tested behavior of the generator, kept instead of folklore:
 - **Write for the edit.** If the song may become a video, include a
   syllable-stutter section (the edit's climax) and a near-silent valley
   (the edit's breath); a stable tempo region is what makes beat-grid
-  flashing possible later.
+  flashing possible later. The generated take can still be free-rhythm or
+  land at a different BPM/key than requested — do not promise a fixed grid.
+  The MV measures the actual vocal (vocal separation + word-timestamp ASR)
+  before cutting.
+
+### 5b. Handoff to mv-producer
+
+The song prompt ends here. When the finished take becomes an MV, hand the
+audio file and the accepted lyric sheet to **mv-producer**; it starts after
+generation and does not write the song. The downloaded MP3 is a mixed stereo
+track, not stems; the model may ignore the requested BPM/key; the vocal may
+be free-rhythm. The MV separates the vocal, runs word-timestamp ASR and
+re-times the shots. Do not pre-cut the lyric to a fixed bar grid and call it
+frame sync.
 
 ### 6. Genre module: the AI-voice meme chant
 
@@ -235,10 +284,10 @@ different genre direction). Do not keep regenerating in place.
 - [B] R4 The lyrics sheet carries at least `[Verse]` and `[Chorus]` tags,
   and an instrumental request carries no vocal lines — Verification: scan
   the tags.
-- [B] R5 The chorus contains one extractable hook phrase, and a
-  short-form-video scene puts the first chorus within the opening 15–20
-  seconds of the stated structure — Verification: read the chorus; walk the
-  tag order.
+- [B] R5 The chorus contains one extractable hook phrase; a full-song
+  request is 1:50–2:10 with the first chorus around 0:30, and a short-form
+  request puts it within the opening 15–20 seconds — Verification: read the
+  chorus; walk the tag and bar order.
 - [B] R6 The delivery matches the fixed four-part Output contract —
   Verification: compare the reply against the contract before sending.
 - [A] R7 When the user asks for a precise arrangement, bar counts match
@@ -250,6 +299,10 @@ different genre direction). Do not keep regenerating in place.
 - [A] R9 In the meme-chant genre, chant lines are ≤ 7 syllables, the chorus
   is the shortest catchphrase, and the stutter section carries its own tag
   with per-word lines — Verification: count the syllables; scan the tags.
+- [B] R10 A full-song request is 1:50–2:10 (or the user's stated length),
+  not a 30–55 s short-form skeleton; a short-form request is explicitly
+  named — Verification: the section budget totals 60–64 bars for the
+  2-minute default; the delivery names the requested length.
 
 ## When to stop
 
