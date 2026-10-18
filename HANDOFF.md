@@ -2,6 +2,16 @@
 
 Read this entry before continuing implementation or preparing a release.
 
+## 背景变化与细密 ASCII 偏好 — 2026-10-18
+
+- [done] 按用户收尾反馈同步修订 `mv-producer` 两个入口及
+  [动效指南](skills/mv-producer/references/interface-type-motion.md)：漩涡仅作
+  局部选项，随段落改变空间结构、方向、景深与疏密；细密 ASCII 扩展至完整
+  角色、物件和场景，补充轮廓、明暗、字符网格与运动可读性的指导。
+- [done] 原生合同检查 26 个技能、0 错误／警告；生成包与规范源一致。
+  本轮核对说明与安装内容，未制作新视觉样例；未来作品仍需实际视听检查。
+  当前 MV 已由用户确认收尾，未改成片或重新生成音乐。
+
 ## 动态歌词的界面与巨字偏好 — 2026-10-18
 
 - [done] `mv-producer` 两个语言入口同步增加可被明确简报覆盖的界面、光标、
