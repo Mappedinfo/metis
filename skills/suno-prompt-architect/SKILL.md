@@ -147,7 +147,37 @@ The lyrics then use bar-count suffixes — `[Drop 16]`, `[Outro 4]` — so both
 fields describe the same arrangement from two angles. Keep the counts equal
 on both sides.
 
-### 5. Genre module: the AI-voice meme chant
+### 5. Generator behavior: what transfers, and writing for the edit
+
+Field-tested behavior of the generator, kept instead of folklore:
+
+- **Structure tags are the arrangement.** Tag order = song order; a chorus
+  sung three times means writing the block three times; an empty `[Intro]`
+  yields an instrumental lead-in; parentheses are ad-libs and shouts
+  (`（大喊）`, `（机械音）` both render), brackets are structure. Never write
+  stage directions as lyric lines.
+- **Song length tracks lyric mass.** One verse + one chorus skeleton lands
+  around 35–55 s; each extra chorus block adds roughly 10–15 s. Add or
+  remove whole blocks to hit a target duration.
+- **What transfers from the Style field:** genre/texture vocabulary, tempo
+  region (a "71 BPM half-time" request renders happily at ~143 double-time —
+  the grid matters, the number does not), vocal timbre, mix character
+  (low-passed, minimal bed, no bright hats all survive). **What does not:**
+  dynamics words — a hot open is honored by writing a shouted first line in
+  the lyrics, not by asking the mixer for loudness.
+- **Dynamics live in the structure.** Contrast comes from section design:
+  one shouted opener, one flowing verse against short chant lines, a
+  near-silent beat before the final hook. Write the contrast you want; the
+  generator follows structure more faithfully than adjectives.
+- **Repetition with micro-variation.** Repeat the hook verbatim and change
+  exactly one line per chorus block (punchline escalation) — repetition
+  stays catchy instead of flat.
+- **Write for the edit.** If the song may become a video, include a
+  syllable-stutter section (the edit's climax) and a near-silent valley
+  (the edit's breath); a stable tempo region is what makes beat-grid
+  flashing possible later.
+
+### 6. Genre module: the AI-voice meme chant
 
 When the user asks for an AI-catchphrase meme song (梗曲), the song is built
 **entirely from 3–4 spoken catchphrases** — service phrases like "sure, great
@@ -173,7 +203,7 @@ song; there is no second topic. The measured grammar of the genre:
 - The genre lives or dies on the catchphrase choice: 2–3 real, quotable
   phrases, picked with the user like any other direction (Method 1).
 
-### 6. Self-check, then deliver
+### 7. Self-check, then deliver
 
 Check the draft against R1–R6 (Requirements below) and fix what fails, then
 deliver in the fixed four-part format (Output contract). Generation advice
@@ -182,7 +212,7 @@ repair rule: a weak chorus → keep the lyrics, change only the Style field's
 emotion/instrument descriptors and regenerate; a wrong structure → fix the
 lyric tags, keep the Style field.
 
-### 7. Bounded revision loop
+### 8. Bounded revision loop
 
 Per song direction, at most two revision rounds after the first delivery. A
 round = the user reports one generation attempt, this skill adjusts one
@@ -226,7 +256,7 @@ different genre direction). Do not keep regenerating in place.
 - Done when: both blocks plus generation advice are delivered in the fixed
   format and R1–R6 hold with evidence.
 - Budgets: one clarification round for the direction; at most three direction
-  options; at most two revision rounds per direction (Method 6). Exhausted →
+  options; at most two revision rounds per direction (Method 8). Exhausted →
   report the delivered blocks, what is not landing, and the smallest unblock
   condition; blocked items stay blocked.
 - This skill delivers prompts, not audio. Whether the result sounds right is
@@ -241,7 +271,7 @@ different genre direction). Do not keep regenerating in place.
 3. **Lyrics sheet** — a code block labeled for Suno's Custom Mode "Lyrics"
    field, structure tags included.
 4. **Generation advice** — Custom Mode on; the Suno version current at
-   writing; the repair rule from Method 6 (keep lyrics + change Style, or
+   writing; the repair rule from Method 7 (keep lyrics + change Style, or
    keep Style + fix tags).
 
 The user verifies by pasting both blocks into Suno Custom Mode and

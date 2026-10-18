@@ -71,6 +71,17 @@ palette, gradient energy, high-contrast hero text), **kaomoji-friendly**
 edit). A retro, CRT, minimal or film-look direction is opt-in and recorded as
 the user's or the brief's choice, never a side effect of the ratio.
 
+**The default profile, concretely.** 现代: a poster-typography world with
+UI-grade chrome — one small mono chip, one meter, generous safe margins, a
+single hero layer plus a subtitle strip. 激情: every hit enters with
+overshoot easing and a short screen shake; scale pulses lock to the beat;
+entrances stay under 0.35 s. 色彩: one saturated duotone gradient per
+section, cut hard at the section boundary — the cut is the point;
+hue-cycling for rapid word flashes. 颜文字: kaomoji/emoji as confetti on
+hits, ambient floaters in choruses, and captions on comedy props. Comedy
+props are one per video — a single meter tied to the lyric's joke (snapping
+to 100% at the chorus) outlives three clever ones.
+
 ### 2. Measure the audio before designing anything
 
 Get the real numbers instead of guessing: duration via ffprobe; a silence map
@@ -80,7 +91,14 @@ onsets, chorus hits, the break, the outro. Vocal line onsets are the peaks in
 the envelope. Write the scene timing table from these measurements: every
 scene boundary and every lyric cue window cites a measured time. Where the
 structure is ambiguous, sync to coarse sections and keep line-level reveals
-robust rather than pretending sample-accurate sync.
+robust rather than pretending sample-accurate sync. Confirm the reading
+with ASR where available (a local whisper-class model, word timestamps):
+segments give the lyric-line cue windows, but chanting, stutter chops and
+heavy FX garble transcription — treat ASR as timing evidence checked against
+the accepted lyric sheet, never as a lyric source. Locate chop sections by
+an onset-density spike and quantize their inter-onset intervals (a real grid
+reads ≈0.21 s / 0.42 s); that quantized grid — not the nominal tempo — is
+the flash grid.
 
 ### 3. Parse the lyric sheet into a cue plan
 
@@ -132,7 +150,11 @@ Do not judge source frames alone: extract stills from the encoded MP4 at the
 key scenes (intro, verse, chorus hit, break, outro, end card) and look at
 them; ffprobe the streams (codec, width, height, fps, duration) against the
 requested ratio and the measured song length; check the audio actually
-carried (loudness scan). Fix what fails in the renderer, re-render, re-check.
+carried (loudness scan). Check geometry numerically before the full render:
+probe each scene's midpoint, and in the DOM assert bounding boxes stay
+inside the safe margins and clear of the chrome — a numeric assertion is
+cheaper and stricter than eyeballing frames. Fix what fails in the renderer,
+re-render, re-check.
 At most two visual-fix rounds per delivery; then report what is still off and
 the smallest unblock condition (usually a style or timing decision that
 belongs to the user).
