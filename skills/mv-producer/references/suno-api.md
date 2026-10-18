@@ -95,31 +95,10 @@ On SUCCESS: vocalUrl, instrumentalUrl, originUrl. Download the vocal for
 timing; keep the original mix for the MV. This costs credits per call and is
 not cached; do not call it twice by accident.
 
-## 5. Fast platform video (optional, not the custom MV)
+## 5. Download and verify
 
-POST /api/v1/mp4/generate
-
-    {
-      "taskId": "...",
-      "audioId": "...",
-      "callBackUrl": "https://your-host/callback",
-      "author": "optional creator name"
-    }
-
-Poll:
-
-    GET /api/v1/mp4/record-info?taskId={taskId}
-
-On SUCCESS: data.response.videoUrl. Download promptly; generated videos are
-retained for about 15 days. This is the platform's visualizer, not the custom
-type/thread/face/dot MV. Use it only when the user explicitly asks for a quick
-platform video; the default remains the custom renderer. It only works for a
-track generated in the same API task (taskId + audioId).
-
-## 6. Download and verify
-
-- Download the chosen audio/video to a local path; do not stream the MV from
-  a temporary URL.
+- Download the chosen audio to a local path; do not stream the MV from a
+  temporary URL.
 - ffprobe the duration, codec, sample rate and channels.
 - Keep the taskId/audioId and the chosen take in the project record; never
   write the API key.
@@ -130,8 +109,9 @@ track generated in the same API task (taskId + audioId).
 
 - The key belongs in the process environment only; redact it in any command
   echo or log.
-- Generation, stems and video consume credits; ask before a large batch.
+- Generation and stems consume credits; ask before a large batch.
 - The API's terms and retention limits govern the outputs; keep local copies
   for the project.
-- Do not use the API video as evidence for the custom MV's type/timing; they
-  are different outputs.
+- The platform music-video endpoint is not part of this workflow; do not call
+  it unless the user explicitly asks for that separate deliverable. It costs
+  credits and is a different output, not evidence for the custom MV.

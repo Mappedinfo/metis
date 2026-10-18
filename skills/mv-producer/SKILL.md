@@ -65,8 +65,8 @@ A song-only request is Stage A: deliver the package and stop before the MV.
 
 Hand off instead:
 
-- A quick platform visualizer is Stage 0b, not the custom MV; the custom MV
-  remains the default.
+- A platform-generated music video is out of scope; this skill renders the
+  custom MV. Do not route to a platform-video endpoint by default.
 - Filming or compositing camera footage, dancer shots, VFX plates → out of
   scope; this pipeline draws motion graphics and typography.
 - Subtitle files for arbitrary video (SRT/ASS delivery) → a subtitling
@@ -84,7 +84,6 @@ artifacts.
   download the chosen take, then continue to 2.
 - **Theme, no API** → deliver the song package (Style, tagged lyrics, 62-bar
   budget) and stop before audio; do not pretend to generate.
-- **Quick platform video only** → 0b; it is not the custom MV.
 
 ### 0a. Song stage (theme → audio)
 
@@ -109,14 +108,6 @@ artifacts.
 
 A generated MP3 is a mix, not stems. The API may change BPM/key or produce
 free vocal timing; do not assume the 62-bar grid is the performance.
-
-### 0b. Fast platform video (optional)
-
-If the user explicitly wants a quick platform visualizer, call the provider's
-music-video endpoint with taskId + audioId, poll it, and download the MP4.
-Label it as the platform video, not the custom MV. The custom MV is the
-default because it owns the type, thread/face/dots and the audio-first edit.
-This path only works for a track generated in the same API task.
 
 ### 1. Split the two contracts: ratio is size, style is style
 
@@ -519,9 +510,10 @@ audio.
   the length.
 - [B] S11 API generation, when used, reads the key from the environment and
   never prints/logs/commits it; creates a task, polls with a bounded timeout,
-  downloads and verifies the chosen take; no remix. A platform video is only
-  the explicit fast path — Verification: no key in transcript/commit; taskId/
-  audioId and ffprobe evidence recorded.
+  downloads and verifies the chosen take; no remix. The platform music-video
+  endpoint is not part of this workflow and must not be called unless the
+  user explicitly asks for that separate deliverable — Verification: no key in
+  transcript/commit; taskId/audioId and ffprobe evidence recorded.
 
 ## When to stop
 
@@ -543,8 +535,7 @@ audio.
 
 ## Output contract
 
-1. The finished MP4 (path, ratio, resolution, fps, duration, size), or the
-   explicitly requested platform fast video, labelled as such.
+1. The finished custom MP4 (path, ratio, resolution, fps, duration, size).
 2. The renderer source: seek(t) HTML + frame-render script + assemble
    script + scene timing table — re-runnable by anyone with the song file.
 3. A close-out mapping R1–R6 (and R7–R17, and S1–S11 when Stage A) to
