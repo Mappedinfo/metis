@@ -147,7 +147,33 @@ The lyrics then use bar-count suffixes — `[Drop 16]`, `[Outro 4]` — so both
 fields describe the same arrangement from two angles. Keep the counts equal
 on both sides.
 
-### 5. Self-check, then deliver
+### 5. Genre module: the AI-voice meme chant
+
+When the user asks for an AI-catchphrase meme song (梗曲), the song is built
+**entirely from 3–4 spoken catchphrases** — service phrases like "sure, great
+question", "I've got you", "you're right", "let me think". Repetition is the
+song; there is no second topic. The measured grammar of the genre:
+
+- **Hot open**: the first phrase is one shout, markedly louder than the rest
+  — it is the 3-second grab.
+- **Short repeats** → **one long confessional verse** (a flowing,
+  therapy-toned monologue as contrast) → **syllable-stutter section** →
+  **hook statement** → **valley** (a near-silent beat) → **outro echo
+  repeats**, fading.
+- Chant lines stay **≤ 7 syllables** and work as standalone catchphrases;
+  the chorus is the shortest one. The stutter section repeats single words
+  or syllables (对 对 对 对 / 想 一 想) — mark it with its own tag
+  (`[Stutter]`) plus per-word lines so the chop grid is visible.
+- Style-brief vocabulary for this genre: `spoken-word AI-voice chant`,
+  `vocal-chop stutter edits`, `minimal sub-bass 808 bed, no bright hats`,
+  `low-passed lo-fi mix`, `monotone synthetic vocal`, tempo in the 70 BPM
+  half-time region (stutters land on ~0.21 s syllable grid). One dynamics
+  phrase (`hot open shout, compressed verse, drop before final hook`) is
+  worth its slot.
+- The genre lives or dies on the catchphrase choice: 2–3 real, quotable
+  phrases, picked with the user like any other direction (Method 1).
+
+### 6. Self-check, then deliver
 
 Check the draft against R1–R6 (Requirements below) and fix what fails, then
 deliver in the fixed four-part format (Output contract). Generation advice
@@ -156,7 +182,7 @@ repair rule: a weak chorus → keep the lyrics, change only the Style field's
 emotion/instrument descriptors and regenerate; a wrong structure → fix the
 lyric tags, keep the Style field.
 
-### 6. Bounded revision loop
+### 7. Bounded revision loop
 
 Per song direction, at most two revision rounds after the first delivery. A
 round = the user reports one generation attempt, this skill adjusts one
@@ -191,6 +217,9 @@ different genre direction). Do not keep regenerating in place.
 - [A] R8 When the theme plausibly supports distinct genres, up to three
   direction options were offered and the user's pick is recorded —
   Verification: conversation record.
+- [A] R9 In the meme-chant genre, chant lines are ≤ 7 syllables, the chorus
+  is the shortest catchphrase, and the stutter section carries its own tag
+  with per-word lines — Verification: count the syllables; scan the tags.
 
 ## When to stop
 
@@ -212,7 +241,7 @@ different genre direction). Do not keep regenerating in place.
 3. **Lyrics sheet** — a code block labeled for Suno's Custom Mode "Lyrics"
    field, structure tags included.
 4. **Generation advice** — Custom Mode on; the Suno version current at
-   writing; the repair rule from Method 5 (keep lyrics + change Style, or
+   writing; the repair rule from Method 6 (keep lyrics + change Style, or
    keep Style + fix tags).
 
 The user verifies by pasting both blocks into Suno Custom Mode and

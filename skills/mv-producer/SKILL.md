@@ -92,6 +92,17 @@ the lyrics in verbatim — the lyric sheet is the accepted text, not a draft to
 improve. Lines with no lyric (instrumental intro, break) get UI-flavor or
 deliberate stillness, never invented words.
 
+**Edit profile — meme-chant flash (梗曲闪烁).** For AI-catchphrase chant
+remixes the beat grid is not a tempo assumption but the measured syllable
+chops. Take the inter-onset intervals of the densest section; flashes follow
+that grid (e.g. ~0.21 s per syllable, ~0.42 s per phrase unit), with
+per-line flashes on the beat elsewhere. In stutter sections flash the
+chopped word itself — one word per flash, not the whole line. The hot open
+shout gets a full-frame smash; the valley holds near-black for one beat
+before the final hook. Palette and type still come from the active visual
+profile (default or user override); this profile governs the edit grammar
+only.
+
 ### 4. Build the deterministic renderer
 
 One HTML file at the canvas size, exposing `seek(t)`: a pure function from
@@ -149,6 +160,9 @@ belongs to the user).
   not only static decoration — Verification: visible in a chorus still.
 - [A] R8 The renderer is deterministic: the same `t` renders the same frame
   — Verification: re-render one timestamp twice and compare.
+- [A] R9 In the meme-chant profile, flash times follow the measured chop
+  grid rather than a fixed interval — Verification: sampled flash times
+  match the timing table's grid entries.
 
 ## When to stop
 
