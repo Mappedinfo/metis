@@ -91,14 +91,14 @@ to 100% at the chorus) outlives three clever ones.
 **Kinetic-zine profile — default for meme-chant and short-form.** The
 lyric is the image. No persistent bottom subtitle strip, side instrument
 panel or dashboard chrome; burn the line into the composition. One dominant
-type mass per beat (35–50% of the frame), at most three type sizes,
+type mass per shot (35–50% of the frame), at most three type sizes,
 secondary doodles/emoji/ASCII ≤20%. Stack, crop, split, outline, halftone
 and sticker the lyric; hand-drawn marks and emoji are punctuation. A shot
 has an in, an idle and an out: build the type on in 0.15–0.25 s steps, let
 it breathe and drift, then hand it to the next shot through a transition.
-Cut rate is an outcome, not a target: 0.8–2.5 s shots and roughly 0.6–1.2
-changes/s are typical; reserve hard cuts and full-frame flashes for drops
-and chop bursts. A 9:16 reference is designed natively vertical, never
+Cut rate is an outcome, not a target: 0.8–3.0 s shots and roughly 0.3–1.2
+changes/s are all valid; there is no minimum; reserve hard cuts and
+full-frame flashes for drops and chop bursts. A 9:16 reference is designed natively vertical, never
 cropped from 16:9.
 
 **PPT failure modes — reject these.** A persistent bottom caption track; a
@@ -301,9 +301,9 @@ belongs to the user).
 - [A] R10 In a high-energy or reference-driven edit, the motion and
   visual-center targets are met — Verification: each shot has enter/idle/
   exit and at least one foreground/background interaction; the cut rate is
-  recorded as an outcome (0.6–1.2/s typical) and hard cuts/flashes are
-  reserved for drops and chop bursts; each beat has one focal type mass
-  ≥35% of the frame with ≤3 type sizes.
+  recorded as an outcome (roughly 0.3–1.2/s; no minimum) and hard cuts/
+  flashes are reserved for drops and chop bursts; each shot has one focal
+  type mass ≥35% of the frame with ≤3 type sizes.
 - [A] R13 No static-poster sequence: every shot animates and carries
   continuity — Verification: 5 s sequences at 10 fps show within-shot
   motion and a transition or shared motif; no shot is a finished poster
