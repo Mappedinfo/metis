@@ -93,10 +93,13 @@ lyric is the image. No persistent bottom subtitle strip, side instrument
 panel or dashboard chrome; burn the line into the composition. One dominant
 type mass per beat (35–50% of the frame), at most three type sizes,
 secondary doodles/emoji/ASCII ≤20%. Stack, crop, split, outline, halftone
-and sticker the lyric; hand-drawn marks and emoji are punctuation. Cut on
-the measured quarter/eighth grid: ≥1.2 hard cuts/s average and 3–4/s bursts
-in the chorus; no hold longer than two beats except a deliberate breath.
-A 9:16 reference is designed natively vertical, never cropped from 16:9.
+and sticker the lyric; hand-drawn marks and emoji are punctuation. A shot
+has an in, an idle and an out: build the type on in 0.15–0.25 s steps, let
+it breathe and drift, then hand it to the next shot through a transition.
+Cut rate is an outcome, not a target: 0.8–2.5 s shots and roughly 0.6–1.2
+changes/s are typical; reserve hard cuts and full-frame flashes for drops
+and chop bursts. A 9:16 reference is designed natively vertical, never
+cropped from 16:9.
 
 **PPT failure modes — reject these.** A persistent bottom caption track; a
 header + side panel + caption "slide"; equal-weight cards; small centred
@@ -107,11 +110,14 @@ If a still can be mistaken for a slide, it fails regardless of polish.
 ### 1b. Reference-driven restyle: measure the look before designing
 
 When the user supplies a reference video or says the result is "like a
-PPT", write a style card before building: cut rate (cuts/s and burst
-pattern), BPM and section energy, palette and type scale, lyric placement,
-motion vocabulary (hard cut, stamp, wave, glitch, doodle draw-on), recurring
-motifs and what the reference avoids. State three transfer rules and three
-anti-rules. Recreate the grammar with original assets; never copy the
+PPT", write a style card before building: BPM and section energy, palette
+and type scale, lyric placement, motion vocabulary, recurring motifs, and
+what the reference avoids. Measure motion, not only cuts: extract 10 fps
+strips from within shots, compute the frame-difference baseline, and note
+where type builds on, where a character/prop animates, and where the
+background reacts to the foreground. A 0.3 cuts/s window can be more alive
+than a 1.5 cuts/s window of static posters. State three transfer rules and
+three anti-rules. Recreate the grammar with original assets; never copy the
 reference's frames, drawings, typefaces or audio. Keep the style card next
 to the timing table and audit the render against it.
 
@@ -168,6 +174,52 @@ before the final hook. Palette and type still come from the active visual
 profile (default or user override); this profile governs the edit grammar
 only.
 
+### 3b. Motion design — animate shots, not slides
+
+A cut is a transition, not the content. The reference's energy comes from
+what happens inside a shot: a phrase builds word by word, a smiley's
+expression changes, a hand holds the type, a folder opens, a background
+scan reacts. A sequence of full-frame poster stills with hard cuts is a
+slideshow with a strobe, not an MV.
+
+**Every shot has three phases.** Enter: the type arrives by build-on,
+mask, slide, scale or draw-on, not a pop to a finished poster. Idle: the
+type drifts/breathes, a prop orbits, the camera pushes, the background
+flows; the shot is never static. Exit: hand off to the next shot through a
+match cut, wipe, mask, morph or thread, or make a deliberate hard cut at a
+drop. Build a shot table with in/idle/out and the transition to the next
+shot.
+
+**Foreground/background interaction is mandatory.** Each shot needs at
+least one causal relationship between layers: parallax (foreground and
+background move at different rates), occlusion (a prop passes in front of
+or behind the type), reaction (dots part around the word, a smiley bounces
+off it, a shadow follows the camera), shared motion (the same thread/word
+carries across the cut), colour spill, or a light/spotlight that tracks the
+word. A flat colour field with centred type is not an interaction.
+
+**Continuity beats novelty.** Carry a motif, prop, thread, palette or word
+across shots. Match positions and motion vectors at cuts; let one word
+become the next. Do not build every beat as an unrelated new poster.
+
+**Motion budget.** One primary motion, one secondary, ambient background.
+Do not animate/flash every element at once. At most one full-frame flash or
+inversion per section; no constant strobe. Give the eye rest: at least some
+shots move slowly or hold while a single element travels. Reserve rapid
+chop flashes for the stutter section, where the chop is the lyric.
+
+**Visual-pollution failure modes.** Every beat a new full-frame poster;
+constant full-frame flashes; all layers moving at once; effects without
+causality; background static; foreground and background independent;
+no breathing room; cuts faster than the eye can read. If a 5 s sequence
+looks like a slideshow with a strobe, it fails.
+
+**Motion audit.** Before the full render, sample 5 s sequences at 10 fps:
+compute frame-difference baseline within shots and at cuts; count
+simultaneous moving elements; check that each shot has enter/idle/exit;
+check at least one foreground/background interaction per shot; inspect the
+transition, not only the stills.
+
 ### 4. Build the deterministic renderer
 
 One HTML file at the canvas size, exposing `seek(t)`: a pure function from
@@ -202,12 +254,15 @@ probe each scene's midpoint, and in the DOM assert bounding boxes stay
 inside the safe margins and clear of the chrome — a numeric assertion is
 cheaper and stricter than eyeballing frames. Fix what fails in the renderer,
 re-render, re-check.
-**PPT / visual-center / cut-rate audit (before the full render).** Assert
+**PPT / visual-center / motion audit (before the full render).** Assert
 no persistent bottom caption or side panel unless explicitly requested;
-count active beats/cuts per second against the reference; count type sizes
-per beat (≤3); measure the largest type mass (≥35% of the frame, centre in
-the middle 60%, one focal point). Sample at least ten full-frame beats from
-the encoded file, not only section midpoints.
+count type sizes per beat (≤3); measure the largest type mass (≥35% of the
+frame, centre in the middle 60%, one focal point); count cut rate but do
+not optimize it. For each shot, assert enter/idle/exit and at least one
+foreground/background interaction. Sample 5 s sequences at 10 fps and check
+the frame-difference baseline, simultaneous moving elements and flash rate;
+sample at least ten stills from the encoded file, not only section
+midpoints.
 
 At most two visual-fix rounds per delivery; then report what is still off and
 the smallest unblock condition (usually a style or timing decision that
@@ -243,10 +298,20 @@ belongs to the user).
 - [A] R9 In the meme-chant profile, flash times follow the measured chop
   grid rather than a fixed interval — Verification: sampled flash times
   match the timing table's grid entries.
-- [A] R10 In a high-energy or reference-driven edit, the measured cut rate
-  and visual-center targets are met — Verification: the cut sheet shows
-  ≥1.2 cuts/s average and 3–4/s bursts, and each beat has one focal type
-  mass ≥35% of the frame with ≤3 type sizes.
+- [A] R10 In a high-energy or reference-driven edit, the motion and
+  visual-center targets are met — Verification: each shot has enter/idle/
+  exit and at least one foreground/background interaction; the cut rate is
+  recorded as an outcome (0.6–1.2/s typical) and hard cuts/flashes are
+  reserved for drops and chop bursts; each beat has one focal type mass
+  ≥35% of the frame with ≤3 type sizes.
+- [A] R13 No static-poster sequence: every shot animates and carries
+  continuity — Verification: 5 s sequences at 10 fps show within-shot
+  motion and a transition or shared motif; no shot is a finished poster
+  held to its cut.
+- [A] R14 Visual pollution is bounded: ≤1 full-frame flash/inversion per
+  section, ≤3 simultaneous moving elements, and at least some slow/breath
+  shots — Verification: the motion audit's counts and a 5 s sequence
+  review.
 - [A] R11 No persistent bottom caption or side panel appears unless
   explicitly requested — Verification: no subtitle strip in the DOM; the
   encoded stills are full-frame compositions.
@@ -277,9 +342,9 @@ belongs to the user).
 3. A close-out mapping R1–R6 (and R7–R12 where claimed) to
    done/blocked/n-a with evidence, the applied style profile, and any
    unfinished visual work.
-4. A reference style card and beat/cut sheet, a PPT/visual-center audit,
-   and — if an energy edit was requested — the original and hard-edit audio
-   with key/loudness/peak evidence.
+4. A reference style card and shot/motion sheet, a PPT/visual-center/
+   motion audit, and — if an energy edit was requested — the original and
+   hard-edit audio with key/loudness/peak evidence.
 
 The user verifies by playing the MP4; the timing table lets them point at any
 moment ("the chorus hits at 23 s") and get a targeted fix instead of a
