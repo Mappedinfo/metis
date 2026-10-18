@@ -80,7 +80,7 @@ provide these metis contract and profile dependency checks.
 
 ## Catalog
 
-当前源码包含 25 项公共技能。安装链接、宿主发现、指南读取和产物验收分别核对；
+当前源码包含 26 项公共技能。安装链接、宿主发现、指南读取和产物验收分别核对；
 实施范围与验证证据见[体系升级台账](skill-system-upgrade.md)。
 
 For concrete inputs, deliverables and verification boundaries, see
@@ -112,6 +112,7 @@ For concrete inputs, deliverables and verification boundaries, see
 | `experiment-run` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/experiment-run/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/experiment-run/SKILL.zh.md) | build | experiment, research-design | 执行明确协议并保存配置、输入、环境、日志、指标及产物 |
 | `run-review` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/run-review/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/run-review/SKILL.zh.md) | analyze | experiment, review-qa | 只读核验运行；分别报告执行完整性与科学证据 |
 | `source-slides` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/source-slides/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/source-slides/SKILL.zh.md) | present | slides, writing | 多来源、进展或教学演示；默认 PPTX，按请求 Beamer，含备注及逐页验收 |
+| `mv-producer` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/mv-producer/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/mv-producer/SKILL.zh.md) | present | media | 成品歌曲 → MV：4:3/16:9 只是出产画幅而非风格，默认画像现代·激情·色彩·颜文字；RMS 包络对齐分段、确定性 seek(t) 渲染器、编码成品抽帧验收 |
 | `research-story` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/research-story/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/research-story/SKILL.zh.md) | compose | paper, writing | 将已有结果组织为证据支持的贡献论证 |
 | `manuscript-review` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/manuscript-review/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/manuscript-review/SKILL.zh.md) | analyze | paper, review-qa | 审查主张、方法、证据、图表与限制；语言修订交 prose-audit |
 | `project-plan` · [EN](https://github.com/mappedinfo/metis/blob/main/skills/project-plan/SKILL.md) / [中文](https://github.com/mappedinfo/metis/blob/main/skills/project-plan/SKILL.zh.md) | meta | project-ops, workflow-meta | 维护已有计划中的任务、依赖、状态和验收 |

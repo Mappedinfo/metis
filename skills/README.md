@@ -42,6 +42,7 @@ layouts and shared colorblind-oriented, grayscale and NPG-inspired profiles.
 - [`pdf-annotater-researcher`](pdf-annotater-researcher/SKILL.md)：论文 PDF 原位精读标注；逐段/关键句/图表/公式的原生高亮与页边弹注＋书签，副本应用、双验收、覆盖率报告。
 - [`project-plan`](project-plan/SKILL.md)：维护已有计划中的任务、依赖、状态和验收。
 - [`suno-prompt-architect`](suno-prompt-architect/SKILL.md)：主题转 Suno Custom Mode 双输入——英文 Style 制作 brief＋带结构标签歌词；方向选择权在用户，含有界修改循环。
+- [`mv-producer`](mv-producer/SKILL.md)：成品歌曲 → MV。4:3/16:9 是出产画幅不是风格；默认风格画像：现代、激情、色彩、颜文字。
 
 完整入口、来源与验证边界见[技能目录](../docs/skills.md)和[升级台账](../docs/skill-system-upgrade.md)。
 
