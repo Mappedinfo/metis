@@ -2,6 +2,16 @@
 
 Read this entry before continuing implementation or preparing a release.
 
+## 动态歌词的界面与巨字偏好 — 2026-10-18
+
+- [done] `mv-producer` 两个语言入口同步增加可被明确简报覆盖的界面、光标、
+  ASCII、巨字和丰富碎彩配置；详细方法集中在
+  [界面碎彩与巨字动效](skills/mv-producer/references/interface-type-motion.md)。
+  包含漩涡、阻尼回弹、连续入出场和精细道具，不改变音频审查及生成预算。
+- [done] 原生合同检查 26 个技能、0 错误／警告；生成包与规范源逐字节一致。
+  一个实际摘段应用了该配置，并检查编码后静帧与连续运动序列；这不是对所有
+  未来作品质量的证明。未发布软件包或部署服务。
+
 ## 持续生产期间的结果浏览 — 2026-10-12
 
 - [done] [共享生产指南](skills/metis-router/references/parallel-production.zh.md)新增条件适用的持续浏览契约，单长任务也适用：生产／发布／读取分离，轻目录与单元入口，独立修订，增量通知或轮询，兼容与故障恢复。

@@ -177,6 +177,13 @@ to the timing table and audit the render against it.
 
 These refine the kinetic-zine profile; a stronger explicit brief still wins.
 
+- **界面、巨字与丰富碎彩。** 动态歌词默认优先融合界面物件、光标、ASCII
+  角色与抓眼的巨字、表情动作。背景用多色细碎图形、纸页和代码碎片组成连续
+  力场，可用漩涡吸入、弹簧回弹和曲线退场；旧物件的出场与新物件的进场要
+  衔接，镜头内部持续发生动作。歌词仍跟随实际人声，背景节奏不替代词时间。
+  道具须有完整造型与材质、结构和光影，避免简陋图标充当主视觉。具体执行与
+  克制边界见 [界面碎彩与巨字动效](references/interface-type-motion.md)。
+
 - **Audio before picture.** Review the actual performance in 2 before
   planning scenes; use checked API or vocal-stem word timestamps in 2a for
   lyric timing. RMS sections place scenes, never individual lyric lines.
