@@ -8,9 +8,13 @@ description: >
   this song", hands over an audio file with lyrics and a ratio such as
   4:3 or 16:9, or wants a generated Suno track put on screen. A named
   ratio (4:3, 16:9, 9:16) is the output frame size only — never a style
-  direction; when the user names no style, the default look is modern,
-  energetic, colorful and kaomoji-friendly. Delivers the finished MP4 plus
-  the re-runnable renderer source — never a storyboard alone.
+  direction; when the user names no style, the default is a modern,
+  energetic, colorful, kaomoji-friendly edit, and for meme-chant or
+  short-form references the lyric is the full-frame hero with no persistent
+  bottom caption strip. A supplied reference overrides the default; an
+  explicit request to harden the BGM permits an opt-in energy edit.
+  Delivers the finished MP4 plus the re-runnable renderer source — never a
+  storyboard alone.
 license: MIT
 category: present
 domain: [media]
@@ -20,6 +24,8 @@ artifacts:
   - "Finished MV: MP4 in the requested aspect ratio, lyrics burned in, the song's own audio carried, streams verified"
   - "Renderer source: deterministic HTML seek(t) renderer, frame-render script and ffmpeg assemble script, re-runnable after edits"
   - "Scene timing table: measured audio sections mapped to scenes and lyric cue windows"
+  - "Reference style card + beat/cut sheet + PPT/visual-center audit"
+  - "When an energy edit is requested: original and hard-edit audio with key/loudness/peak evidence"
 ---
 
 # mv-producer
@@ -71,16 +77,43 @@ palette, gradient energy, high-contrast hero text), **kaomoji-friendly**
 edit). A retro, CRT, minimal or film-look direction is opt-in and recorded as
 the user's or the brief's choice, never a side effect of the ratio.
 
-**The default profile, concretely.** 现代: a poster-typography world with
-UI-grade chrome — one small mono chip, one meter, generous safe margins, a
-single hero layer plus a subtitle strip. 激情: every hit enters with
-overshoot easing and a short screen shake; scale pulses lock to the beat;
-entrances stay under 0.35 s. 色彩: one saturated duotone gradient per
+**The default profile, concretely.** 现代: poster typography with a
+full-bleed lyric; optional micro-chrome (one chip or one meter) stays under
+10% of the frame and never becomes a header/sidebar/caption scaffold. 激情:
+every hit enters with overshoot easing and a short screen shake; scale
+pulses lock to the beat; entrances stay under 0.35 s. 色彩: one saturated duotone gradient per
 section, cut hard at the section boundary — the cut is the point;
 hue-cycling for rapid word flashes. 颜文字: kaomoji/emoji as confetti on
 hits, ambient floaters in choruses, and captions on comedy props. Comedy
 props are one per video — a single meter tied to the lyric's joke (snapping
 to 100% at the chorus) outlives three clever ones.
+
+**Kinetic-zine profile — default for meme-chant and short-form.** The
+lyric is the image. No persistent bottom subtitle strip, side instrument
+panel or dashboard chrome; burn the line into the composition. One dominant
+type mass per beat (35–50% of the frame), at most three type sizes,
+secondary doodles/emoji/ASCII ≤20%. Stack, crop, split, outline, halftone
+and sticker the lyric; hand-drawn marks and emoji are punctuation. Cut on
+the measured quarter/eighth grid: ≥1.2 hard cuts/s average and 3–4/s bursts
+in the chorus; no hold longer than two beats except a deliberate breath.
+A 9:16 reference is designed natively vertical, never cropped from 16:9.
+
+**PPT failure modes — reject these.** A persistent bottom caption track; a
+header + side panel + caption "slide"; equal-weight cards; small centred
+text in generous margins; slow cross-fades as the main transition; a
+three-column UI; a form/meter dashboard doing the work the lyric should do.
+If a still can be mistaken for a slide, it fails regardless of polish.
+
+### 1b. Reference-driven restyle: measure the look before designing
+
+When the user supplies a reference video or says the result is "like a
+PPT", write a style card before building: cut rate (cuts/s and burst
+pattern), BPM and section energy, palette and type scale, lyric placement,
+motion vocabulary (hard cut, stamp, wave, glitch, doodle draw-on), recurring
+motifs and what the reference avoids. State three transfer rules and three
+anti-rules. Recreate the grammar with original assets; never copy the
+reference's frames, drawings, typefaces or audio. Keep the style card next
+to the timing table and audit the render against it.
 
 ### 2. Measure the audio before designing anything
 
@@ -99,6 +132,20 @@ the accepted lyric sheet, never as a lyric source. Locate chop sections by
 an onset-density spike and quantize their inter-onset intervals (a real grid
 reads ≈0.21 s / 0.42 s); that quantized grid — not the nominal tempo — is
 the flash grid.
+
+### 2b. Audio energy edit — opt-in arrangement, not a silent re-master
+
+The skill starts from finished audio and does not produce the song. If the
+user says the BGM is too soft or lacks electronic sound, offer two explicit
+routes: (a) a new song via a song-generation capability, or (b) an
+**energy edit** of the supplied track. For (b), get explicit approval,
+preserve the original, and call it an arrangement/remix, not a re-master:
+high-pass the original low end; detect the key by chroma; add a
+four-on-the-floor kick, in-key sub/808, hats, claps, an in-key synth arp,
+risers, impacts and glitch; sidechain the original; target the reference's
+loudness and crest; check true peak and clipping. Deliver both the original
+and the hard edit with band/loudness evidence. If the user wants a
+different song, stop at the handoff.
 
 ### 3. Parse the lyric sheet into a cue plan
 
@@ -155,6 +202,13 @@ probe each scene's midpoint, and in the DOM assert bounding boxes stay
 inside the safe margins and clear of the chrome — a numeric assertion is
 cheaper and stricter than eyeballing frames. Fix what fails in the renderer,
 re-render, re-check.
+**PPT / visual-center / cut-rate audit (before the full render).** Assert
+no persistent bottom caption or side panel unless explicitly requested;
+count active beats/cuts per second against the reference; count type sizes
+per beat (≤3); measure the largest type mass (≥35% of the frame, centre in
+the middle 60%, one focal point). Sample at least ten full-frame beats from
+the encoded file, not only section midpoints.
+
 At most two visual-fix rounds per delivery; then report what is still off and
 the smallest unblock condition (usually a style or timing decision that
 belongs to the user).
@@ -165,10 +219,14 @@ belongs to the user).
   from it — Verification: renderer canvas equals the mapped pixels for the
   requested ratio; the style decision is written down separately from it.
 - [B] R2 With no user-named style, the default profile (modern, energetic,
-  colorful, kaomoji-friendly) is applied and recorded — Verification: the
-  delivery names the active profile or the user's override.
-- [B] R3 Burned-in lyrics match the accepted lyric sheet verbatim —
-  Verification: diff the subtitle cue list against the lyric sheet.
+  colorful, kaomoji-friendly) is applied and recorded; for meme-chant and
+  short-form this is the kinetic-zine profile, with no persistent bottom
+  caption strip — Verification: the delivery names the active profile or
+  the user's override, and the render has no default subtitle strip.
+- [B] R3 Burned-in lyrics match the accepted lyric sheet verbatim; the
+  lyric is the frame's hero, and a separate bottom caption is opt-in, not a
+  default — Verification: diff the cue list against the lyric sheet and
+  inspect the full-frame stills.
 - [B] R4 Scene boundaries and cue windows come from measured audio sections
   — Verification: the scene timing table cites detected times, not
   estimates.
@@ -185,6 +243,17 @@ belongs to the user).
 - [A] R9 In the meme-chant profile, flash times follow the measured chop
   grid rather than a fixed interval — Verification: sampled flash times
   match the timing table's grid entries.
+- [A] R10 In a high-energy or reference-driven edit, the measured cut rate
+  and visual-center targets are met — Verification: the cut sheet shows
+  ≥1.2 cuts/s average and 3–4/s bursts, and each beat has one focal type
+  mass ≥35% of the frame with ≤3 type sizes.
+- [A] R11 No persistent bottom caption or side panel appears unless
+  explicitly requested — Verification: no subtitle strip in the DOM; the
+  encoded stills are full-frame compositions.
+- [A] R12 If an energy edit is made, the original audio is preserved and
+  both versions are delivered with key/loudness/true-peak evidence —
+  Verification: both paths, the detected key, integrated loudness and true
+  peak are reported.
 
 ## When to stop
 
@@ -195,16 +264,22 @@ belongs to the user).
   question when the look is genuinely undecided. Exhausted → deliver what
   passed, name the remaining visual issue and the smallest unblock condition
   (e.g. "pick modern-default or name a style"); blocked items stay blocked.
-- The MV is rendered from the song as it is; re-mastering the audio itself
-  is out of scope and is reported as such.
+- The MV is rendered from the song as supplied. Re-mastering is out of
+  scope; an explicitly requested energy edit is an arrangement (preserve the
+  original, deliver both, measure key/loudness/peak) and is reported as
+  such. A new song is a handoff.
 
 ## Output contract
 
 1. The finished MP4 (path, ratio, resolution, fps, duration, size).
 2. The renderer source: `seek(t)` HTML + frame-render script + assemble
    script + scene timing table — re-runnable by anyone with the song file.
-3. A close-out mapping R1–R6 to done/blocked/n-a with evidence, the applied
-   style profile (default or override), and any unfinished visual work.
+3. A close-out mapping R1–R6 (and R7–R12 where claimed) to
+   done/blocked/n-a with evidence, the applied style profile, and any
+   unfinished visual work.
+4. A reference style card and beat/cut sheet, a PPT/visual-center audit,
+   and — if an energy edit was requested — the original and hard-edit audio
+   with key/loudness/peak evidence.
 
 The user verifies by playing the MP4; the timing table lets them point at any
 moment ("the chorus hits at 23 s") and get a targeted fix instead of a
