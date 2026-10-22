@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Task Specification"
+  short_description: "Clarify research scope, track changes, and verify evidence"
+  default_prompt: "Use $research-task-spec to align this research task's scope, priorities and acceptance, reuse its existing project entry, and advance authorized work."

@@ -71,6 +71,11 @@ with shared review requirements. Other skills retain their declared
 language conventions. See the
 [language maintenance policy](CONTRIBUTING.md#skill-languages).
 
+科研任务的核心约定能力是
+[research-task-spec](skills/research-task-spec/SKILL.zh.md)：明确任务含义、范围、
+重点和验收，跨执行阶段维护需求、变更与证据。它复用现有项目入口，清楚的单步
+工作直接执行；跨能力编排仍由 `metis-router` 负责。
+
 For prepared tables, [table-chart](skills/table-chart/SKILL.md) recommends and
 renders seven chart forms with single-panel or faceted layouts and shared
 color, grayscale and NPG-inspired profiles.

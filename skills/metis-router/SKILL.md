@@ -13,7 +13,7 @@ license: MIT
 category: meta
 domain: [workflow-meta]
 action: [orchestrate, advise]
-uses: []
+uses: [research-task-spec]
 artifacts:
   - "Routing note naming phase owners, supports, profiles, outputs and capability gaps"
   - "Requirements ledger recording completion status, evidence and unresolved work"
@@ -46,6 +46,20 @@ single-capability task adds a layer without adding judgment. Do not use to
 re-plan a task whose plan was already accepted.
 
 ## Method
+
+### 0. Keep the research task agreement explicit
+
+For research work with consequential ambiguity, changing scope, or ongoing
+acceptance tracking, use [research-task-spec](../research-task-spec/SKILL.md)
+as the core agreement capability. Reuse an accepted agreement and update only
+affected items; do not reopen settled choices or require a new approval round.
+Its requirement → task → evidence mapping stays with the project across phases.
+Use it as the phase primary when the agreement itself is the requested artifact,
+or as a support only when the current specialist genuinely needs it.
+
+`research-taskbook` remains an initial idea-to-taskbook option; `project-plan`
+maintains a defined execution plan. A clear one-step task proceeds directly.
+The agreement changes neither authorization nor the substantive research method.
 
 ### 1. Classify by the earliest unresolved stage
 
@@ -199,6 +213,11 @@ and acceptance remain required.
   note names those checks as unperformed; a task without concurrent browsing
   records a scope-based n/a rather than adding a workbench.
 
+- [B] R10 Research task agreements stay traceable when applicable — Verification:
+  consequential ambiguity, changes and acceptance use the existing agreement or
+  research-task-spec; its requirements map to tasks and evidence across phases.
+  Clear single-step work records scope-based n/a without adding planning.
+
 ## When to stop
 
 - The routing note is delivered for a planning-only task; for an execution
@@ -235,6 +254,9 @@ A routing note the user can check in one reading:
    parallel-production guide, with allocation checks and unresolved units.
    Concurrent review also names the stable reading path, update mechanism and
    actual availability checks, keeping planned checks distinct from execution.
+
+9. For applicable research work, the task-agreement entry and links to its
+   requirement, change and acceptance records.
 
 For an execution request, carry out the plan and verify each phase's named
 artifact. For a planning request, the routing note and its requirements

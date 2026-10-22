@@ -26,6 +26,13 @@ layouts and shared colorblind-oriented, grayscale and NPG-inspired profiles.
 [`scientific-plot`](scientific-plot/SKILL.md)。它负责图形制作、计算与渲染分离、
 逐面板标注和实际导出验收；研究推断仍由分析阶段负责，个人风格由调用方明确提供。
 
+## 核心任务约定
+
+[`research-task-spec`](research-task-spec/SKILL.md) /
+[中文](research-task-spec/SKILL.zh.md) 将科研任务的歧义、范围、重点、变更与验收
+维护为同一份可追溯约定。它按需接入 router 的执行阶段；初次想法拆解继续由
+`research-taskbook` 负责，已明确计划的维护继续由 `project-plan` 负责。
+
 ## 通用能力地图
 
 - [`concept-note`](concept-note/SKILL.md)：问题驱动的概念／方法笔记、来源定位与理解边界。

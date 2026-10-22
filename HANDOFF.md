@@ -2,6 +2,15 @@
 
 Read this entry before continuing implementation or preparing a release.
 
+## 核心科研任务约定 — 2026-10-22
+
+- [done] 用户明确要求将 research-task-spec 纳入 metis-os，作为 metis 核心技能。公共源码、中英入口、任务模板与四领域合成示例位于 `skills/research-task-spec/`；公共方法不依赖私人 Vault、质量存储或本地配置。
+- [done] router 已声明此能力并增加按需任务约定阶段及 R10；根入口、能力地图、目录和基础能力说明同步。新技能与初次拆题 research-taskbook、既定计划 project-plan 保持分工。
+- [done] 120 项 Node 测试、三类生成包核对与文档构建通过；最终合同检查 27 技能、4 profiles、0 错误/警告。打包预检包含新技能全部 7 文件，两个发现目录由 metis-os 安装器切换，复跑均幂等。
+- [done] 公共目录独立完成英中两个合成任务及入口一致性核对：保留缺失城市的阻塞、更新划分时重验相关证据、保留有效字典与原门槛；每例 12 项文本/算术/覆盖检查通过。验证未运行模型或训练，不证明真实研究结论及所有宿主自动发现。
+- [done] 在途 prose-audit 中文源码原样保留；调用方私人记录与公共分发分离，未发布 npm 或部署站点。
+- [plan] 下一次真实科研任务观察核心入口的自然语言选择和实际证据验收；回退仅逆向本次任务提交，保留后续及无关修改。
+
 ## 背景变化与细密 ASCII 偏好 — 2026-10-18
 
 - [done] 按用户收尾反馈同步修订 `mv-producer` 两个入口及
