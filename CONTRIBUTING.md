@@ -42,6 +42,10 @@ related artifacts consistent.
    [language workflow](#skill-languages).
 2. Write the full craft — detail is the point. A skill that only says
    "write well" is not a skill.
+   For writing, give one scenario responsibility for its complete accepted
+   delivery; reuse situation, organization and review as internal modules.
+   Do not create a skill identity for every step or copy shared rules into
+   each scenario. Independent artifacts and experiments retain their own owners.
 3. Keep it generic: no personal identity, private paths, private tools.
    Closed-source tools may be mentioned but the core workflow must not
    depend on one.

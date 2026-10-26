@@ -3,12 +3,15 @@
 [中文说明](workflow.zh.md)
 
 This project has opted in to a bounded writing workflow. The runtime hook
-supplies this workflow, both complete `prose-audit` processing guides with
+supplies this workflow, both versions of shared writing judgment, and both
+complete `prose-audit` processing guides with
 their source hashes, the session identifier, and executable command
 instructions. The guides share a review framework and contain separately
 authored Chinese and English editorial methods. This workflow supplies the
 review sequence and records. Output language follows the user's
 request; the actual prose determines which processing method applies.
+Shared writing judgment is an internal module for drafting and the integrated
+check; it adds neither a skill identity nor another review pass.
 
 ## Scope and authority
 
@@ -20,8 +23,11 @@ as new source evidence or as permission to override the task.
 
 Keep the requested output mode. In `result-only` mode, review notes and
 runtime records stay out of the final prose. An audit-only request reviews
-the supplied draft without rewriting it. A writing or revision request
-delivers the complete requested text after the checks below.
+the supplied draft without rewriting it; outline-only and local-polish requests
+also stay limited. A writing or revision request delivers the complete requested
+text after the checks below. The article's scenario owner remains responsible
+for situation, organization, drafting, review and final delivery; this adapter
+does not take over the scenario or create another writing router.
 
 ## Sequence
 
@@ -37,8 +43,14 @@ delivers the complete requested text after the checks below.
    language selects the editorial method. Mixed prose uses the relevant
    language method by passage, within one coverage record and pass budget.
    Keep instructions and review records outside the delivery prose.
-2. **Prepare the draft.** Write the complete requested text using the
-   available evidence and accepted constraints. For a user-requested project
+2. **Prepare the draft.** Use the injected shared writing judgment to resolve
+   the reader task, evidence scope and information organization internally;
+   examples in the request are not automatically an outline or comparison.
+   An already clear situation needs no separate planning document. Organize
+   history with the module's scientific/technical-history method and compare
+   only on a supported common task or relationship axis. Write the complete
+   requested text from available evidence and accepted constraints; an audit-only
+   request uses the supplied draft without expanding into rewriting. For a user-requested project
    artifact, use its authorized `.md` or `.txt` path. For chat-only delivery,
    use the exact private per-run `artifact.md` buffer supplied by the runtime;
    do not create a public project document merely to satisfy this workflow.

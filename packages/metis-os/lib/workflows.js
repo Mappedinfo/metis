@@ -99,7 +99,7 @@ export function installWorkflow({ project = process.cwd(), runtime, activation }
   const definition = JSON.parse(readFileSync(join(packageRoot, 'workflows', ID, 'workflow.json'), 'utf8'));
   if (definition.id !== ID || definition.max_revisions !== 1 || definition.max_continuations !== 1) throw new Error('Unsupported workflow bundle');
   // Verify required runtime assets before writing any opt-in configuration.
-  for (const file of [hookEntry, join(packageRoot, 'workflows', ID, 'workflow.md'), join(packageRoot, 'skills', definition.skill, 'SKILL.md'), join(packageRoot, 'skills', definition.skill, 'SKILL.zh.md')]) if (!stat(file)?.isFile()) throw new Error(`Missing runtime asset: ${file}; build the source bundles first`);
+  for (const file of [hookEntry, join(packageRoot, 'workflows', ID, 'workflow.md'), join(packageRoot, 'skills', definition.skill, 'SKILL.md'), join(packageRoot, 'skills', definition.skill, 'SKILL.zh.md'), join(packageRoot, 'skills/source-brief/references/writing-foundations.md'), join(packageRoot, 'skills/source-brief/references/writing-foundations.en.md')]) if (!stat(file)?.isFile()) throw new Error(`Missing runtime asset: ${file}; build the source bundles first`);
   const recordPath = `.metis/adapters/${runtime}/installation.json`;
   const previous = readJSON(root, recordPath);
   const target = runtime === 'codex' ? '.codex/hooks.json' : '.metis/adapters/dsh/hooks.json';

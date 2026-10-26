@@ -61,8 +61,10 @@ evidence, experiments, audit) · `compose` (writing & expression) ·
 `visualize` (scientific figures) · `present` (slides, talks, distribution) ·
 `build` (builds, tooling, releases) · `meta` (orchestration & quality).
 
-Categories are capability domains, not scenarios: "a paper" or "a thesis" is
-a *combination* of skills sharing a `domain` tag. Shared style (palette,
+Categories describe capability domains, not the owner of every internal step.
+A writing scenario owns one coherent delivery and reuses situation, organization
+and review modules; genuinely separate artifacts, such as a paper and its slides,
+can combine skills sharing a `domain` tag. Shared style (palette,
 typography, export defaults) lives once in [../profiles/](../profiles/) and
 is referenced with `uses:`, never duplicated inside skills.
 
@@ -94,8 +96,9 @@ A skill belongs here only if all of the following hold:
    service. External dependencies must be public and named.
 3. **Honest.** Instructions must not ask the agent to invent evidence, fabricate
    citations, or misrepresent capability.
-4. **Scoped.** One capability per skill. If a description needs "and also…" twice,
-   it is two skills.
+4. **Scoped.** One coherent capability or scenario delivery per skill. Internal
+   preparation, organization and checks do not require separate discovery entries.
+   Unrelated triggers or independently accepted artifacts need distinct owners.
 5. **Writable description.** The frontmatter `description` says when to use the
    skill and when *not* to, in the third person, without marketing language.
 6. **Artifact-anchored.** A required nonempty `artifacts` frontmatter array

@@ -7,11 +7,13 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { handleHook, MAX_HOOK_BYTES } from '../lib/workflow-hooks.js';
-import { captureDraft, getRun, recordReview, recordVerification } from '../lib/workflow-core.js';
+import { captureDraft, getRun, recordReview, recordVerification, startRun } from '../lib/workflow-core.js';
 
 const cli = fileURLToPath(new URL('../bin/metis-hook.js', import.meta.url));
 const skill = readFileSync(new URL('../skills/prose-audit/SKILL.md', import.meta.url), 'utf8');
 const skillZh = readFileSync(new URL('../skills/prose-audit/SKILL.zh.md', import.meta.url), 'utf8');
+const foundations = readFileSync(new URL('../skills/source-brief/references/writing-foundations.md', import.meta.url), 'utf8');
+const foundationsEn = readFileSync(new URL('../skills/source-brief/references/writing-foundations.en.md', import.meta.url), 'utf8');
 const digest = value => createHash('sha256').update(value).digest('hex');
 
 function fixture(t, changes = {}, configured = true) {
@@ -42,12 +44,14 @@ test('unconfigured, disabled, and nonwriting requests do not create a workflow',
   }
 });
 
-test('writing entry injects both complete language guides with exact hashes once', async (t) => {
+test('writing entry injects complete review guides and shared foundations with exact hashes once', async (t) => {
   const context = fixture(t);
   const result = await handleHook(context);
   assert.equal(result.hookSpecificOutput.hookEventName, 'UserPromptSubmit');
   assert.ok(result.hookSpecificOutput.additionalContext.includes(skill));
   assert.ok(result.hookSpecificOutput.additionalContext.includes(skillZh));
+  assert.ok(result.hookSpecificOutput.additionalContext.includes(foundations));
+  assert.ok(result.hookSpecificOutput.additionalContext.includes(foundationsEn));
   assert.doesNotMatch(result.hookSpecificOutput.additionalContext, /Authoritative English skill/);
   assert.match(result.hookSpecificOutput.additionalContext, /workflows capture/);
   assert.match(result.hookSpecificOutput.additionalContext, /detect\.py'.*draft\.txt'.*--genre/s);
@@ -61,8 +65,26 @@ test('writing entry injects both complete language guides with exact hashes once
   const first = await getRun({ root: context.root, sessionId: context.payload.session_id });
   assert.equal(first.sources.skill_sha256, digest(skill));
   assert.equal(first.sources.skill_zh_sha256, digest(skillZh));
+  assert.equal(first.sources.foundations_sha256, digest(foundations));
+  assert.equal(first.sources.foundations_en_sha256, digest(foundationsEn));
   assert.deepEqual(await handleHook(context), {});
   assert.equal((await getRun({ root: context.root, sessionId: context.payload.session_id })).run_id, first.run_id);
+});
+
+test('a pre-foundations active run retains its identity and does not invent module-loading evidence', async (t) => {
+  const context = fixture(t);
+  const options = { root: context.root, sessionId: context.payload.session_id };
+  const legacySources = { skill_name: 'prose-audit', skill_sha256: digest(skill) };
+  const legacy = await startRun({ ...options, promptKey: digest(context.payload.prompt), turnId: context.payload.turn_id, runtime: context.runtime, sources: legacySources });
+  assert.deepEqual(await handleHook(context), {});
+  const current = await getRun(options);
+  assert.equal(current.run_id, legacy.run_id);
+  assert.deepEqual(current.sources, legacySources);
+  assert.equal(current.revision_count, 0);
+  assert.equal(current.continuation_count, 0);
+  assert.equal((await stop(context)).decision, 'block');
+  assert.equal((await getRun(options)).continuation_count, 1);
+  assert.equal((await stop(context)).decision, undefined);
 });
 
 test('request language does not filter out a manuscript language guide', async (t) => {

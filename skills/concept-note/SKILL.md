@@ -6,7 +6,7 @@ license: MIT
 category: compose
 domain: [knowledge, writing]
 action: [create, revise, review]
-uses: []
+uses: [source-brief, prose-audit]
 artifacts:
   - "Concept note with definitions, worked example and applicability limits"
   - "Source map and dated verification boundaries"
@@ -24,13 +24,21 @@ semantic priority. Sources and changes: [PROVENANCE.md](PROVENANCE.md).
 
 Use for a concept, method, metric, tool, dataset or standard that a reader needs
 to understand or use. A supplied note may be revised directly; preparing a new
-note may require authorized source gathering. Use `source-brief` for a short
-summary of supplied material, `taskbook-interpret` for a paper's argument and
+note may require authorized source gathering. Use `source-brief` for writing
+from available material (a brief, long article or selective technical history),
+`taskbook-interpret` for a paper's argument and
 `literature-synthesis` for what multiple studies jointly support. This skill
 writes a concept explanation; it does not infer the user's research direction
 or edit a knowledge store's index without a request.
 
 ## Method
+
+This scenario owns complete concept-note delivery; necessary source gathering,
+organization, drafting and review do not automatically transfer ownership. Start
+with [shared writing judgment](../source-brief/references/writing-foundations.en.md),
+resolving situation and organization internally. Reusing this module does not
+invoke a second writing scenario or require a planning document. Preserve a
+definition-only, outline-only, audit-only or local-revision operation when requested.
 
 1. Set the note's job: identify the object, the reader's current knowledge and
    the decision or task the explanation should support. Distinguish a concept
@@ -56,7 +64,7 @@ or edit a knowledge store's index without a request.
    calibration. State the assumptions needed for the explanation and give one
    failure or counterexample that tests those assumptions. Do not attach an
    unrelated warning merely to fill a section.
-5. Compare realistic alternatives on one named axis. For a metric compare
+5. When alternatives help readers judge applicability, compare them on one named axis. For a metric compare
    neighboring measures; for software compare available workflows; for a method
    compare assumptions and tradeoffs. Explain what people would do without this
    object and what cost or capability loss remains. Distinguish useful, necessary
@@ -83,8 +91,8 @@ Maintain one requirements ledger for the accepted task and R1–R6 below. Record
   steps, arithmetic or event sequence, symbols and teaching-data labels.
 - [B] R3 Material factual claims are traceable — follow source-map locations;
   preserve evidence level, inspected coverage and relevant dates/versions.
-- [B] R4 Assumptions and alternatives are meaningful — test the stated boundary
-  against the counterexample and compare alternatives on the declared axis.
+- [B] R4 Assumptions and applicable alternatives are meaningful — test the stated
+  boundary against the counterexample; when comparison is useful, use the declared axis.
 - [B] R5 Requested dimensions and revisions are retained — compare the note
   with the accepted request; record absent required support as blocked.
 - [A] R6 The note is useful without reopening every source — inspect local

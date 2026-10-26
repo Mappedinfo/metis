@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, symlinkSync, existsSync, unlinkSync, copyFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, symlinkSync, existsSync, unlinkSync, copyFileSync, cpSync, rmSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
@@ -14,11 +15,11 @@ const json = path => JSON.parse(readFileSync(path, 'utf8'));
 const put = (root, path, value) => { mkdirSync(resolve(root, path, '..'), { recursive: true }); writeFileSync(join(root, path), JSON.stringify(value)); };
 const run = (root, args) => spawnSync(process.execPath, [cli, ...args], { cwd: root, encoding: 'utf8' });
 
-test('a missing Chinese guide prevents installation before project configuration is written', async (t) => {
+test('missing review or foundations guides prevent installation before project configuration is written', async (t) => {
   const sandbox = fixture();
   t.after(() => rmSync(sandbox, { recursive: true, force: true }));
   const root = join(sandbox, 'project'), bundle = join(sandbox, 'bundle');
-  for (const dir of [root, join(bundle, 'lib'), join(bundle, 'bin'), join(bundle, 'workflows/writing-review'), join(bundle, 'skills/prose-audit')]) mkdirSync(dir, { recursive: true });
+  for (const dir of [root, join(bundle, 'lib'), join(bundle, 'bin'), join(bundle, 'workflows/writing-review'), join(bundle, 'skills/prose-audit'), join(bundle, 'skills/source-brief/references')]) mkdirSync(dir, { recursive: true });
   writeFileSync(join(bundle, 'package.json'), '{"type":"module"}');
   for (const name of ['workflows.js', 'workflow-core.js']) copyFileSync(resolve(repo, 'packages/metis-os/lib', name), join(bundle, 'lib', name));
   writeFileSync(join(bundle, 'bin/metis-hook.js'), '// fixture hook');
@@ -29,7 +30,43 @@ test('a missing Chinese guide prevents installation before project configuration
   assert.equal(existsSync(join(root, '.metis')), false);
   assert.equal(existsSync(join(root, '.codex')), false);
   copyFileSync(resolve(repo, 'packages/metis-os/skills/prose-audit/SKILL.zh.md'), join(bundle, 'skills/prose-audit/SKILL.zh.md'));
+  assert.throws(() => isolated.installWorkflow({ project: root, runtime: 'codex' }), /Missing runtime asset:.*writing-foundations\.md/);
+  assert.equal(existsSync(join(root, '.metis')), false);
+  copyFileSync(resolve(repo, 'packages/metis-os/skills/source-brief/references/writing-foundations.md'), join(bundle, 'skills/source-brief/references/writing-foundations.md'));
+  assert.throws(() => isolated.installWorkflow({ project: root, runtime: 'codex' }), /Missing runtime asset:.*writing-foundations\.en\.md/);
+  assert.equal(existsSync(join(root, '.codex')), false);
+  copyFileSync(resolve(repo, 'packages/metis-os/skills/source-brief/references/writing-foundations.en.md'), join(bundle, 'skills/source-brief/references/writing-foundations.en.md'));
   assert.ok(isolated.installWorkflow({ project: root, runtime: 'codex' }).changed_files > 0);
+});
+
+test('a relocated package injects its own complete foundations and records exact source hashes', async (t) => {
+  const sandbox = fixture();
+  t.after(() => rmSync(sandbox, { recursive: true, force: true }));
+  const root = join(sandbox, 'project'), bundle = join(sandbox, 'installed package');
+  mkdirSync(root, { recursive: true });
+  mkdirSync(bundle, { recursive: true });
+  writeFileSync(join(bundle, 'package.json'), '{"type":"module"}');
+  for (const name of ['lib', 'bin', 'workflows', 'skills/prose-audit', 'skills/source-brief']) {
+    cpSync(resolve(repo, 'packages/metis-os', name), join(bundle, name), { recursive: true });
+  }
+  const isolated = await import(pathToFileURL(join(bundle, 'lib/workflows.js')).href);
+  isolated.installWorkflow({ project: root, runtime: 'codex', activation: 'explicit' });
+  const command = json(join(root, '.codex/hooks.json')).hooks.UserPromptSubmit.at(-1).hooks[0].command;
+  const payload = { session_id: 'relocated', turn_id: 't1', cwd: root, hook_event_name: 'UserPromptSubmit', prompt: '[metis:writing-review]\n请把这些材料整理成解释长文。' };
+  const executed = spawnSync('/bin/sh', ['-c', command], { cwd: tmpdir(), input: JSON.stringify(payload), encoding: 'utf8' });
+  assert.equal(executed.status, 0, executed.stderr);
+  const injected = JSON.parse(executed.stdout).hookSpecificOutput.additionalContext;
+  const core = await import(pathToFileURL(join(bundle, 'lib/workflow-core.js')).href);
+  const state = await core.getRun({ root, sessionId: payload.session_id });
+  for (const [file, key] of [['writing-foundations.md', 'foundations_sha256'], ['writing-foundations.en.md', 'foundations_en_sha256']]) {
+    const path = join(bundle, 'skills/source-brief/references', file);
+    const bytes = readFileSync(path);
+    assert.ok(injected.includes(bytes.toString('utf8')));
+    assert.ok(injected.includes(path));
+    assert.equal(state.sources[key], createHash('sha256').update(bytes).digest('hex'));
+  }
+  assert.equal(state.revision_count, 0);
+  assert.equal(state.continuation_count, 0);
 });
 
 test('workflow install preserves unrelated Codex hooks and is idempotent', () => {

@@ -96,10 +96,16 @@ contextual findings or a minimal revision, with an optional local candidate
 scanner. Its findings assess expression, not who wrote the text.
 
 The optional [writing workflow](workflows/README.md) connects this review to
-writing requests: inject the skill → draft → review → at most one revision →
+writing requests: load shared writing judgment → draft → review → at most one revision →
 verify → deliver. Project opt-in hooks and private, content-bound records handle
 activation and missed checks. Skills remain usable on their own. See
 [the integration guide](docs/workflows.md) for setup and runtime limitations.
+
+写作按完整交付选择负责人：已有材料成文（简报、长文或选择性技术史）用
+[`source-brief`](skills/source-brief/SKILL.md)，概念笔记用
+[`concept-note`](skills/concept-note/SKILL.md)。二者复用
+[共同写作判断](skills/source-brief/references/writing-foundations.md)，
+在内部处理情境、组织和审校，不另建写作路由，也不因步骤变化交出最终责任。
 
 ## Companion tool
 

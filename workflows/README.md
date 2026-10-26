@@ -11,7 +11,8 @@ alone does not install hooks or enable a workflow.
 | [writing-review](writing-review/workflow.md) | Writing request → draft → semantic review → at most one revision → verification → delivery | [prose-audit](../skills/prose-audit/SKILL.md) |
 
 The workflow entry is independent of the skill. A runtime hook injects
-`workflow.md` and both complete `prose-audit` processing guides, recording
+`workflow.md`, the Chinese source and English translation of shared writing
+judgment, and both complete `prose-audit` processing guides, recording
 each guide's source hash. The Chinese and English guides share review
 requirements and supply methods written for their respective languages.
 `SKILL.md` remains the skill's sole discovery entry; its filename does not
@@ -19,6 +20,10 @@ give English semantic priority. Select the method from the actual prose,
 independently of the request language, report language and genre. For mixed
 prose, use the relevant method by passage with one coverage record and
 budget. Do not maintain a second copied `SKILL.md` under a workflow.
+The article's scenario owner retains complete delivery responsibility; situation,
+organization and review are reusable internal modules. This workflow adapts checks
+and records for the existing writing task, without selecting another owner or
+adding a revision budget.
 
 ## Install in a project
 

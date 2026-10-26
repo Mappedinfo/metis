@@ -1,8 +1,9 @@
 ---
 name: metis-router
 description: >
-  Routes a multi-stage task through the metis skill collection: picks one
-  primary skill and at most two supporting skills per phase, wires shared
+  Routes work through metis: keeps one scenario owner for a writing delivery,
+  chooses phase owners for distinct artifacts, and uses at most two supports
+  per phase. Wires shared
   style profiles through uses: references, and names verifiable outputs.
   Use when a request spans several capability domains (e.g.
   "find papers, make a figure, build slides"), when skills overlap and the
@@ -13,7 +14,7 @@ license: MIT
 category: meta
 domain: [workflow-meta]
 action: [orchestrate, advise]
-uses: [research-task-spec]
+uses: [research-task-spec, source-brief, concept-note]
 artifacts:
   - "Routing note naming phase owners, supports, profiles, outputs and capability gaps"
   - "Requirements ledger recording completion status, evidence and unresolved work"
@@ -61,16 +62,28 @@ or as a support only when the current specialist genuinely needs it.
 maintains a defined execution plan. A clear one-step task proceeds directly.
 The agreement changes neither authorization nor the substantive research method.
 
-### 1. Classify by the earliest unresolved stage
+### 1. Choose the delivery owner, then identify unresolved work
 
-Map the request onto the resource lifecycle:
+For one writing deliverable, choose a scenario owner that stays responsible:
+`source-brief` for nonfiction from available material (a brief, long article or
+selective technical history), `concept-note` for a concept note, or another
+writing scenario with a complete delivery contract. The owner reuses
+[shared writing judgment](../source-brief/references/writing-foundations.en.md)
+and applicable review methods internally. Situation, organization, drafting and
+review are not four scenarios taking turns owning the same article. An outline,
+diagnosis or audit-only request selects that operation without adding full drafting.
+
+For genuinely different artifacts, independent analyses or experiments, continue
+using the resource lifecycle to identify prerequisites and phase owners:
 
 ```
 acquire → analyze → compose / visualize / present → build
 ```
 
-The skill owning the **earliest required stage that is not yet done** is the
-primary. Check the available evidence for completion: having ten PDFs proves
+The **earliest required stage that is not yet done**, outside one writing
+scenario, determines the current phase primary. Authorized source gathering for
+one article keeps its prerequisites and evidence; reading a supporting method
+does not transfer final article responsibility. Check completion evidence: having ten PDFs proves
 acquisition, not analysis. "Make slides from these ten papers" starts at
 `analyze` if their claims still need to be read and assessed; it can start at
 `present` when an adequate source-grounded synthesis is already available.
@@ -82,8 +95,14 @@ acquisition, not analysis. "Make slides from these ten papers" starts at
 - At most **two supports** supply what the primary genuinely lacks (e.g. an
   `analyze` primary supported by an `acquire` retrieval and a
   `visualize` plot). A third support is a smell: split the phase.
-- Re-classify at each phase boundary. A support in phase one may become the
-  primary in phase two.
+- Re-classify at genuine cross-artifact phase boundaries. A support in phase one
+  may become the primary in phase two; internal steps of one writing scenario
+  keep their owner.
+
+Shared situation, organization and prose-review modules are internal guidance,
+not extra scenarios or support slots. Independent retrieval, specialist analysis,
+experiments and figure production still count as capabilities; do not relabel
+independent work as a module to evade the limit.
 
 For numerical figures, select by the input and requested work: `table-chart`
 owns prepared CSV charts within its renderer; `scientific-plot` owns arrays,
@@ -182,9 +201,9 @@ and acceptance remain required.
 
 ## Requirements
 
-- [B] R1 Primary = the earliest unresolved stage with completion evidence,
-  not declaration order — Verification: the routing note names the primary and its
-  stage evidence.
+- [B] R1 One writing delivery has a continuing scenario owner; a cross-artifact
+  phase primary follows its earliest unresolved work — Verification: the routing
+  note names the owner, delivery boundary, outstanding prerequisites and evidence.
 - [B] R2 At most two supports per agent and phase — Verification: the supports list
   has at most two entries, each with its gap.
 - [B] R3 Profiles are kept per artifact and never merge audiences — Verification:
@@ -238,7 +257,8 @@ and acceptance remain required.
 
 A routing note the user can check in one reading:
 
-1. **Primary** skill and the phase it owns.
+1. **Primary** skill and its complete scenario delivery or cross-artifact phase;
+   internal steps do not create new owners.
 2. **Supports** (≤2) and the specific gap each fills.
 3. **Profiles** per artifact, with shared roles and any named variants stated.
 4. **Artifacts** expected per phase, in order.

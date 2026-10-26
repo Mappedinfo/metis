@@ -61,8 +61,10 @@ and safe to re-run:
 ## Writing workflow integration
 
 The source version also provides an independent `writing-review` workflow:
-enter a writing task, inject the complete `prose-audit` instructions, draft,
+enter a writing task, inject shared writing judgment and the complete `prose-audit` instructions, draft,
 review, revise at most once, verify the current text and deliver it.
+The writing scenario keeps complete delivery ownership; situation, organization
+and review are internal modules rather than successive task owners.
 
 ```bash
 metis-os workflows install writing-review --runtime codex
