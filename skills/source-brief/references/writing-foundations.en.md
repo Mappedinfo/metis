@@ -52,6 +52,26 @@ chat corrections or abandoned drafts in working records. Retain old theories,
 counterevidence, real debates and comparisons when they serve the current argument;
 the user need not name them in advance.
 
+## Positive explanation and correct demonstrations
+
+Explain the actual object's mechanism, the correct procedure and its basis
+directly, using a correct demonstration the reader can follow. Skill instructions
+likewise state the intended behavior; invented misreadings or incorrect procedures
+are not teaching entry points.
+
+A negative contrast requires a real, relevant and already introduced basis for
+the rejected description in the current context. When another actual method is
+involved, name it, the conditions under which it uses the compared approach, and
+the specific question the comparison answers. Without that basis, explain how
+the current object works directly.
+
+When revising, rebuild the positive mechanism or procedure from source facts,
+then check dimensions, units, terminology and necessary qualifications. Retain
+responses to misconceptions the user has actually raised, as well as scientific
+counterevidence, substantive limits or safety conditions that affect the
+conclusion; explain their basis and consequences. Judge these by their role,
+rather than deleting them mechanically because they contain negation.
+
 ## Scientific and technical history
 
 Determine whether the history concerns theory, methods, engineering or products,
