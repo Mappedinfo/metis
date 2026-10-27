@@ -17,7 +17,7 @@ action: [orchestrate, advise]
 uses: [research-task-spec, source-brief, concept-note]
 artifacts:
   - "Routing note naming phase owners, supports, profiles, outputs and capability gaps"
-  - "Requirements ledger recording completion status, evidence and unresolved work"
+  - "Completion note or, when needed, requirements ledger recording status and unresolved work"
 ---
 
 [中文译本](SKILL.zh.md)
@@ -151,12 +151,13 @@ deck, a package, or a planning note with decisions and acceptance criteria.
 Check the artifact against the requested outcome. A plan completes a
 planning request; it does not establish that planned execution has happened.
 
+Choose checks by the concrete failure this change could cause. For ordinary reversible text/code edits, reuse Git and a relevant build or focused existing test; do not default to new snapshots, extra backups, hashes, fixtures, evidence bundles, full dry-runs/regression suites or acceptance matrices. Do not repeat passing checks when their inputs and relevant implementation have not changed, expand to untouched domains, or recursively prove the checks themselves. Deliver when the request and relevant checks are satisfied. Preserve explicitly required CI and report conflicts instead of silently skipping it. Irreversible deletion, unique-data migration, permissions/security and publication retain the authorization and protections relevant to those risks; research retains train/test separation, truthful metrics, appropriate controls and leakage prevention.
+
 For frontend work, use installed tools to run the relevant build, type/syntax checks and necessary existing lightweight tests, then deliver. Leave interface inspection to the user; add browser/computer-use walkthroughs, click lists, screenshots or visual regression only when the user explicitly requests interaction or visual acceptance. Preserve existing features and tests, fix actual failures, and do not hide errors, add a large lint system or install unrelated heavy dependencies such as Torch just for checks. Briefly report the checks performed and mark interface acceptance as unperformed when it was not requested; passing code checks does not verify interaction, visuals or a live data path. An unrequested UI check does not block code delivery. Keep scientific, data-integrity, figure, slide and deployment requirements within their own scope.
 
-Use the bundled [requirements ledger](templates/requirements-ledger.md) for
+For consequential multi-part, changing or cross-phase work, reuse the existing task entry or the bundled [requirements ledger](templates/requirements-ledger.md) for
 the accepted task requirements and each active skill's Requirements items.
-Keep stable IDs so a result can be traced to the check it satisfies. Update
-the ledger during work; at close-out, each item has `done`, `blocked` or
+For a short clear task, a concise completion note is enough; do not create a separate ledger or fill in inapplicable workflow rows. Where a ledger is useful, keep stable IDs and update it during work; at close-out, each item has `done`, `blocked` or
 `n/a` plus evidence or a reason. `done` requires the stated verification to
 pass. `n/a` needs a scope-based reason and cannot waive a required user
 outcome. In a planning-only request, assess the plan's requirements and
@@ -164,7 +165,7 @@ identify downstream execution as unperformed, not completed.
 
 ### 5. Parallel audit, scoped repair (map–freeze–reduce)
 
-For audit-and-repair tasks over a corpus, manuscript or codebase:
+For requested audits with multiple independent dimensions over a corpus, manuscript or codebase, use the method below. A routine local repair proceeds directly with focused checks and does not require a map/freeze/re-review round:
 
 1. **Map**: enumerate the independent check dimensions; run one bounded,
    read-only audit per dimension, in parallel when the agent runtime
@@ -175,7 +176,7 @@ For audit-and-repair tasks over a corpus, manuscript or codebase:
    the only source of truth for the repair round.
 3. **Reduce**: repair in parallel only tasks whose write scopes are
    disjoint; queue overlapping ones. Each repair task verifies only its own
-   ledger items. Run exactly one bounded re-review round, then stop:
+   ledger items. Run at most one bounded re-review only when a concrete finding needs it, then stop:
    residual issues are reported, not chased.
 
 The frozen ledger, not conversation momentum, decides what gets repaired.
@@ -212,15 +213,15 @@ and acceptance remain required.
   each artifact names its own profile or explicitly none.
 - [B] R4 Every phase is anchored to a declared artifact — Verification: the plan
   lists the expected artifacts in production order.
-- [A] R5 Audit-and-repair work follows map–freeze–reduce — Verification: the frozen
+- [A] R5 Requested multi-dimensional audit-and-repair work follows map–freeze–reduce — Verification: the frozen
   issue ledger is named in the output.
 - [B] R6 Stop rules and budget exhaustion are honored — Verification: the close-out
   states which stop condition fired and lists completed items, unfinished
   items and the smallest unblock condition when a budget is exhausted.
 - [B] R7 Every accepted task and applicable skill requirement is accounted
-  for — Verification: the requirements ledger records status and evidence or a
-  reason for each item; every applicable blocking item is done before the
-  task is declared complete.
+  for — Verification: a concise result note or, when useful, the existing ledger
+  accounts for the accepted requirements and relevant checks; unresolved required
+  outcomes remain explicit. Do not add a ledger solely to satisfy this item.
 
 - [B] R8 Applicable batch production has a checked allocation boundary —
   Verification: the unit table names independent outputs, shared contract,
@@ -245,7 +246,7 @@ and acceptance remain required.
 - The routing note is delivered for a planning-only task; for an execution
   task, the final artifact exists and matches its skill's output contract.
   In either case, all applicable blocking requirements have passing
-  evidence in the requirements ledger.
+  evidence in the completion note or applicable existing ledger; do not add checks after that point without a concrete new failure risk.
 - A required capability has no skill in the collection: report the gap by
   category and domain tag (a contribution candidate, not an improvisation
   license) and stop.
@@ -266,12 +267,9 @@ A routing note the user can check in one reading:
 3. **Profiles** per artifact, with shared roles and any named variants stated.
 4. **Artifacts** expected per phase, in order.
 5. **Gaps**: capabilities no skill covers, tagged by category + domain.
-6. For audit-and-repair tasks the frozen issue ledger is itself a named
+6. For multi-dimensional audits using map–freeze–reduce, the frozen issue ledger is a named
    deliverable, carried through to the close-out.
-7. **Requirements ledger** from the bundled template, with status and
-   evidence or a reason for every item, plus the stop condition. Budget
-   exhaustion also lists completed items, unfinished items and the smallest
-   unblock condition.
+7. A concise completion note with actual checks and remaining gaps. Use an existing **requirements ledger** or the bundled template only when the task needs multi-part or cross-phase tracking; do not create one for routine work or enumerate inapplicable rows. Budget exhaustion names the actual remaining work and unblock condition.
 
 8. For applicable batch production, the shared contract and unit table from the
    parallel-production guide, with allocation checks and unresolved units.
@@ -282,5 +280,5 @@ A routing note the user can check in one reading:
    requirement, change and acceptance records.
 
 For an execution request, carry out the plan and verify each phase's named
-artifact. For a planning request, the routing note and its requirements
+artifact. For a planning request, the routing note and any applicable existing requirements
 ledger are the final deliverables; downstream execution remains unperformed.
