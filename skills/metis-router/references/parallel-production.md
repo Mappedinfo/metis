@@ -124,8 +124,9 @@ an update channel.
   waits only for its actual dependencies, retaining a labelled previous valid
   revision while independent units continue to become available.
 
-When first establishing or materially changing continuous browsing, acceptance
-must exercise browsing old results while a producer runs
+For frontend changes, use the [router's frontend acceptance mode](../SKILL.md#4-anchor-every-phase-to-an-artifact): related code checks are the default, and UI/browser acceptance requires an explicit user request. The scenarios below define behavior to preserve and assess with relevant existing lightweight code/service checks; they do not mandate browser walkthroughs. Report interface behavior as unverified when it was not exercised. Scientific and data-integrity checks retain their own requirements.
+
+When first establishing or materially changing continuous browsing, cover access to old results while a producer runs
 or pauses, a new unit appearing incrementally, one corrupt unit without blocking
 others, refresh failure preserving valid content/user state, and an incompatible
 candidate failing to replace the serving contract. Check consequential recovery

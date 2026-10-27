@@ -151,6 +151,8 @@ deck, a package, or a planning note with decisions and acceptance criteria.
 Check the artifact against the requested outcome. A plan completes a
 planning request; it does not establish that planned execution has happened.
 
+For frontend work, use installed tools to run the relevant build, type/syntax checks and necessary existing lightweight tests, then deliver. Leave interface inspection to the user; add browser/computer-use walkthroughs, click lists, screenshots or visual regression only when the user explicitly requests interaction or visual acceptance. Preserve existing features and tests, fix actual failures, and do not hide errors, add a large lint system or install unrelated heavy dependencies such as Torch just for checks. Briefly report the checks performed and mark interface acceptance as unperformed when it was not requested; passing code checks does not verify interaction, visuals or a live data path. An unrequested UI check does not block code delivery. Keep scientific, data-integrity, figure, slide and deployment requirements within their own scope.
+
 Use the bundled [requirements ledger](templates/requirements-ledger.md) for
 the accepted task requirements and each active skill's Requirements items.
 Keep stable IDs so a result can be traced to the check it satisfies. Update
@@ -227,8 +229,9 @@ and acceptance remain required.
   Single or tightly coupled work records why a production split is inapplicable.
 
 - [B] R9 Concurrent result review remains available — Verification: when the
-  task requires it, execution exercises continued browsing and incremental
-  updates under the guide's failure/compatibility scenarios. A planning-only
+  task requires it, execution checks continued access and incremental updates
+  under the guide's failure/compatibility scenarios, using the frontend acceptance
+  mode above for UI work. A planning-only
   note names those checks as unperformed; a task without concurrent browsing
   records a scope-based n/a rather than adding a workbench.
 
