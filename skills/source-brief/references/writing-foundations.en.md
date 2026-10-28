@@ -33,6 +33,20 @@ simplify with stated assumptions, but do not replace observations. Reuse scenari
 capabilities for retrieval, citation formats and specialist judgment rather than
 duplicating their implementation here.
 
+Facts in polishing and examples must trace to the author's material or an
+authorized, inspected source; do not fill sample sizes, statistical significance,
+results, identifiers or citations from a phrase template. Identify the calculation
+when deriving a value from available data, and tell the author what is missing.
+Fictional teaching data must be labeled with their purpose and assumptions,
+never represented as empirical results. Readability scores and tracked
+revisions likewise require the actual tool and record; disclose when unavailable.
+
+When a prompt or template is itself the deliverable, inspect the actions it
+asks a person or assistant to perform: authority, completed work, tool
+capabilities and sample data must match the actual scope. Preserve the purpose
+of code blocks and quotations; when asked to maintain a prompt, directly repair
+instructions that would cause fabricated facts or actions outside authorization.
+
 ## Information organization
 
 Choose a structure that answers the question rather than filling fixed headings:
