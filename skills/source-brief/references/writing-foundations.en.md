@@ -52,6 +52,14 @@ chat corrections or abandoned drafts in working records. Retain old theories,
 counterevidence, real debates and comparisons when they serve the current argument;
 the user need not name them in advance.
 
+Trace claims, support and conclusions through the draft: provide prerequisites
+before the inference they enable. Transitions, causal claims and parallel points
+need an actual relationship, not just a connective. A concession should identify
+an evidenced condition and its effect on the conclusion; revise formulaic
+concessions that do no work. Merge repeated points unless they add evidence or
+advance the reasoning. Identify missing support rather than inventing a cause
+to smooth a transition.
+
 ## Positive explanation and correct demonstrations
 
 Explain the actual object's mechanism, the correct procedure and its basis

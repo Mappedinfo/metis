@@ -10,6 +10,8 @@
     "include": [
       "(?:写|起草|撰写|改写|润色|编辑|修改|翻译)[^\\n]{0,40}(?:文章|文稿|文案|邮件|书信|段落|摘要|报告|说明|介绍|帖子|博客|推文|发言|文字|文本)",
       "(?:这段|这篇|这封|以下|下面|上述)[^\\n]{0,40}(?:改写|润色|翻译|改稿)",
+      "(?:整理|梳理)[^\\n]{0,40}(?:知识|笔记|资料|内容)[^\\n]{0,80}(?:发布|发表|推送|成文|写成(?:文章|笔记)|整理成(?:文章|笔记))",
+      "(?:整理|梳理)[^\\n]{0,40}(?:成|为)(?:一篇|一份)?(?:文章|知识笔记|科普文章)",
       "\\b(?:write|draft|rewrite|polish|revise|edit|translate)\\b[^\\n]{0,80}\\b(?:article|draft|copy|email|letter|paragraph|abstract|report|description|introduction|post|blog|speech|text|prose)\\b"
     ],
     "exclude": [

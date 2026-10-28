@@ -65,8 +65,9 @@ The agreement changes neither authorization nor the substantive research method.
 ### 1. Choose the delivery owner, then identify unresolved work
 
 For one writing deliverable, choose a scenario owner that stays responsible:
-`source-brief` for nonfiction from available material (a brief, long article or
-selective technical history), `concept-note` for a concept note, or another
+`source-brief` for a material-driven article about an event, history or other
+topic, `concept-note` for a systematic explanation of one object regardless of
+whether material was supplied or gathered, or another
 writing scenario with a complete delivery contract. The owner reuses
 [shared writing judgment](../source-brief/references/writing-foundations.en.md)
 and applicable review methods internally. Situation, organization, drafting and

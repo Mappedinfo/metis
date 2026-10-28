@@ -24,8 +24,10 @@ semantic priority. Sources and changes: [PROVENANCE.md](PROVENANCE.md).
 
 Use for a concept, method, metric, tool, dataset or standard that a reader needs
 to understand or use. A supplied note may be revised directly; preparing a new
-note may require authorized source gathering. Use `source-brief` for writing
-from available material (a brief, long article or selective technical history),
+note may require authorized source gathering. Let the reader's task decide:
+explaining one object systematically belongs here whether material is supplied
+or gathered. Use `source-brief` to organize material about an event, history or
+other topic (a brief, long article or selective technical history),
 `taskbook-interpret` for a paper's argument and
 `literature-synthesis` for what multiple studies jointly support. This skill
 writes a concept explanation; it does not infer the user's research direction
@@ -61,9 +63,9 @@ definition-only, outline-only, audit-only or local-revision operation when reque
 4. Explain the mechanism and the boundary together. Separate what is measured,
    optimized, predicted and decided. A continuous objective need not improve a
    thresholded decision metric; a reported probability does not itself establish
-   calibration. State the assumptions needed for the explanation and give one
-   failure or counterexample that tests those assumptions. Do not attach an
-   unrelated warning merely to fill a section.
+   calibration. State the assumptions and consequences needed to understand or
+   use the object. When an actual failure or counterexample helps assess a
+   boundary, use an evidenced example and retain necessary scientific evidence.
 5. When alternatives help readers judge applicability, compare them on one named axis. For a metric compare
    neighboring measures; for software compare available workflows; for a method
    compare assumptions and tradeoffs. Explain what people would do without this
@@ -91,8 +93,9 @@ Maintain one requirements ledger for the accepted task and R1–R6 below. Record
   steps, arithmetic or event sequence, symbols and teaching-data labels.
 - [B] R3 Material factual claims are traceable — follow source-map locations;
   preserve evidence level, inspected coverage and relevant dates/versions.
-- [B] R4 Assumptions and applicable alternatives are meaningful — test the stated
-  boundary against the counterexample; when comparison is useful, use the declared axis.
+- [B] R4 Assumptions and applicable alternatives are meaningful — check the key
+  conditions and consequences; when a counterexample or comparison is useful,
+  check its evidence and the comparison axis.
 - [B] R5 Requested dimensions and revisions are retained — compare the note
   with the accepted request; record absent required support as blocked.
 - [A] R6 The note is useful without reopening every source — inspect local

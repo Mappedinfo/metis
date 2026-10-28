@@ -35,8 +35,10 @@ requested length and genre can also call for a long article. Follow the user's l
 audience, purpose, length and format. Infer routine choices from context;
 ask only when an unresolved choice would materially change the content.
 
-Use `concept-note` for a systematic concept explanation; this scenario turns
-available material into an article. If retrieval, original analysis or a full
+Choose by the reader's task: a systematic explanation of one concept or object
+uses `concept-note`, whether material is supplied or gathered. This scenario
+organizes material into an article about an event, history or another topic.
+If retrieval, original analysis or a full
 paper is needed first, identify that dependency. An authorized retrieval
 capability may supply material; this scenario does not thereby own independent
 research or original analysis. An article can still cover the supported part when

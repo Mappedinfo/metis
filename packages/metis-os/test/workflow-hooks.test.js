@@ -14,6 +14,7 @@ const skill = readFileSync(new URL('../skills/prose-audit/SKILL.md', import.meta
 const skillZh = readFileSync(new URL('../skills/prose-audit/SKILL.zh.md', import.meta.url), 'utf8');
 const foundations = readFileSync(new URL('../skills/source-brief/references/writing-foundations.md', import.meta.url), 'utf8');
 const foundationsEn = readFileSync(new URL('../skills/source-brief/references/writing-foundations.en.md', import.meta.url), 'utf8');
+const defaultActivation = JSON.parse(readFileSync(new URL('../../../workflows/writing-review/workflow.json', import.meta.url), 'utf8')).activation;
 const digest = value => createHash('sha256').update(value).digest('hex');
 
 function fixture(t, changes = {}, configured = true) {
@@ -41,6 +42,29 @@ test('unconfigured, disabled, and nonwriting requests do not create a workflow',
   for (const context of [fixture(t, {}, false), fixture(t, { enabled: false }), nonwriting]) {
     assert.deepEqual(await handleHook(context), {});
     assert.equal(await getRun({ root: context.root, sessionId: context.payload.session_id }), null);
+  }
+});
+
+test('default auto activation recognizes knowledge articles but not inquiry or skill audits', async (t) => {
+  for (const prompt of [
+    '整理知识并发表：位置编码',
+    '整理资料，写成文章。',
+    '梳理这些内容，然后发布到网站。',
+    '把这些材料整理成知识笔记。',
+  ]) {
+    const context = fixture(t, { activation: defaultActivation });
+    context.payload.prompt = prompt;
+    assert.ok((await handleHook(context)).hookSpecificOutput, prompt);
+  }
+  for (const prompt of [
+    '调研 Slurm 有什么用途？',
+    '整理研究资料，列出待读文献。',
+    '继续尝试优化写作，查询我们当前的整体技能架构。',
+    '整理知识但不要写文章。',
+  ]) {
+    const context = fixture(t, { activation: defaultActivation });
+    context.payload.prompt = prompt;
+    assert.deepEqual(await handleHook(context), {}, prompt);
   }
 });
 
