@@ -32,19 +32,44 @@ Use `taskbook-reproduce` for preparation only. Decide unresolved questions with
 `research-question` first. A local protocol does not authorize credentials,
 new cloud workers, paid services or additional private research access.
 
+## Reproduction and adaptation
+
+Distinguish exact reproduction, method adaptation and new ablation. Exact
+data, versions and hyperparameters constrain an exact-reproduction claim;
+they are not prerequisites for authorized adaptation. Do not silently replace
+an exact-reproduction goal with an adaptation.
+
+First check existing assets, upstream runs, paper references and public
+sources within scope. Report what was searched and not found; a failed lookup
+does not establish nonexistence. Category cleanup, tokenization, supported
+translation and parent-category fallback are acceptable adaptations. Fix the
+rules before evaluation; record actual-count-weighted coverage, OOV and
+differences in the existing protocol/report. Do not require 100% matching or
+a universal percentage, and do not choose mappings by evaluation scores.
+
+Preserve real data, semantics, vector provenance, column/count alignment,
+train/test separation and time alignment for time-sensitive features.
+For frequent ambiguous categories, loss of key meaning, cross-time proxies
+or other approximations that change the question, show concrete examples,
+affected counts and consequences for human judgment. Reuse settled decisions;
+do not seek approval for each ordinary term or invent unapproved major
+substitutions. Continue independent authorized work. Name adaptations honestly
+and reuse existing records/checks without a new traceability system.
+
 ## Method
 
 1. State the scientific question, target, comparison, smallest decisive run,
-   limits and stop/kill conditions. For reproduction distinguish strict
-   published protocol, corrected implementation and extension as separate runs.
+   limits and stop/kill conditions. Record exact reproduction, method
+   adaptation and new ablation separately, including implementation corrections.
 2. Map the code and data actually involved: sample unit, splits, preprocessing,
    metric definitions, dependencies and compute requirements. Check leakage,
    identity overlap, tuning on the test set and comparison capacity. Preserve
    official inputs and record changes instead of silently repairing the baseline.
 3. Freeze a protocol with commands, inputs, seeds, expected outputs, wall-time/
    resource cap and numerical acceptance where supplied. Do not invent a paper
-   number or a tolerance. If essential data/access is missing, deliver the
-   runnable preparation and mark the execution/claim blocked.
+   number or a tolerance. Missing essential data/access blocks the affected
+   execution or claim under the accepted mode; continue independent authorized
+   work. Missing original assets alone does not block a viable agreed adaptation.
 4. Run a cheap entry check when needed, label it smoke, then the authorized
    evaluation. Save actual commands, code/data hashes, resolved versions or
    lockfiles, seeds, raw outputs and stdout/stderr. Seed declaration is not proof

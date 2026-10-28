@@ -7,7 +7,7 @@ description: >
   and asks for a reproduction plan, missing-data assessment, or runnable
   scaffold to prepare Table 3/Figure 2. Produce preparation materials, not
   reproduction conclusions. Not for close reading (use taskbook-interpret) or
-  executing the full experiment once complete data and code are available.
+  executing the full experiment once the accepted mode has usable inputs and code.
 license: MIT
 category: build
 domain: [experiment, paper]
@@ -42,12 +42,31 @@ retrieval is needed. Missing reading tools leave affected requirements blocked.
   availability assessment or runnable scaffold. For “reproduce this paper” or
   “run its experiments”, determine whether preparation is the unresolved stage;
   do not substitute a plan for an explicitly requested formal execution.
-  When data and code are ready, route execution to an available experiment
+  When inputs and code for the accepted mode are ready, route to an experiment
   capability and report any missing capability.
 
 Do not use for close reading (use `taskbook-interpret`) or executing the full
-experiment after complete data and code are available. Such execution belongs
+experiment once accepted inputs and code are ready. Such execution belongs
 to an experiment workflow outside this skill's scope.
+
+## Reproduction scope and data availability
+
+Distinguish exact reproduction, method adaptation and new ablation in the
+existing plan. Exact source data, versions and hyperparameters constrain
+exact-reproduction claims; they do not automatically block agreed adaptation.
+Before declaring data missing, check existing assets/upstream runs, paper
+references and public sources within scope. Not found is not nonexistent.
+
+Allow fixed category cleanup, tokenization, supported translation and parent
+fallback using real data/vectors. Report differences, actual-count-weighted
+coverage and OOV; no 100% match or universal percentage gate. Preserve
+column/count alignment, train/test separation and time-sensitive alignment;
+never fabricate semantics/results or select mappings by evaluation scores.
+Show frequent ambiguity, key semantic loss or cross-time substitution with
+concrete examples and impact for human judgment. Routine term conversion
+needs no repeated approval; do not invent unapproved major substitutions.
+Keep viable authorized work moving and disclose adaptation in existing notes
+without an additional evidence or approval system.
 
 ## Method
 
@@ -58,9 +77,10 @@ to an experiment workflow outside this skill's scope.
      data, steps, expected outputs, and acceptance criteria against the
      original paper.
    - `data_plan.md`: inventory of required data with names, sources, access
-     methods, and licenses. Mark every dataset not provided by the paper
-     **缺失** (missing), and suggest alternative sources (public proxy
-     datasets) or explicitly state “无法获取” (cannot be obtained).
+     methods, and licenses. After checking sources, distinguish original
+     assets not yet obtained, available adaptations and unresolved lookups.
+     For actual gaps state access suggestions or the observed access limit;
+     paper omission alone does not establish “无法获取” (cannot be obtained).
    - `src/`: a runnable code scaffold for data loading, preprocessing, and
      the core algorithm entry point. Include `src/README.md` explaining the
      directory structure and how to run it.
@@ -81,9 +101,9 @@ partial-coverage label does not establish completion of the accepted scope.
 - [B] R1 Include 100% of the paper's main tables and figures in the plan —
   Verification: the number of entries in `复现计划.md` matches the paper's
   number of main tables and figures.
-- [B] R2 Mark every missing dataset; fabricate nothing — Verification:
-  every missing item in `data_plan.md` has an alternative access suggestion
-  or is marked “无法获取”.
+- [B] R2 Identify actual data gaps without fabrication — Verification:
+  `data_plan.md` records searched sources, available originals/adaptations
+  and remaining gaps, with access suggestions or observed limitations.
 - [B] R3 In a clean environment, `src/` runs until only missing data prevents
   progress, or runs successfully — Verification: executing the entry script
   produces no syntax or import errors.
