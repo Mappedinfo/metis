@@ -66,6 +66,22 @@ chat corrections or abandoned drafts in working records. Retain old theories,
 counterevidence, real debates and comparisons when they serve the current argument;
 the user need not name them in advance.
 
+When explaining a classification or a set of concepts, establish the grouping
+basis and relationships before detailing the members and their significance.
+Short names must still reveal a variable's role, the object an indicator
+describes, and a module's place in the complete method. Explain an essential
+operation through its input structure, transformation and output use, to the
+depth the reader needs. Shapes, units and component meanings need support;
+a list of terms cannot supply them. Short definitions and standalone facts
+need not follow one paragraph template.
+
+Separate formal definitions from teaching paraphrases. State the adopted meaning
+and consequential distinctions in the body. When an inspected original definition
+helps resolve a distinction, a footnote or appendix can preserve a compliant-length
+quotation, version and page/clause locator. Reuse that definition across sections.
+Identify secondary paraphrases by their actual source; keep critical conditions
+in the body.
+
 Trace claims, support and conclusions through the draft: provide prerequisites
 before the inference they enable. Transitions, causal claims and parallel points
 need an actual relationship, not just a connective. A concession should identify

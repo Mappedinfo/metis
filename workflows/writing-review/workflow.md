@@ -75,6 +75,12 @@ does not take over the scenario or create another writing router.
    If Python is unavailable, read the bundled fixed rules once and record the
    bounded manual fallback; installation is not a workflow prerequisite.
    The scanner supplies candidates, not editorial findings or authorship scores.
+   For an accepted LaTeX citation-placement task, the hook also supplies the
+   bundled `check_citations.py` path and hash. Read its linked citation guide
+   and run it on the actual `.tex` scope. Project registry and separate-attribution
+   options require the corresponding accepted policy; neither is enabled by
+   receiving this workflow. Report the real call separately: ordinary workflow
+   receipts cover the captured `.md`/`.txt`, not a multi-file LaTeX build.
    Record exact source quotes and locations with contextual reasons in the
    runtime review format, bound to this `run_id` and `draft_sha256`. Submit
    the record with `workflows review --session ID --file PATH`. The compact

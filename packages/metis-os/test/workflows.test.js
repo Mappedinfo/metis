@@ -36,6 +36,12 @@ test('missing review or foundations guides prevent installation before project c
   assert.throws(() => isolated.installWorkflow({ project: root, runtime: 'codex' }), /Missing runtime asset:.*writing-foundations\.en\.md/);
   assert.equal(existsSync(join(root, '.codex')), false);
   copyFileSync(resolve(repo, 'packages/metis-os/skills/source-brief/references/writing-foundations.en.md'), join(bundle, 'skills/source-brief/references/writing-foundations.en.md'));
+  for (const file of ['scripts/check_citations.py', 'references/citations.md', 'references/citations.zh.md']) {
+    assert.throws(() => isolated.installWorkflow({ project: root, runtime: 'codex' }), /Missing runtime asset/);
+    assert.equal(existsSync(join(root, '.metis')), false);
+    mkdirSync(resolve(bundle, 'skills/prose-audit', file, '..'), { recursive: true });
+    copyFileSync(resolve(repo, 'packages/metis-os/skills/prose-audit', file), join(bundle, 'skills/prose-audit', file));
+  }
   assert.ok(isolated.installWorkflow({ project: root, runtime: 'codex' }).changed_files > 0);
 });
 
@@ -58,6 +64,13 @@ test('a relocated package injects its own complete foundations and records exact
   const injected = JSON.parse(executed.stdout).hookSpecificOutput.additionalContext;
   const core = await import(pathToFileURL(join(bundle, 'lib/workflow-core.js')).href);
   const state = await core.getRun({ root, sessionId: payload.session_id });
+  const checker = join(bundle, 'skills/prose-audit/scripts/check_citations.py');
+  assert.ok(injected.includes(checker));
+  assert.equal(state.sources.citation_checker_sha256, createHash('sha256').update(readFileSync(checker)).digest('hex'));
+  writeFileSync(join(root, 'draft.tex'), String.raw`A claim\citep{demo:a,demo:b}.`);
+  const scan = spawnSync('python3', ['-B', checker, join(root, 'draft.tex'), '--json'], { encoding: 'utf8', cwd: tmpdir() });
+  assert.equal(scan.status, 0, scan.stderr);
+  assert.equal(JSON.parse(scan.stdout).warnings, 1);
   for (const [file, key] of [['writing-foundations.md', 'foundations_sha256'], ['writing-foundations.en.md', 'foundations_en_sha256']]) {
     const path = join(bundle, 'skills/source-brief/references', file);
     const bytes = readFileSync(path);

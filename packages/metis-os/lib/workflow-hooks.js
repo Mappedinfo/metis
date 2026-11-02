@@ -20,6 +20,9 @@ const foundationsPath = fileURLToPath(new URL('../skills/source-brief/references
 const foundationsEnPath = fileURLToPath(new URL('../skills/source-brief/references/writing-foundations.en.md', import.meta.url));
 const scannerPath = fileURLToPath(new URL('../skills/prose-audit/scripts/detect.py', import.meta.url));
 const rulesPath = fileURLToPath(new URL('../skills/prose-audit/scripts/rules.json', import.meta.url));
+const citationCheckerPath = fileURLToPath(new URL('../skills/prose-audit/scripts/check_citations.py', import.meta.url));
+const citationGuidePath = fileURLToPath(new URL('../skills/prose-audit/references/citations.md', import.meta.url));
+const citationGuideZhPath = fileURLToPath(new URL('../skills/prose-audit/references/citations.zh.md', import.meta.url));
 const cliPath = fileURLToPath(new URL('../bin/metis-os.js', import.meta.url));
 
 const object = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -80,6 +83,7 @@ function contextFor(state, root, sessionId, workflow, { skill, skillZh, foundati
     `Record evidence for the actual local text artifact. For a chat-only deliverable, save its exact text in the private working buffer ${quote(resolve(state.state_dir, 'artifact.md'))}; return that verified prose in chat. Do not treat this working record as an extra user-facing deliverable. A hook cannot enforce byte equality of streamed chat text.`,
     'Use these commands in order; substitute your actual evidence file paths as separate quoted arguments:',
     `${command} capture ${identity} --artifact '<draft path>'`,
+    `LaTeX citation checker: ${citationCheckerPath}\nSHA-256: ${sources.citation_checker_sha256}\nFor an accepted LaTeX citation-placement task, read ${quote(citationGuidePath)} or ${quote(citationGuideZhPath)} and run: python3 ${quote(citationCheckerPath)} '<explicit .tex path or directory>' --json. Default citation groups are warning candidates. Add --separate-attribution only for an accepted project policy, and --methods '<project registry JSON>' only for an accepted per-occurrence method identity policy. Keep the registry and table exporter in the project; retain result-source citations. This is a conditional command, not an executed scan, enabled project policy, or verification of a LaTeX build. No extra hook is required; if Python is unavailable, use the same bounded manual fallback.`,
     `After the full semantic read, use a local Python 3.10+ runtime when available: python3 ${quote(scannerPath)} ${quote(resolve(state.state_dir, 'draft.txt'))} --genre '<general|academic|explain selected from the task>' --json. This loads ${quote(rulesPath)}; inspect returned spans and policy_action in context. If Python is unavailable, read those fixed rules once and record the bounded manual fallback. Do not install a runtime, recreate an SOP or infer genre from language. After a revision, scan the actual delivery artifact once with the same genre. These instructions supply a command; workflow receipts do not prove scanner execution.`,
     `${command} review ${identity} --file '<review JSON path>'`,
     `${command} revise ${identity}  # only after the single authorized revision to the same artifact, if needed`,
@@ -148,6 +152,7 @@ export async function handleHook({ payload, runtime, root }) {
       foundations_sha256: digest(foundations), foundations_en_sha256: digest(foundationsEn),
       workflow_sha256: digest(readFileSync(resolve(bundleRoot, 'workflow.json'))),
       instructions_sha256: digest(instructions),
+      citation_checker_sha256: digest(readFileSync(citationCheckerPath)),
     };
     const state = await startRun({ root, sessionId, promptKey: digest(payload.prompt), turnId, runtime, sources });
     if (previous?.run_id === state.run_id) return {};

@@ -164,6 +164,14 @@ Use each language's treatment without demanding matching syntax. Preserve
 quoted source wording. These checks are part of the existing passes, not
 additional review rounds.
 
+When citation placement in LaTeX is part of the accepted task, use the optional
+[attribution helper](references/citations.md) alongside this contextual read.
+Keep grouped-source candidates distinct from errors under an explicit project
+policy. Per-occurrence method citations require a supplied project identity
+registry; they are not a universal writing rule. The same reference covers
+native comparison tables when selectable PDF text is required. Preserve source
+and result attribution, and verify the actual export using the project's tools.
+
 After the semantic read, use the [local scanner](references/scanner.md) when
 a local Python runtime and a suitable text artifact are available. It loads
 the fixed `scripts/rules.json`; supply the selected `--genre`. Do not

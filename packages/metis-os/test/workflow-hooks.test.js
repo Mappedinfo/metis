@@ -91,8 +91,30 @@ test('writing entry injects complete review guides and shared foundations with e
   assert.equal(first.sources.skill_zh_sha256, digest(skillZh));
   assert.equal(first.sources.foundations_sha256, digest(foundations));
   assert.equal(first.sources.foundations_en_sha256, digest(foundationsEn));
+  assert.equal(first.sources.citation_checker_sha256, digest(readFileSync(new URL('../skills/prose-audit/scripts/check_citations.py', import.meta.url))));
   assert.deepEqual(await handleHook(context), {});
   assert.equal((await getRun({ root: context.root, sessionId: context.payload.session_id })).run_id, first.run_id);
+});
+
+test('conditional citation command reaches a bundled checker with a project-owned registry', async (t) => {
+  const context = fixture(t);
+  context.payload.prompt = '[metis:writing-review]\nCheck attribution in this LaTeX source.';
+  const result = await handleHook(context);
+  const injected = result.hookSpecificOutput.additionalContext;
+  const checker = injected.split('\n').find(line => line.startsWith('LaTeX citation checker: ')).slice('LaTeX citation checker: '.length);
+  const artifact = join(context.root, 'draft.tex'), registry = join(context.root, 'methods.json');
+  const source = String.raw`\section{\texorpdfstring{DemoMethod}{DemoMethod}} \url{https://example.org/DemoMethod} \texttt{DemoMethod} DemoMethod\citep{demo:key}.`;
+  writeFileSync(artifact, source);
+  writeFileSync(registry, JSON.stringify({ version: 1, methods: [{ names: ['DemoMethod'], citekeys: ['demo:key'] }], ambiguous_unmapped: [] }));
+  const checked = spawnSync('python3', ['-B', checker, artifact, '--methods', registry, '--json'], { encoding: 'utf8' });
+  assert.equal(checked.status, 1, checked.stderr);
+  const report = JSON.parse(checked.stdout);
+  assert.equal(report.errors, 1);
+  assert.equal(report.findings[0].rule, 'missing-method-citation');
+  assert.equal(readFileSync(artifact, 'utf8'), source);
+  assert.match(injected, /conditional command, not an executed scan/);
+  assert.match(injected, /--methods '<project registry JSON>'/);
+  assert.equal((await getRun({ root: context.root, sessionId: context.payload.session_id })).status, 'drafting');
 });
 
 test('a pre-foundations active run retains its identity and does not invent module-loading evidence', async (t) => {

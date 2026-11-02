@@ -14,6 +14,11 @@ language, report language and genre remain separate choices. Mixed prose
 uses the relevant method by passage, with one coverage record and budget.
 The writing scenario keeps responsibility from situation and organization to
 final delivery; this review adapter adds no router, scenario or review pass.
+For LaTeX citation-placement tasks it also supplies the packaged
+[`check_citations.py` helper](https://github.com/mappedinfo/metis/blob/main/skills/prose-audit/references/citations.md)
+and its hash. Citation groups are warnings by default; project-owned method
+registries and stricter placement are explicit options. The hook does not run
+this helper or certify a LaTeX build. No new hook is needed to use it manually.
 See the complete
 [workflow guide](https://github.com/mappedinfo/metis/blob/main/workflows/README.md)
 or [中文说明](https://github.com/mappedinfo/metis/blob/main/workflows/README.zh.md).
