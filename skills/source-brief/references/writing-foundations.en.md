@@ -207,6 +207,41 @@ conclusion in the body, secondary detail in footnotes or appendices, and editing
 history in working records. Moving an empty defensive sentence to a footnote does
 not give it a reader purpose.
 
+**Terminology and chapter connections.** When the user requests first-use
+explanations and a terminology index, provide the full term, relevant language
+equivalent and abbreviation at its first substantive use, and connect its meaning
+to the existing glossary. Concepts defining the research scope need explanation
+as much as computational terms. A chapter opening states its question and how
+its sections connect. Check whether headings and content have real dependencies;
+move, merge or split where needed instead of merely adding a generic introduction.
+Any declared ordering needs a basis: time, frequency, importance, or computational
+or learning dependency each requires its corresponding explanation. Do not invent
+a ranking for parallel categories. Organize a team's works using the accepted
+date convention.
+
+**Place supplementary material by purpose.** When explicitly requested, put the
+author's project connections in footnotes or asides and arrange teaching
+explanations separately from literature evidence. Moving teaching prose into a
+footnote does not require moving teaching figures and tables. Retain displays
+and explanations that readers need to compare directly; source conditions that
+affect the conclusion remain in the body. Use the project's configured writing
+profile for term emphasis, note colors, font sizes, or a preference for fewer
+author subjects, rather than hard-coding those choices for all academic genres.
+Do not attribute an unsupported judgment to a source, or use color alone to turn
+a defensive sentence into a research gap.
+
+**Automated candidates and semantic judgment.** When programmatic checks are
+requested, extend existing adapters and terminology registries first and state
+their actual coverage. Commands, the first use or formatting of registered terms,
+appendix links, macros and suspect sentence patterns can yield located
+candidates. Missing terminology, the basis of an ordering, chapter connections,
+source support and rendered legibility still require an editor or LLM to assess
+the source and finished artifact. Retain useful comparisons, author attribution
+and negative findings. Do not rewrite mechanically to clear warnings, or report
+a passing program as validation of every preference or scientific fact. Process
+candidates within the current task budget; adding checks does not require a
+parallel ledger, duplicate checker or automatic save hook.
+
 Within the existing integrated check, inspect selection reasons, attribution,
 common conditions and actual differences, explanatory sufficiency and the reader
 purpose of figures or optional appendices. This section adds no separate ledger,
