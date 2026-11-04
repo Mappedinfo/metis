@@ -146,6 +146,72 @@ omit contrasts that do not support a reader's decision or understanding. Preserv
 conditions, baseline, units, denominator and evidence limits in useful comparisons.
 The outline should still explain the topic without the user's incidental names.
 
+## Learning-oriented reviews
+
+Apply this section within the existing writing and review budget when the task
+explicitly serves learning, guided reading or newcomers. It supplements evidence
+synthesis and wording judgment; it does not make personal formatting choices
+universal academic rules or expand local polishing into a whole review. Preserve
+footnotes, glossaries and mechanism explanations that serve the accepted readers.
+
+**Sources and selection.** Record each paper's role in the existing matrix: a
+verified origin, strong evidence addressing the question, a recent development,
+or a user-requested author, group or topic. Give the corresponding basis:
+“earliest” needs historical evidence, “best” needs a comparison criterion and
+“latest” needs a search cutoff. Citation counts retain their source and date;
+unverified counts remain unknown. When adopting a review's classification,
+attribute it, explain its fit to the current question and check mechanisms and
+experiments in the relevant primary studies. Adopting a classification does not
+verify its coverage or conclusions.
+
+**Identity and definitions.** When paper identity notes are needed, verify the
+first author, explicitly designated corresponding author(s) and affiliations in
+the inspected version. Author order or an email alone cannot establish
+correspondence; distinguish unavailable material from an article that designates
+no corresponding author. Record a current affiliation separately with a dated
+official source, without replacing the paper-time affiliation. Merge an identity
+note into a useful existing footnote where suitable; it complements the citation.
+Identify whether a consequential definition comes from an original paper, a
+textbook or standard, a review's paraphrase, or the present author's operational
+definition. Teaching paraphrases retain attribution and necessary conditions;
+do not present the author's summary as an established definition.
+
+**Mechanism and comparison.** Establish the common question, task and comparable
+conditions, then explain the actual change in input, operation, objective or
+output. Keep the steps newcomers need to follow the inference: how original
+objects are organized, which rules are fixed, which parameters are learned, the
+training objective and the use of the output. Concision can come from clearer
+sentences and hierarchy; “different roles” cannot replace an explanation of those
+roles. Cite the verified method source and a third party's report of its
+performance separately; avoid priority claims when historical priority is
+unverified. A comparison that changes both inputs and architecture cannot isolate
+either contribution. For an untested relationship, name the missing comparison
+and its consequence, for example “the experiment evaluates classification
+accuracy; it does not test retrieval gains.” Repeated “does not automatically
+equal” wording should give way to that judgment, without being strengthened into
+“is unrelated.” Judge meaning, not a phrase as an authorship signal, and retain
+genuine negative findings.
+
+**Figures and reading layers.** Where an original method figure helps explain an
+operation and reuse is permitted, verify its version, page, figure number and
+crop bounds, then extract it once into the project's existing shared figure pool
+for text and slides. Retain attribution and necessary permission information;
+cropping preserves scientific meaning, and explanatory redraws are identified
+separately. Select comparison panels for distinct verified mechanisms and check
+labels at comparable reading scale, not to meet a target figure count. Follow the
+user's reading layers: sustained definitions may belong in a foundations chapter;
+a key-paper appendix can explain problems, mechanisms, tasks and evidence;
+bilingual terms, first-mention identity footnotes and slightly smaller readable
+notes remain task-dependent choices. Keep conditions affecting the current
+conclusion in the body, secondary detail in footnotes or appendices, and editing
+history in working records. Moving an empty defensive sentence to a footnote does
+not give it a reader purpose.
+
+Within the existing integrated check, inspect selection reasons, attribution,
+common conditions and actual differences, explanatory sufficiency and the reader
+purpose of figures or optional appendices. This section adds no separate ledger,
+fixed figure count or review rounds.
+
 ## Review and delivery
 
 The scenario owner reads the complete delivery: does it answer the request, follow

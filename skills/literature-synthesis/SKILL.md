@@ -33,6 +33,12 @@ an entire field has been covered.
 
 ## Method
 
+For a learning-oriented review, use the conditional
+[shared learning-review guidance](../source-brief/references/writing-foundations.en.md#learning-oriented-reviews)
+within this method. It covers selection roles, definition and identity sources,
+mechanism teaching, comparison and reusable figures without imposing personal
+formatting on other review genres or adding another review pass.
+
 1. Freeze the question, corpus boundary and intended conclusion type. Identify
    topic, relevant units/populations, time range, study kinds and exclusions
    only to the extent they affect the answer. Label the corpus as user supplied,

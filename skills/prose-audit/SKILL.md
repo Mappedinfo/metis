@@ -107,6 +107,12 @@ pass budget.
 Keep execution instructions, review records and reader-facing prose in
 separate fields or files. Only the requested prose belongs in its body.
 
+For an explicitly learning-oriented review, use the
+[shared learning-review guidance](../source-brief/references/writing-foundations.en.md#learning-oriented-reviews)
+to preserve needed explanations and requested reading layers during this pass.
+It is a contextual check, not permission to retrieve missing scientific evidence
+or impose footnotes, glossaries or appendices on every academic document.
+
 ### 2. Read the entire available text before evaluating signals
 
 Read for the argument, factual content, referents, sequence, register, and
