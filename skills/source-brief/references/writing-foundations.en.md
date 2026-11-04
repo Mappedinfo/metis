@@ -207,6 +207,24 @@ conclusion in the body, secondary detail in footnotes or appendices, and editing
 history in working records. Moving an empty defensive sentence to a footnote does
 not give it a reader purpose.
 
+**The role of review figures.** When graphical synthesis is needed, state what
+readers need to compare and what existing figures already answer before choosing
+a new figure's role: organization or taxonomy, mechanism and input–output flow,
+task or evidence coverage, sourced relationships, or a numerical comparison under
+compatible definitions. When learning from other reviews, inspect the actual
+figure, its encoding and supporting material. Adapt how it explains a relationship;
+do not automatically adopt its classification or copy its layout. This is a
+reusable content check, not a fixed set or number of figures for every review.
+Retain accepted figures and their sources instead of silently replacing them.
+Prefer a relevant original figure where reuse is permitted, or a reproducible
+self-drawn figure from traceable records. State the corpus, counting unit, coding
+rules and unknowns. Missing values are not zero; a task-condition matrix is not a
+performance ranking, and relationship edges cannot establish more than their
+sources support. Keep project line styles and colors in the project agreement.
+For actual numerical plotting, reuse [scientific-plot](../../scientific-plot/SKILL.md)
+and the existing input/rendering entry rather than starting an unauthorized
+experiment or adding another checker or figure ledger.
+
 **Terminology and chapter connections.** When the user requests first-use
 explanations and a terminology index, provide the full term, relevant language
 equivalent and abbreviation at its first substantive use, and connect its meaning
