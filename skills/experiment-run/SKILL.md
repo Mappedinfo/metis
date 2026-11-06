@@ -56,6 +56,25 @@ do not seek approval for each ordinary term or invent unapproved major
 substitutions. Continue independent authorized work. Name adaptations honestly
 and reuse existing records/checks without a new traceability system.
 
+## Cross-phase tasks and reporting
+
+At routing, identify only the phases and outputs actually requested. Read the
+selected skill entry before each phase (including `run-review` for an artifact
+audit), and expose pending, blocked, and completed work in the host task list
+when available; otherwise reuse the project task record. Carry the protocol,
+inputs and versions, deviations, run status, artifacts, missing evidence and
+acceptance criteria into each handoff. The receiver checks these inputs; a
+missing required item remains open. A skill mention is not proof it was read.
+
+For a requested complete experiment report, read and apply any applicable
+project or host reporting contract. Cover question and objective, data, methods,
+results, analysis, discussion and reproducibility; cite evidence or explicitly
+mark missing information and its consequences. Check report completeness,
+performance against the prespecified criterion and claim support separately.
+A launch or completed run does not itself complete a report. For a short update,
+link the underlying record rather than silently expanding the requested scope.
+This portable skill does not require a particular personal skill or scheduler.
+
 ## Method
 
 1. State the scientific question, target, comparison, smallest decisive run,
