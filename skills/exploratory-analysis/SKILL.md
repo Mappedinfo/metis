@@ -39,9 +39,12 @@ When research work receives or uses a dataset that has no applicable analysis,
 inspect every authorized dataset before dependent formal analysis or evaluation;
 reuse existing results only after matching source/version, units, fields, filters
 and scope. Preserve split restrictions and do not inspect held-out labels in ways
-that violate the evaluation protocol. Create a project Markdown data report with
-actual figures and reproducible calculations, using the project location and
-existing tools. Cover numeric/category distributions and frequencies; missing,
+that violate the evaluation protocol. Create a readable project report in Markdown, Quarto, R Markdown or a notebook,
+with actual figures, reusable local plot data and reproducible calculations.
+Preserve the original data in its existing location, including remote storage.
+When authorized data is remote, prefer a local notebook that launches remote
+aggregation over SSH and retrieves the plot data and figures. Record source,
+units, grouping, denominators, binning and limitations; respect permissions. Cover numeric/category distributions and frequencies; missing,
 invalid, suppressed, structural absence and observed zero separately; coverage
 with explicit denominators; temporal extent, frequency, resolution and gaps;
 and spatial extent, unit, resolution, CRS and coverage maps when applicable.

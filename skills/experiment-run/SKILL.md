@@ -80,7 +80,10 @@ This portable skill does not require a particular personal skill or scheduler.
 Before a formal run on research data, inspect each input dataset using the
 applicable host/project data-inspection contract and `exploratory-analysis`, or
 reuse an existing report verified against the same version, scope and variables.
-A research-data report belongs in the project and includes actual distribution,
+A research-data report belongs in the project, in a format suitable for the task,
+with locally saved plot data where authorized. Preserve original data in its
+existing local or remote location. For remote aggregation prefer a local
+notebook initiating authorized SSH work and collecting results. It includes actual distribution,
 time and spatial figures where applicable, missingness, observed zeros, coverage,
 units, grain and unresolved issues. Preserve held-out-data rules. Missing critical
 inputs or inspection evidence remain blocked; do not label a training-preflight
