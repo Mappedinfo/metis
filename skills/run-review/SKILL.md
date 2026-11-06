@@ -52,6 +52,16 @@ argument review use `manuscript-review`. Review leaves original records unchange
 6. Write the review beside or outside originals, reconcile the requirements
    ledger and name the smallest repair or additional evidence needed.
 
+## Host adapters
+
+This skill owns the common integrity and claim-level review. When project or
+host instructions identify an adapter for the supplied manifest or standalone
+report, load and use that adapter for its supported fields and existing output
+format, then apply the method above to the same evidence. Keep the adapter's
+integrity verdict distinct from scientific judgment; do not run both integrity
+checkers by default or reinterpret one manifest schema as another. This public
+skill remains usable without any personal adapter.
+
 For the local v1 manifest from `experiment-run`, use:
 
 ```bash
