@@ -75,6 +75,18 @@ A launch or completed run does not itself complete a report. For a short update,
 link the underlying record rather than silently expanding the requested scope.
 This portable skill does not require a particular personal skill or scheduler.
 
+## Capture report evidence before execution
+
+Before the authorized evaluation, map applicable reporting requirements to the
+protocol, input versions, run records and concrete output files. Check that the
+actual training/evaluation code saves the data and split definitions, settings,
+baseline and per-run outcomes, failure records, and predictions or other
+recomputable evidence needed for the accepted report. Declare required output
+files in the actual runner protocol and verify their creation with an existing
+check or a low-cost entry test. Keep protected sample-level data in an approved
+location. Reuse existing artifacts; when evidence is missing and unrecoverable,
+mark it unverified rather than silently rerunning solely to write a report.
+
 ## Method
 
 1. State the scientific question, target, comparison, smallest decisive run,
