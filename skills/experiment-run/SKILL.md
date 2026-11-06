@@ -75,6 +75,18 @@ A launch or completed run does not itself complete a report. For a short update,
 link the underlying record rather than silently expanding the requested scope.
 This portable skill does not require a particular personal skill or scheduler.
 
+## Inspect data before the evaluation
+
+Before a formal run on research data, inspect each input dataset using the
+applicable host/project data-inspection contract and `exploratory-analysis`, or
+reuse an existing report verified against the same version, scope and variables.
+A research-data report belongs in the project and includes actual distribution,
+time and spatial figures where applicable, missingness, observed zeros, coverage,
+units, grain and unresolved issues. Preserve held-out-data rules. Missing critical
+inputs or inspection evidence remain blocked; do not label a training-preflight
+check or a filename alone as a completed data inspection. Pure planning or
+retrieval does not automatically authorize an experiment.
+
 ## Capture report evidence before execution
 
 Before the authorized evaluation, map applicable reporting requirements to the

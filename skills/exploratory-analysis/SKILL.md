@@ -1,7 +1,7 @@
 ---
 name: exploratory-analysis
 description: >
-  Explore prepared data through observation units, missingness, distributions,
+  Explore available data through observation units, missingness, distributions,
   subgroup patterns and descriptive associations. Use for "inspect this data",
   "do EDA" or diagnosing anomalies before testing a hypothesis. Deliver a
   sourced diagnostic report and reproducible summaries; not causal inference,
@@ -21,16 +21,36 @@ share requirements; the core works without private services or a fixed backend.
 
 ## What it does
 
-Identify what supplied prepared data can support before choosing a formal
+Identify what supplied data can support before choosing a formal
 analysis. Keep exploratory discoveries separate from pre-specified hypotheses.
 
 ## When to use / not use
 
 Use for descriptive inspection, missingness, anomalies or subgroup structure.
-If column meanings or transformations are unresolved, first use `data-preparation`.
+Inspect raw structure and coverage without changing records; if column meanings
+or transformations are unresolved, use `data-preparation` for the dependent steps.
 For only a chart from a prepared table use the plotting capability directly.
 Experimental inference, measurement validation and causal design need their
 own declared assumptions and analysis, rather than an automatic EDA score.
+
+## First inspection for research data
+
+When research work receives or uses a dataset that has no applicable analysis,
+inspect every authorized dataset before dependent formal analysis or evaluation;
+reuse existing results only after matching source/version, units, fields, filters
+and scope. Preserve split restrictions and do not inspect held-out labels in ways
+that violate the evaluation protocol. Create a project Markdown data report with
+actual figures and reproducible calculations, using the project location and
+existing tools. Cover numeric/category distributions and frequencies; missing,
+invalid, suppressed, structural absence and observed zero separately; coverage
+with explicit denominators; temporal extent, frequency, resolution and gaps;
+and spatial extent, unit, resolution, CRS and coverage maps when applicable.
+Use histograms, time plots and maps as appropriate; record not applicable, unknown
+or blocked with a reason. Check exported figures and keep originals unchanged.
+Full-data summaries may be streamed or chunked; sampled graphics identify their
+coverage. Existing reports can be reused without rerunning unchanged analyses.
+This requirement applies to research-data inspection, not mere downloading or
+reading a paper that does not use its dataset.
 
 ## Method
 
